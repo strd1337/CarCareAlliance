@@ -1,0 +1,6 @@
+@CarCareAlliance.Presentation_HostAddress = http://localhost:5201
+
+GET {{CarCareAlliance.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
