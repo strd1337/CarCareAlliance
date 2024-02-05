@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CarCareAlliance.Application\CarCareAlliance.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistance\Configurations\" />
+  </ItemGroup>
+
 </Project>
