@@ -5,7 +5,7 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
 {
     public sealed class WorkSchedule : AggregateRoot<WorkScheduleId, Guid>
     {
-        private readonly List<DateTime> weekends = [];
+        private readonly List<DayOfWeek> weekends = [];
         private readonly List<BreakTime> breakTimes = [];
 
         public DateTime DayOfWeek { get; private set; }
@@ -13,7 +13,7 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
         public TimeOnly EndTime { get; private set; }
         public Guid OwnerId { get; private set; }
         
-        public IReadOnlyList<DateTime> Weekends => weekends.AsReadOnly();
+        public IReadOnlyList<DayOfWeek> Weekends => weekends.AsReadOnly();
         
         public IReadOnlyList<BreakTime> BreakTimes =>
             breakTimes.AsReadOnly();
@@ -44,5 +44,11 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
                 endTime,
                 ownerId);
         }
+
+#pragma warning disable CS8618
+        private WorkSchedule()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

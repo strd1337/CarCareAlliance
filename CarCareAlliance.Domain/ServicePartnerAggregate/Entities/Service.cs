@@ -9,37 +9,32 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
         public string Description { get; private set; }
         public float Price { get; private set; }
         public float Duration { get; private set; }
-        public ServiceCategoryId ServiceCategoryId { get; private set; }
         
         private Service(
             ServiceId id,
             string name,
             string description,
             float price,
-            float duration,
-            ServiceCategoryId serviceCategoryId) : base(id)
+            float duration) : base(id)
         {
             Name = name;
             Description = description;
             Price = price;
             Duration = duration;
-            ServiceCategoryId = serviceCategoryId;
         }
 
         public static Service Create(
             string name,
             string description,
             float price,
-            float duration,
-            ServiceCategoryId serviceCategoryId)
+            float duration)
         {
             return new(
                 ServiceId.CreateUnique(),
                 name,
                 description,
                 price,
-                duration,
-                serviceCategoryId);
+                duration);
         }
     }
 }

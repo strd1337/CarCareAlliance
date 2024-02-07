@@ -1,17 +1,17 @@
 ﻿using CarCareAlliance.Domain.Common.Models;
+using CarCareAlliance.Domain.ServiceHistoryAggregate.Entities;
 using CarCareAlliance.Domain.ServiceHistoryAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
-using CarCareAlliance.Domain.TicketAggregate.ValueObjects;
 
 namespace CarCareAlliance.Domain.ServiceHistoryAggregate
 {
     public sealed class ServiceHistory : AggregateRoot<ServiceHistoryId, Guid>
     {
-        private readonly List<TicketId> ticketIds = [];
+        private readonly List<Ticket> tickets = [];
 
         public ServicePartnerId ServicePartnerId { get; private set; }
         
-        public IReadOnlyList<TicketId> TicketIds => ticketIds.AsReadOnly();
+        public IReadOnlyList<Ticket> Tickets => tickets.AsReadOnly();
 
         private ServiceHistory(
             ServiceHistoryId id,
@@ -26,6 +26,11 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate
             return new ServiceHistory(
                 ServiceHistoryId.CreateUnique(),
                 servicePartnerId);
+        }
+
+        public void AddTicket(Ticket ticket)
+        {
+            tickets.Add(ticket);
         }
 
 #pragma warning disable CS8618

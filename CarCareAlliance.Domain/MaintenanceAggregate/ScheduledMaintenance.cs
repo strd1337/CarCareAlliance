@@ -1,4 +1,5 @@
 ﻿using CarCareAlliance.Domain.Common.Models;
+using CarCareAlliance.Domain.MaintenanceAggregate.Entities;
 using CarCareAlliance.Domain.MaintenanceAggregate.ValueObjects;
 using CarCareAlliance.Domain.NotificationAggregate.ValueObjects;
 using CarCareAlliance.Domain.VehicleAggregate.ValueObjects;
@@ -8,7 +9,7 @@ namespace CarCareAlliance.Domain.MaintenanceAggregate
     public sealed class ScheduledMaintenance : AggregateRoot<ScheduledMaintenanceId, Guid>
     {
         private readonly List<NotificationId> notificationIds = [];
-        private readonly List<MaintenanceTypeId> maintenanceTypeIds = [];
+        private readonly List<MaintenanceType> maintenanceTypes = [];
 
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
@@ -16,9 +17,9 @@ namespace CarCareAlliance.Domain.MaintenanceAggregate
 
         public IReadOnlyList<NotificationId> NotificationIds =>
             notificationIds.AsReadOnly();
-
-        public IReadOnlyList<MaintenanceTypeId> MaintenanceTypeIds =>
-            maintenanceTypeIds.AsReadOnly();
+        
+        public IReadOnlyList<MaintenanceType> MaintenanceTypes =>
+            maintenanceTypes.AsReadOnly();
 
         private ScheduledMaintenance(
             ScheduledMaintenanceId id,
@@ -41,6 +42,11 @@ namespace CarCareAlliance.Domain.MaintenanceAggregate
                 startDate,
                 endDate,
                 vehicleId);
+        }
+
+        public void AddType(MaintenanceType type)
+        {
+            maintenanceTypes.Add(type);
         }
 
 #pragma warning disable CS8618

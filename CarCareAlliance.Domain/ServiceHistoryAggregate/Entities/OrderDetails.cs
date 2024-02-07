@@ -16,7 +16,6 @@ namespace CarCareAlliance.Domain.TicketAggregate.Entities
         public float FinalPrice { get; private set; }
         public float PrepaymentAmount { get; private set; }
         public DateTime PaymentDueDate { get; private set; }
-        public TicketId TicketId { get; private set; }
         public MechanicProfileId AssignedMechanicId { get; private set; }
 
         public IReadOnlyList<SparePartId> SparePartIds => sparePartIds.AsReadOnly();
@@ -29,7 +28,6 @@ namespace CarCareAlliance.Domain.TicketAggregate.Entities
             float finalPrice,
             float prepaymentAmount,
             DateTime paymentDueDate,
-            TicketId ticketId,
             MechanicProfileId assignedMechanicId) : base(id)
         {
             Mileage = mileage;
@@ -37,7 +35,6 @@ namespace CarCareAlliance.Domain.TicketAggregate.Entities
             FinalPrice = finalPrice;
             PrepaymentAmount = prepaymentAmount;
             PaymentDueDate = paymentDueDate;
-            TicketId = ticketId;
             AssignedMechanicId = assignedMechanicId;
         }
 
@@ -47,7 +44,6 @@ namespace CarCareAlliance.Domain.TicketAggregate.Entities
             float finalPrice,
             float prepaymentAmount,
             DateTime paymentDueDate,
-            TicketId ticketId,
             MechanicProfileId assignedMechanicId)
         {
             return new(
@@ -57,8 +53,13 @@ namespace CarCareAlliance.Domain.TicketAggregate.Entities
                 finalPrice,
                 prepaymentAmount,
                 paymentDueDate,
-                ticketId,
                 assignedMechanicId);
         }
+
+#pragma warning disable CS8618
+        private OrderDetails()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

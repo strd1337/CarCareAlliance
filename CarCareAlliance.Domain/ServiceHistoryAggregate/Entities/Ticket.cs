@@ -1,5 +1,6 @@
 ﻿using CarCareAlliance.Domain.Common.Models;
 using CarCareAlliance.Domain.ServiceHistoryAggregate.Enums;
+using CarCareAlliance.Domain.TicketAggregate.Entities;
 using CarCareAlliance.Domain.TicketAggregate.Enums;
 using CarCareAlliance.Domain.TicketAggregate.ValueObjects;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
@@ -15,7 +16,7 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate.Entities
         public PaymentStatus PaymentStatus { get; private set; }
         public UserProfileId UserProfileId { get; private set; }
         public VehicleId VehicleId { get; private set; }
-        public OrderDetailsId OrderDetailsId { get; private set; }
+        public OrderDetails OrderDetails { get; private set; }
 
         private Ticket(
             TicketId id,
@@ -25,7 +26,7 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate.Entities
             PaymentStatus paymentStatus,
             UserProfileId userProfileId,
             VehicleId vehicleId,
-            OrderDetailsId orderDetailsId) : base(id)
+            OrderDetails orderDetails) : base(id)
         {
             Description = description;
             DateSubmitted = dateSubmitted;
@@ -33,7 +34,7 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate.Entities
             PaymentStatus = paymentStatus;
             UserProfileId = userProfileId;
             VehicleId = vehicleId;
-            OrderDetailsId = orderDetailsId;
+            OrderDetails = orderDetails;
         }
 
         public static Ticket Create(
@@ -43,7 +44,7 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate.Entities
             PaymentStatus paymentStatus,
             UserProfileId userProfileId,
             VehicleId vehicleId,
-            OrderDetailsId orderDetailsId)
+            OrderDetails orderDetails)
         {
             return new(
                 TicketId.CreateUnique(),
@@ -53,7 +54,12 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate.Entities
                 paymentStatus,
                 userProfileId,
                 vehicleId,
-                orderDetailsId);
+                orderDetails);
         }
+#pragma warning disable CS8618
+        private Ticket()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

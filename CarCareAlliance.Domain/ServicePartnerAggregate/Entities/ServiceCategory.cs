@@ -5,12 +5,12 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
 {
     public sealed class ServiceCategory : Entity<ServiceCategoryId>
     {
-        private readonly List<ServiceId> serviceIds = [];
+        private readonly List<Service> services = [];
         
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public IReadOnlyList<ServiceId> ServiceIds => serviceIds.AsReadOnly();
+        public IReadOnlyList<Service> Services => services.AsReadOnly();
 
         private ServiceCategory(
             ServiceCategoryId id,
@@ -31,9 +31,9 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
                 description);
         }
 
-        public void AddService(ServiceId serviceId)
+        public void AddService(Service service)
         {
-            serviceIds.Add(serviceId);
+            services.Add(service);
         }
     }
 }

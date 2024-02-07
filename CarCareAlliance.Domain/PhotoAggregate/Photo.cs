@@ -47,6 +47,16 @@ namespace CarCareAlliance.Domain.PhotoAggregate
                 userProfileId);
         }
 
+        public void UpdateVehicle(VehicleId id)
+        {
+            VehicleId = id;
+        }
+
+        public void UpdateServicePartner(ServicePartnerId id)
+        {
+            ServicePartnerId = id;
+        }
+
 #pragma warning disable CS8618
         private Photo()
         {

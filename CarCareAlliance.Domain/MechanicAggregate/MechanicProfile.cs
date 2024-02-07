@@ -49,5 +49,11 @@ namespace CarCareAlliance.Domain.MechanicAggregate
         {
             reviewIds.Add(reviewId);
         }
+
+#pragma warning disable CS8618
+        private MechanicProfile()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

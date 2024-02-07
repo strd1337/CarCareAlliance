@@ -1,41 +1,38 @@
 ﻿using CarCareAlliance.Domain.Common.Models;
 using CarCareAlliance.Domain.PhotoAggregate.ValueObjects;
 using CarCareAlliance.Domain.ReviewAggregate.ValueObjects;
-using CarCareAlliance.Domain.UserProfileAggregate.Entities;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 
 namespace CarCareAlliance.Domain.UserProfileAggregate
 {
     public sealed class UserProfile : AggregateRoot<UserProfileId, Guid>
     {
-        private readonly List<Role> roles = [];
         private readonly List<ReviewId> reviewIds = [];
 
         public UserDetailInformation Information { get; private set; }
         public PhotoId? PhotoId { get; private set; } = null;
 
-        public IReadOnlyList<Role> Roles => roles.AsReadOnly();
+        public RoleType RoleType { get; private set; }
         public IReadOnlyList<ReviewId> ReviewIds => reviewIds.AsReadOnly();
 
 
         private UserProfile(
             UserProfileId id,
-            UserDetailInformation information) : base(id)
+            UserDetailInformation information,
+            RoleType roleType) : base(id)
         {
             Information = information;
+            RoleType = roleType;
         }
 
         public static UserProfile Create(
-            UserDetailInformation information)
+            UserDetailInformation information,
+            RoleType roleType)
         {
             return new UserProfile(
                 UserProfileId.CreateUnique(),
-                information);
-        }
-
-        public void AddRole(Role role)
-        {
-            roles.Add(role);
+                information,
+                roleType);
         }
 
         public void AddReview(ReviewId reviewId)
