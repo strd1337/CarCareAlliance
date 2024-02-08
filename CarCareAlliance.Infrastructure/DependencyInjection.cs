@@ -15,8 +15,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
-using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Domain.UserProfileAggregate;
+using CarCareAlliance.Infrastructure.Filters.Auth;
 
 namespace CarCareAlliance.Infrastructure
 {
@@ -91,9 +90,20 @@ namespace CarCareAlliance.Infrastructure
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = jwtSettings.Issuer,
                         ValidAudience = jwtSettings.Audience,
+                        ClockSkew = TimeSpan.Zero,
                         IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(jwtSettings.Secret))
                     });
+
+            services.AddAuthorizationBuilder()
+                .SetDefaultPolicy(new AuthorizationPolicyBuilder()
+                        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                        .RequireAuthenticatedUser()
+                        .Build());
+
+            services.AddControllersWithViews(options => {
+                options.Filters.Add(typeof(JwtAuthorizeFilter));
+            });
 
             services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
             services.AddSingleton<IAuthorizationPolicyProvider, RoleAuthorizationPolicyProvider>();

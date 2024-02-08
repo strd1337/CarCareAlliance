@@ -43,5 +43,27 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Auth
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
+
+        public ClaimsPrincipal ValidateToken(string token)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(jwtSettings.Secret))
+                    }, out SecurityToken validatedToken);
+                
+                return claimsPrincipal;
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                throw new ApplicationException("Token has expired.");
+            }
+        }
     }
 }
