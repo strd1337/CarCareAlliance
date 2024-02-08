@@ -6,7 +6,6 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CarCareAlliance.Domain.Common.Errors;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CarCareAlliance.Presentation.Controllers.Auth
 {
@@ -18,7 +17,6 @@ namespace CarCareAlliance.Presentation.Controllers.Auth
         private readonly IMediator mediator = mediator;
         private readonly IMapper mapper = mapper;
 
-        [Authorize]
         [HttpPost("register")]
         public async Task<IActionResult> Register(
             RegisterRequest request,
