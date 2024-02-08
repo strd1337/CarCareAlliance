@@ -1,5 +1,7 @@
-﻿using CarCareAlliance.Application.Users.Queries;
+﻿using CarCareAlliance.Application.Users.Commands;
+using CarCareAlliance.Application.Users.Queries;
 using CarCareAlliance.Contracts.Users.GetProfile;
+using CarCareAlliance.Contracts.Users.UpdateProfile;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -26,12 +28,28 @@ namespace CarCareAlliance.Presentation.Controllers.UserProfile
 
             var query = mapper.Map<UserProfileGetQuery>(request);
 
-            var profileResult = await mediator
+            var profileGetResult = await mediator
                 .Send(query, cancellationToken);
 
-            return profileResult.Match(
-                profileResult => Ok(
-                    mapper.Map<UserProfileGetResponse>(profileResult)),
+            return profileGetResult.Match(
+                profileGetResult => Ok(
+                    mapper.Map<UserProfileGetResponse>(profileGetResult)),
+                errors => Problem(errors));
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateProfile(
+            UserProfileUpdateRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = mapper.Map<UserProfileUpdateCommand>(request);
+
+            var profileUpdateResult = await mediator
+                .Send(command, cancellationToken);
+
+            return profileUpdateResult.Match(
+                profileUpdateResult => Ok(
+                    mapper.Map<UserProfileUpdateResponse>(profileUpdateResult)),
                 errors => Problem(errors));
         }
     }
