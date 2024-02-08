@@ -25,7 +25,7 @@ namespace CarCareAlliance.Presentation.Controllers.Common
             return Problem(errors[0]);
         }
 
-        private ActionResult ValidationProblem(List<Error> errors)
+        private IActionResult ValidationProblem(List<Error> errors)
         {
             var modelStateDictionary = new ModelStateDictionary();
 
@@ -39,7 +39,7 @@ namespace CarCareAlliance.Presentation.Controllers.Common
             return ValidationProblem(modelStateDictionary);
         }
 
-        private ObjectResult Problem(Error error)
+        private IActionResult Problem(Error error)
         {
             var statusCode = error.Type switch
             {

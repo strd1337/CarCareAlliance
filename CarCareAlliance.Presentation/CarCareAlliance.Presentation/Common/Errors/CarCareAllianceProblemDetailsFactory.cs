@@ -8,12 +8,17 @@ using CarCareAlliance.Presentation.Common.Http;
 
 namespace CarCareAlliance.Presentation.Common.Errors
 {
-    public class CarCareAllianceProblemDetailsFactory(
-        IOptions<ApiBehaviorOptions> options)
-                : ProblemDetailsFactory
+    public class CarCareAllianceProblemDetailsFactory
+        : ProblemDetailsFactory
     {
-        private readonly ApiBehaviorOptions options = options?.Value
+        private readonly ApiBehaviorOptions options;
+        
+        public CarCareAllianceProblemDetailsFactory(
+            IOptions<ApiBehaviorOptions> options)
+        {
+            this.options = options?.Value
                 ?? throw new ArgumentNullException(nameof(options));
+        }
 
         public override ProblemDetails CreateProblemDetails(
             HttpContext httpContext,
@@ -51,7 +56,10 @@ namespace CarCareAlliance.Presentation.Common.Errors
             string? detail = null,
             string? instance = null)
         {
-            ArgumentNullException.ThrowIfNull(modelStateDictionary);
+            if (modelStateDictionary is null)
+            {
+                throw new ArgumentNullException(nameof(modelStateDictionary));
+            }
 
             statusCode ??= 400;
 
@@ -97,7 +105,7 @@ namespace CarCareAlliance.Presentation.Common.Errors
             if (traceId is not null)
             {
                 problemDetails
-                    .Extensions[HttpContextItemKeys.Errors] = traceId;
+                    .Extensions[HttpContextItemKeys.TraceId] = traceId;
             }
 
             var errors = httpContext?.Items[HttpContextItemKeys.Errors]
