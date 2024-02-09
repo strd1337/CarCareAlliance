@@ -36,7 +36,7 @@ namespace CarCareAlliance.Presentation.Controllers.UserProfile
                     mapper.Map<UserProfileGetResponse>(profileGetResult)),
                 errors => Problem(errors));
         }
-
+        
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateProfile(
             UserProfileUpdateRequest request,
