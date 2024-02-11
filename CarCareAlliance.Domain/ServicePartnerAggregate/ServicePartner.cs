@@ -58,6 +58,16 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate
             serviceCategories.Add(category);
         }
 
+        public void UpdateWorkSchedule(WorkScheduleId workScheduleId)
+        {
+            WorkScheduleId = workScheduleId;
+        }
+
+        public void UpdateLogo(PhotoId photoId)
+        {
+            LogoId = photoId;
+        }
+
 #pragma warning disable CS8618
         private ServicePartner()
         {

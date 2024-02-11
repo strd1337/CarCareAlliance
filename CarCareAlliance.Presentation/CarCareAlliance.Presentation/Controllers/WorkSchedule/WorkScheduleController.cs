@@ -1,6 +1,8 @@
 ﻿using CarCareAlliance.Application.WorkSchedules.Commands.Add;
+using CarCareAlliance.Application.WorkSchedules.Commands.Delete;
 using CarCareAlliance.Application.WorkSchedules.Queries.GetByOwnerId;
 using CarCareAlliance.Contracts.WorkSchedules.AddWorkSchedule;
+using CarCareAlliance.Contracts.WorkSchedules.Delete;
 using CarCareAlliance.Contracts.WorkSchedules.GetByOwnerId;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
@@ -53,6 +55,26 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
             return workScheduleGetByOwnerIdResult.Match(
                 workScheduleGetByOwnerIdResult => Ok(
                     mapper.Map<WorkScheduleGetByOwnerIdResponse>(workScheduleGetByOwnerIdResult)),
+                errors => Problem(errors));
+        }
+
+        [Authorize]
+        [HasRole(RoleType.Admin)]
+        [HttpDelete("{workScheduleId}")]
+        public async Task<IActionResult> Delete(
+            Guid workScheduleId,
+            CancellationToken cancellationToken)
+        {
+            var request = new WorkScheduleDeleteRequest(workScheduleId);
+
+            var command = mapper.Map<WorkScheduleDeleteCommand>(request);
+
+            var workScheduleDeleteResult = await mediator
+                .Send(command, cancellationToken);
+
+            return workScheduleDeleteResult.Match(
+                workScheduleDeleteResult => Ok(
+                    mapper.Map<WorkScheduleDeleteResponse>(workScheduleDeleteResult)),
                 errors => Problem(errors));
         }
     }

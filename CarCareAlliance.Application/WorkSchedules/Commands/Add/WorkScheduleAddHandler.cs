@@ -28,25 +28,28 @@ namespace CarCareAlliance.Application.WorkSchedules.Commands.Add
                     ServicePartnerId.Create(command.OwnerId),
                     cancellationToken);
 
-            if (servicePartner is null)
-            {
-                var mechanic = await unitOfWork
+            var mechanic = await unitOfWork
                 .GetRepository<MechanicProfile, MechanicProfileId>()
                 .GetByIdAsync(
                     MechanicProfileId.Create(command.OwnerId),
                     cancellationToken);
 
-                if (mechanic is null)
-                {
-                    return Errors.WorkSchedule.OwnerNotFound;
-                }
-            }
-
+            if (servicePartner is null && mechanic is null)
+            {
+                return Errors.WorkSchedule.OwnerNotFound;
+            } 
+ 
             var workSchedule = WorkSchedule.Create(
                 command.DayOfWeek,
                 command.StartTime,
                 command.EndTime,
                 command.OwnerId);
+
+            servicePartner?.UpdateWorkSchedule(
+                    WorkScheduleId.Create(workSchedule.Id.Value));
+
+            mechanic?.UpdateWorkSchedule(
+                    WorkScheduleId.Create(workSchedule.Id.Value));
 
             workSchedule.AddWeekends([..command.Weekends]);
             workSchedule.AddBreakTimes([..command.BreakTimes]);
