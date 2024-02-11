@@ -30,8 +30,7 @@ namespace CarCareAlliance.Presentation.Common.Mapping.WorkSchedule
                         .Select(breakTime => 
                             new BreakTimeDto(
                                 breakTime.StartTime,
-                                breakTime.EndTime)).ToList()));
-                    
+                                breakTime.EndTime)).ToList()));       
         }
     }
 }

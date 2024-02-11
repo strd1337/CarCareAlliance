@@ -1,5 +1,7 @@
 ﻿using CarCareAlliance.Application.WorkSchedules.Commands.Add;
+using CarCareAlliance.Application.WorkSchedules.Queries.GetByOwnerId;
 using CarCareAlliance.Contracts.WorkSchedules.AddWorkSchedule;
+using CarCareAlliance.Contracts.WorkSchedules.GetByOwnerId;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
 using CarCareAlliance.Presentation.Controllers.Common;
@@ -10,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
 {
-    [Authorize]
     [Route("work-schedules")]
     public class WorkScheduleController(
         IMediator mediator,
@@ -19,6 +20,7 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
         private readonly IMediator mediator = mediator;
         private readonly IMapper mapper = mapper;
 
+        [Authorize]
         [HasRole(RoleType.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddWorkSchedule(
@@ -33,6 +35,24 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
             return workScheduleAddResult.Match(
                 workScheduleAddResult => Ok(
                     mapper.Map<WorkScheduleAddResponse>(workScheduleAddResult)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("owner/{ownerId}")]
+        public async Task<IActionResult> Get(
+            Guid ownerId,
+            CancellationToken cancellationToken)
+        {
+            var request = new WorkScheduleGetByOwnerIdRequest(ownerId);
+
+            var query = mapper.Map<WorkScheduleGetByOwnerIdQuery>(request);
+
+            var workScheduleGetByOwnerIdResult = await mediator
+                .Send(query, cancellationToken);
+
+            return workScheduleGetByOwnerIdResult.Match(
+                workScheduleGetByOwnerIdResult => Ok(
+                    mapper.Map<WorkScheduleGetByOwnerIdResponse>(workScheduleGetByOwnerIdResult)),
                 errors => Problem(errors));
         }
     }
