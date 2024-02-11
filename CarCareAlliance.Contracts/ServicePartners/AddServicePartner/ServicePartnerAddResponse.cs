@@ -1,9 +1,7 @@
-﻿namespace CarCareAlliance.Contracts.ServicePartners.AddServicePartner
+﻿using CarCareAlliance.Contracts.ServicePartners.Common;
+
+namespace CarCareAlliance.Contracts.ServicePartners.AddServicePartner
 {
     public record ServicePartnerAddResponse(
-        Guid ServicePartnerId,
-        string Name,
-        string Description,
-        Guid LogoId,
-        Guid WorkScheduleId);
+        ServicePartnerDto ServicePartner);
 }

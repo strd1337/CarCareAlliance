@@ -18,6 +18,13 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                     id => id.Value,
                     value => WorkScheduleId.Create(value));
 
+            builder.Property(e => e.DayOfWeek)
+                .HasColumnName("DayOfWeek")
+                .HasConversion(
+                    v => v.ToString(),
+                    v => Enum.Parse<DayOfWeek>(v)
+                );
+
             builder.Property(ws => ws.StartTime)
                 .HasColumnName("StartTime")
                 .HasColumnType("time");
@@ -36,19 +43,19 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
 
                 bt.Property(b => b.StartTime)
                     .HasColumnName("StartTime")
-                    .HasColumnType("datetime");
+                    .HasColumnType("time");
 
                 bt.Property(b => b.EndTime)
                     .HasColumnName("EndTime")
-                    .HasColumnType("datetime");
+                    .HasColumnType("time");
             });
 
             builder.Property(e => e.Weekends)
-            .HasConversion(
-                v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(d => Enum.Parse<DayOfWeek>(d)).ToList()
-            );
+                .HasConversion(
+                    v => string.Join(',', v),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(d => Enum.Parse<DayOfWeek>(d)).ToList()
+                );
         }
     }
 }

@@ -35,10 +35,6 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Add
                 .NotEmpty()
                     .WithMessage("City is required");
 
-            RuleFor(r => r.State)
-                .NotEmpty()
-                    .WithMessage("State is required");
-
             RuleFor(r => r.Country)
                 .NotEmpty()
                     .WithMessage("Country is required");

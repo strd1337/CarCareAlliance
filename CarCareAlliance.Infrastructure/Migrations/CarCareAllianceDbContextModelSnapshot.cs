@@ -353,7 +353,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<Guid>("LogoId")
+                    b.Property<Guid?>("LogoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -364,7 +364,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<Guid>("WorkScheduleId")
+                    b.Property<Guid?>("WorkScheduleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -527,8 +527,10 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DayOfWeek")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("DayOfWeek");
 
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time")
@@ -1170,12 +1172,12 @@ namespace CarCareAlliance.Infrastructure.Migrations
 
                             SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
 
-                            b1.Property<DateTime>("EndTime")
-                                .HasColumnType("datetime")
+                            b1.Property<TimeOnly>("EndTime")
+                                .HasColumnType("time")
                                 .HasColumnName("EndTime");
 
-                            b1.Property<DateTime>("StartTime")
-                                .HasColumnType("datetime")
+                            b1.Property<TimeOnly>("StartTime")
+                                .HasColumnType("time")
                                 .HasColumnName("StartTime");
 
                             b1.Property<Guid>("WorkScheduleId")

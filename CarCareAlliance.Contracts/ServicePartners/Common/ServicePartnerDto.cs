@@ -4,7 +4,5 @@
         Guid ServicePartnerId,
         string Name,
         string Description,
-        Guid LogoId,
-        Guid WorkScheduleId,
         ServicePartnerLocationDto Location);
 }

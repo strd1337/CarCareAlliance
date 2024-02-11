@@ -17,8 +17,8 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate
         
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public PhotoId LogoId { get; private set; }
-        public WorkScheduleId WorkScheduleId { get; private set; }
+        public PhotoId? LogoId { get; private set; }
+        public WorkScheduleId? WorkScheduleId { get; private set; }
         public ServiceLocation ServiceLocation { get; private set; }
 
         public IReadOnlyList<PhotoId> PhotoIds => photoIds.AsReadOnly();
@@ -34,30 +34,22 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate
             ServicePartnerId id,
             string name,
             string description,
-            PhotoId logoId,
-            WorkScheduleId workScheduleId,
             ServiceLocation serviceLocation) : base(id)
         {
             Name = name;
             Description = description;
-            LogoId = logoId;
-            WorkScheduleId = workScheduleId;
             ServiceLocation = serviceLocation;
         }
 
         public static ServicePartner Create(
             string name,
             string description,
-            PhotoId logoId,
-            WorkScheduleId workScheduleId,
             ServiceLocation serviceLocation)
         {
             return new ServicePartner(
                 ServicePartnerId.CreateUnique(),
                 name,
                 description,
-                logoId,
-                workScheduleId,
                 serviceLocation);
         }
 

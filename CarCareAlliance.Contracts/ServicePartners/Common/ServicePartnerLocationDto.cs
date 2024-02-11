@@ -5,8 +5,8 @@
         float Longitude,
         string Address,
         string City,
-        string? State,
         string Country,
         string PostalCode,
-        string Description);
+        string Description,
+        string? State = null);
 }

@@ -8,7 +8,7 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
         private readonly List<DayOfWeek> weekends = [];
         private readonly List<BreakTime> breakTimes = [];
 
-        public DateTime DayOfWeek { get; private set; }
+        public DayOfWeek DayOfWeek { get; private set; }
         public TimeOnly StartTime { get; private set; }
         public TimeOnly EndTime { get; private set; }
         public Guid OwnerId { get; private set; }
@@ -20,7 +20,7 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
 
         private WorkSchedule(
             WorkScheduleId id,
-            DateTime dayOfWeek,
+            DayOfWeek dayOfWeek,
             TimeOnly startTime,
             TimeOnly endTime,
             Guid ownerId) : base(id)
@@ -32,7 +32,7 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
         }
 
         public static WorkSchedule Create(
-            DateTime dayOfWeek,
+            DayOfWeek dayOfWeek,
             TimeOnly startTime,
             TimeOnly endTime,
             Guid ownerId)
@@ -43,6 +43,16 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
                 startTime,
                 endTime,
                 ownerId);
+        }
+
+        public void AddWeekends(List<DayOfWeek> weekends)
+        {
+            this.weekends.AddRange(weekends);
+        }
+
+        public void AddBreakTimes(List<BreakTime> breakTimes)
+        {
+            this.breakTimes.AddRange(breakTimes);
         }
 
 #pragma warning disable CS8618

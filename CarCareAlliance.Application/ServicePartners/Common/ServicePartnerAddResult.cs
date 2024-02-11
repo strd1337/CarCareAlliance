@@ -1,9 +1,7 @@
-﻿namespace CarCareAlliance.Application.ServicePartners.Common
+﻿using CarCareAlliance.Domain.ServicePartnerAggregate;
+
+namespace CarCareAlliance.Application.ServicePartners.Common
 {
     public record ServicePartnerAddResult(
-        Guid ServicePartnerId,
-        string Name,
-        string Description,
-        Guid LogoId,
-        Guid WorkScheduleId);
+        ServicePartner ServicePartner);
 }
