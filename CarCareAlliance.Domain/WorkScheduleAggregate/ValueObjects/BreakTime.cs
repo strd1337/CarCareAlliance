@@ -4,20 +4,20 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects
 {
     public class BreakTime : ValueObject
     {
-        public DateTime StartTime { get; private set; }
-        public DateTime EndTime { get; private set; }
+        public TimeOnly StartTime { get; private set; }
+        public TimeOnly EndTime { get; private set; }
 
         private BreakTime(
-            DateTime startTime,
-            DateTime endTime)
+            TimeOnly startTime,
+            TimeOnly endTime)
         {
             StartTime = startTime;
             EndTime = endTime;
         }
 
         public static BreakTime CreateNew(
-            DateTime startTime,
-            DateTime endTime)
+            TimeOnly startTime,
+            TimeOnly endTime)
         {
             return new(
                 startTime,
@@ -29,5 +29,7 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects
             yield return StartTime;
             yield return EndTime;
         }
+
+        public BreakTime() { }
     }
 }

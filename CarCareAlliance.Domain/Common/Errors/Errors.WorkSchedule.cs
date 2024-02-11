@@ -9,6 +9,10 @@ namespace CarCareAlliance.Domain.Common.Errors
             public static Error NotFound => Error.NotFound(
                 code: "WorkSchedule.NotFound",
                 description: "Work schedule is not found.");
+         
+            public static Error OwnerNotFound => Error.NotFound(
+                code: "WorkSchedule.OwnerNotFound",
+                description: "Owner's work schedule is not found.");
         }
     }
 }

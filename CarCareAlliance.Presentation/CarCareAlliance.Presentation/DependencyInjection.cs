@@ -1,6 +1,8 @@
-﻿using CarCareAlliance.Presentation.Common.Errors;
+﻿using CarCareAlliance.Presentation.Common.Converter;
+using CarCareAlliance.Presentation.Common.Errors;
 using CarCareAlliance.Presentation.Common.Mapping;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 namespace CarCareAlliance.Presentation
@@ -12,7 +14,12 @@ namespace CarCareAlliance.Presentation
         {
             services.AddMappings();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter());
+                    options.JsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
+                });
 
             services.AddSingleton<ProblemDetailsFactory, CarCareAllianceProblemDetailsFactory>();
             
@@ -49,6 +56,20 @@ namespace CarCareAlliance.Presentation
                         },
                         Array.Empty<string>()
                     }
+                });
+
+                c.MapType<DateOnly>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "date",
+                    Example = new OpenApiString("2022-01-01")
+                });
+
+                c.MapType<TimeOnly>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "HH:mm",
+                    Example = new OpenApiString("00:00")
                 });
             });
 

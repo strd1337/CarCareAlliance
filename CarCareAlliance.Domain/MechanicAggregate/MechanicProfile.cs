@@ -50,6 +50,11 @@ namespace CarCareAlliance.Domain.MechanicAggregate
             reviewIds.Add(reviewId);
         }
 
+        public void UpdateWorkSchedule(WorkScheduleId workScheduleId)
+        {
+            WorkScheduleId = workScheduleId;
+        }
+
 #pragma warning disable CS8618
         private MechanicProfile()
         {

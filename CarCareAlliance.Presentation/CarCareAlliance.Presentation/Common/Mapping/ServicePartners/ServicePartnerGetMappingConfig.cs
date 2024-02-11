@@ -15,17 +15,15 @@ namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners
                     src.ServicePartner.Id.Value,
                     src.ServicePartner.Name,
                     src.ServicePartner.Description,
-                    src.ServicePartner.LogoId.Value,
-                    src.ServicePartner.WorkScheduleId.Value,
                     new ServicePartnerLocationDto(
                         src.ServicePartner.ServiceLocation.Latitude,
                         src.ServicePartner.ServiceLocation.Longitude,
                         src.ServicePartner.ServiceLocation.Address,
                         src.ServicePartner.ServiceLocation.City,
-                        src.ServicePartner.ServiceLocation.State,
                         src.ServicePartner.ServiceLocation.Country,
                         src.ServicePartner.ServiceLocation.PostalCode,
-                        src.ServicePartner.ServiceLocation.Description)));
+                        src.ServicePartner.ServiceLocation.Description,
+                        src.ServicePartner.ServiceLocation.State ?? "")));
         }
     }
 }

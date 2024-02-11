@@ -4,5 +4,5 @@ using CarCareAlliance.Application.ServicePartners.Common;
 namespace CarCareAlliance.Application.ServicePartners.Queries.Get
 {
     public record ServicePartnerGetQuery(
-        Guid ServicePartnerId): IQuery<ServicePartnerGetResult>;
+        Guid ServicePartnerId) : IQuery<ServicePartnerGetResult>;
 }

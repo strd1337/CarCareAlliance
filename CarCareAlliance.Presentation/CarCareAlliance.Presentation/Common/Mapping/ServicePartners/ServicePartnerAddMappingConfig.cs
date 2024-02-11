@@ -1,5 +1,7 @@
 ﻿using CarCareAlliance.Application.ServicePartners.Commands.Add;
+using CarCareAlliance.Application.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.AddServicePartner;
+using CarCareAlliance.Contracts.ServicePartners.Common;
 using Mapster;
 
 namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners
@@ -17,6 +19,21 @@ namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners
                 .Map(dest => dest.Country, src => src.Location.Country)
                 .Map(dest => dest.PostalCode, src => src.Location.PostalCode)
                 .Map(dest => dest.LocationDescription, src => src.Location.Description);
+
+            config.NewConfig<ServicePartnerAddResult, ServicePartnerAddResponse>()
+                .Map(dest => dest.ServicePartner, src => new ServicePartnerDto(
+                    src.ServicePartner.Id.Value,
+                    src.ServicePartner.Name,
+                    src.ServicePartner.Description,
+                    new ServicePartnerLocationDto(
+                        src.ServicePartner.ServiceLocation.Latitude,
+                        src.ServicePartner.ServiceLocation.Longitude,
+                        src.ServicePartner.ServiceLocation.Address,
+                        src.ServicePartner.ServiceLocation.City,
+                        src.ServicePartner.ServiceLocation.Country,
+                        src.ServicePartner.ServiceLocation.PostalCode,
+                        src.ServicePartner.ServiceLocation.Description,
+                        src.ServicePartner.ServiceLocation.State ?? "")));
         }
     }
 }
