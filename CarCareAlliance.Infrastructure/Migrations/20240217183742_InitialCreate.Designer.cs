@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarCareAlliance.Infrastructure.Migrations
 {
     [DbContext(typeof(CarCareAllianceDbContext))]
-    [Migration("20240211110056_InitialCreate")]
+    [Migration("20240217183742_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -142,7 +142,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     b.Property<Guid>("UserProfileId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("WorkScheduleId")
+                    b.Property<Guid?>("WorkScheduleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");

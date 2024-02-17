@@ -139,7 +139,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     b.Property<Guid>("UserProfileId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("WorkScheduleId")
+                    b.Property<Guid?>("WorkScheduleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");

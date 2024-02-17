@@ -36,7 +36,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ServicePartnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Experience = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
