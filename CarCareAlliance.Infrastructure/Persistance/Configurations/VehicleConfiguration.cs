@@ -39,7 +39,7 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
             builder.Property(v => v.Model)
                 .HasMaxLength(50);
 
-            builder.Property(v => v.VIN)
+            builder.Property(v => v.Vin)
                 .HasMaxLength(50);
 
             builder.Property(v => v.LicensePlate)

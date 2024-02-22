@@ -506,7 +506,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     b.Property<Guid>("UserProfileId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("VIN")
+                    b.Property<string>("Vin")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");

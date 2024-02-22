@@ -269,7 +269,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Model = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
-                    VIN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Vin = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LicensePlate = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
