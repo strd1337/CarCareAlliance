@@ -13,7 +13,7 @@ namespace CarCareAlliance.Domain.MechanicAggregate
 
         public UserProfileId UserProfileId { get; private set; }
         public ServicePartnerId ServicePartnerId { get; private set; }
-        public WorkScheduleId WorkScheduleId { get; private set; }
+        public WorkScheduleId? WorkScheduleId { get; private set; }
         public float Experience { get; private set; }
 
         public IReadOnlyList<ReviewId> ReviewIds => reviewIds.AsReadOnly();
@@ -22,27 +22,23 @@ namespace CarCareAlliance.Domain.MechanicAggregate
             MechanicProfileId id,
             float experience,
             UserProfileId userProfileId,
-            ServicePartnerId servicePartnerId,
-            WorkScheduleId workScheduleId) : base(id)
+            ServicePartnerId servicePartnerId) : base(id)
         {
             Experience = experience;
             UserProfileId = userProfileId;
             ServicePartnerId = servicePartnerId;
-            WorkScheduleId = workScheduleId;
         }
 
         public static MechanicProfile Create(
             float experience,
             UserProfileId userProfileId,
-            ServicePartnerId servicePartnerId,
-            WorkScheduleId workScheduleId)
+            ServicePartnerId servicePartnerId)
         {
             return new MechanicProfile(
                 MechanicProfileId.CreateUnique(),
                 experience,
                 userProfileId,
-                servicePartnerId,
-                workScheduleId);
+                servicePartnerId);
         }
 
         public void AddReview(ReviewId reviewId)
