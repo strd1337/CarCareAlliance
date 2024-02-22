@@ -1,5 +1,7 @@
 ﻿using CarCareAlliance.Application.Vehicles.Commands;
+using CarCareAlliance.Application.Vehicles.Queries;
 using CarCareAlliance.Contracts.Vehicles.Add;
+using CarCareAlliance.Contracts.Vehicles.Get;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -30,6 +32,24 @@ namespace CarCareAlliance.Presentation.Controllers.Vehicle
             return result.Match(
                 result => Ok(
                     mapper.Map<VehicleAddResponse>(result)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("{vehicleId}")]
+        public async Task<IActionResult> Get(
+            Guid vehicleId,
+            CancellationToken cancellationToken)
+        {
+            var request = new VehicleGetRequest(vehicleId);
+
+            var query = mapper.Map<VehicleGetQuery>(request);
+
+            var result = await mediator
+                .Send(query, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<VehicleGetResponse>(result)),
                 errors => Problem(errors));
         }
     }
