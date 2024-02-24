@@ -1,7 +1,7 @@
 ﻿using CarCareAlliance.Application.Common.CQRS;
 using CarCareAlliance.Application.Vehicles.Common;
 
-namespace CarCareAlliance.Application.Vehicles.Commands
+namespace CarCareAlliance.Application.Vehicles.Commands.Add
 {
     public record VehicleAddCommand(
         string Brand,

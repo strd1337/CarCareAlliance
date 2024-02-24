@@ -7,7 +7,7 @@ using CarCareAlliance.Domain.Common.Errors;
 using CarCareAlliance.Domain.VehicleAggregate;
 
 
-namespace CarCareAlliance.Application.Vehicles.Queries
+namespace CarCareAlliance.Application.Vehicles.Queries.Get
 {
     public class VehicleGetHandler(IUnitOfWork unitOfWork)
         : IQueryHandler<VehicleGetQuery, VehicleGetResult>

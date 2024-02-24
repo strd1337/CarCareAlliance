@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 
-namespace CarCareAlliance.Application.Vehicles.Commands
+namespace CarCareAlliance.Application.Vehicles.Commands.Add
 {
     public class VehicleAddValidator
         : AbstractValidator<VehicleAddCommand>
     {
-        public VehicleAddValidator() 
+        public VehicleAddValidator()
         {
             RuleFor(r => r.Brand)
                 .NotEmpty()

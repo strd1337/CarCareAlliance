@@ -1,4 +1,4 @@
-﻿using CarCareAlliance.Application.Vehicles.Commands;
+﻿using CarCareAlliance.Application.Vehicles.Commands.Add;
 using CarCareAlliance.Application.Vehicles.Common;
 using CarCareAlliance.Contracts.Vehicles.Add;
 using CarCareAlliance.Contracts.Vehicles.Common;

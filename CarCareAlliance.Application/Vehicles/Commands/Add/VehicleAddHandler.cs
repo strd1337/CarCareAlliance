@@ -8,7 +8,7 @@ using ErrorOr;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Domain.UserProfileAggregate;
 
-namespace CarCareAlliance.Application.Vehicles.Commands
+namespace CarCareAlliance.Application.Vehicles.Commands.Add
 {
     public class VehicleAddHandler(
         IUnitOfWork unitOfWork) :

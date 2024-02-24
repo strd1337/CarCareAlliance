@@ -1,7 +1,9 @@
-﻿using CarCareAlliance.Application.Vehicles.Commands;
-using CarCareAlliance.Application.Vehicles.Queries;
+﻿using CarCareAlliance.Application.Vehicles.Commands.Add;
+using CarCareAlliance.Application.Vehicles.Queries.Get;
+using CarCareAlliance.Application.Vehicles.Queries.GetByUserId;
 using CarCareAlliance.Contracts.Vehicles.Add;
 using CarCareAlliance.Contracts.Vehicles.Get;
+using CarCareAlliance.Contracts.Vehicles.GetByUserId;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -50,6 +52,24 @@ namespace CarCareAlliance.Presentation.Controllers.Vehicle
             return result.Match(
                 result => Ok(
                     mapper.Map<VehicleGetResponse>(result)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(
+            Guid userId,
+            CancellationToken cancellationToken)
+        {
+            var request = new VehicleGetByUserIdRequest(userId);
+
+            var query = mapper.Map<VehicleGetByUserIdQuery>(request);
+
+            var result = await mediator
+                .Send(query, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<VehicleGetByUserIdResponse>(result)),
                 errors => Problem(errors));
         }
     }
