@@ -1,6 +1,4 @@
-﻿using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
-
-namespace CarCareAlliance.Contracts.Tickets.Common
+﻿namespace CarCareAlliance.Contracts.Tickets.Common
 {
     public record OrderDetailsDto(
         Guid OrderDetailsId,

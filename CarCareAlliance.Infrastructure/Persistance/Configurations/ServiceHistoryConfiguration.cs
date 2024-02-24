@@ -1,5 +1,6 @@
 ﻿using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServiceHistoryAggregate;
+using CarCareAlliance.Domain.ServiceHistoryAggregate.Entities;
 using CarCareAlliance.Domain.ServiceHistoryAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
 using CarCareAlliance.Domain.TicketAggregate.ValueObjects;
@@ -76,6 +77,9 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                     .HasConversion(
                         id => id.Value,
                         value => VehicleId.Create(value));
+
+                tb.Navigation(o => o.OrderDetails)
+                    .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 
             builder.Metadata.FindNavigation(nameof(ServiceHistory.Tickets))!

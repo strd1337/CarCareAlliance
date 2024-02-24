@@ -148,5 +148,21 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Common
                 .Where(predicate)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<TEntity?> FirstOrDefaultAsync(
+            Expression<Func<TEntity, bool>> predicate, 
+            CancellationToken cancellationToken = default, 
+            params string[] includes)
+        {
+            IQueryable<TEntity> query = dbContext.Set<TEntity>();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query
+                .FirstOrDefaultAsync(predicate, cancellationToken);
+        }
     }
 }
