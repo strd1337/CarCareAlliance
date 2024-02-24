@@ -28,6 +28,10 @@ namespace CarCareAlliance.Application.Common.Interfaces.Persistance.CommonReposi
         Task<ICollection<TEntity>> GetAllAsync(
             CancellationToken cancellationToken = default);
 
+        Task<ICollection<TEntity>> GetWhereAsync(
+            Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken = default);
+
         IQueryable<TEntity> GetWhere(
             Expression<Func<TEntity, bool>> predicate);
 

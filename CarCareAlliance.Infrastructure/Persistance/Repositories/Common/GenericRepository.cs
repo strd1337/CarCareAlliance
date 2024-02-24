@@ -120,5 +120,15 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Common
                 .Set<TEntity>()
                 .AnyAsync(predicate, cancellationToken);
         }
+
+        public async Task<ICollection<TEntity>> GetWhereAsync(
+            Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken)
+        {
+            return await dbContext
+                .Set<TEntity>()
+                .Where(predicate)
+                .ToArrayAsync(cancellationToken);
+        }
     }
 }
