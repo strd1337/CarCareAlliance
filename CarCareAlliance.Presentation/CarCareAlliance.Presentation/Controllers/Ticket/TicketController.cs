@@ -1,6 +1,4 @@
-﻿using CarCareAlliance.Application.ServicePartners.Commands.Add;
-using CarCareAlliance.Application.Tickets.Commands.Create;
-using CarCareAlliance.Contracts.ServicePartners.AddServicePartner;
+﻿using CarCareAlliance.Application.Tickets.Commands.Create;
 using CarCareAlliance.Contracts.Tickets.Create;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;

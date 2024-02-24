@@ -1,4 +1,7 @@
-﻿namespace CarCareAlliance.Application.Tickets.Common
+﻿using CarCareAlliance.Domain.ServiceHistoryAggregate.Entities;
+
+namespace CarCareAlliance.Application.Tickets.Common
 {
-    public record TicketCreateResult();
+    public record TicketCreateResult(
+        Ticket Ticket);
 }

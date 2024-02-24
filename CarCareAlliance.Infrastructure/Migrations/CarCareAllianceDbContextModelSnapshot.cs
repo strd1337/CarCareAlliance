@@ -418,7 +418,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("OrderDetailsId");
 
-                    b.Property<Guid>("AssignedMechanicId")
+                    b.Property<Guid?>("AssignedMechanicId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comments")
@@ -441,7 +441,7 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("PaymentDueDate")
+                    b.Property<DateTime?>("PaymentDueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("PrepaymentAmount")

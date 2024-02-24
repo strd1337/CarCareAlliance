@@ -72,8 +72,8 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     Comments = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     FinalPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     PrepaymentAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    PaymentDueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AssignedMechanicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentDueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AssignedMechanicId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
