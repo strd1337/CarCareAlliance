@@ -1,5 +1,6 @@
 ﻿using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServiceHistoryAggregate;
+using CarCareAlliance.Domain.ServiceHistoryAggregate.Entities;
 using CarCareAlliance.Domain.TicketAggregate.Entities;
 using CarCareAlliance.Domain.TicketAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;

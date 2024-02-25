@@ -1,6 +1,7 @@
 ﻿using CarCareAlliance.Application.Common.Interfaces.Persistance.CommonRepositories;
 using CarCareAlliance.Domain.Common.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Common
@@ -129,6 +130,39 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Common
                 .Set<TEntity>()
                 .Where(predicate)
                 .ToArrayAsync(cancellationToken);
+        }
+
+        public async Task<List<TEntity>> GetWhereAsync(
+            Expression<Func<TEntity, bool>> predicate, 
+            CancellationToken cancellationToken,
+            params string[] includes)
+        {
+            IQueryable<TEntity> query = dbContext.Set<TEntity>();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query
+                .Where(predicate)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<TEntity?> FirstOrDefaultAsync(
+            Expression<Func<TEntity, bool>> predicate, 
+            CancellationToken cancellationToken = default, 
+            params string[] includes)
+        {
+            IQueryable<TEntity> query = dbContext.Set<TEntity>();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query
+                .FirstOrDefaultAsync(predicate, cancellationToken);
         }
     }
 }

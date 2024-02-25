@@ -14,6 +14,11 @@ namespace CarCareAlliance.Application.Common.Interfaces.Persistance.CommonReposi
         Task<TEntity?> FirstOrDefaultAsync(
             Expression<Func<TEntity, bool>> predicate,
             CancellationToken cancellationToken = default);
+         
+        Task<TEntity?> FirstOrDefaultAsync(
+            Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken = default,
+            params string[] includes);
 
         Task AddAsync(TEntity entity,
             CancellationToken cancellationToken = default);
@@ -38,6 +43,11 @@ namespace CarCareAlliance.Application.Common.Interfaces.Persistance.CommonReposi
         IQueryable<TEntity> GetWhere(
             Expression<Func<TEntity, bool>> predicate,
             string include);
+
+        Task<List<TEntity>> GetWhereAsync(
+            Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken,
+            params string[] includes);
 
         Task<int> CountAllAsync(
             CancellationToken cancellationToken = default);
