@@ -17,7 +17,7 @@ namespace CarCareAlliance.Application.Tickets.Queries.GetAllByFilters
             TicketGetAllByFiltersQuery query,
             CancellationToken cancellationToken)
         {
-            var servicePartner = await unitOfWork
+            var serviceHistory = await unitOfWork
                 .GetRepository<ServiceHistory, ServiceHistoryId>()
                 .FirstOrDefaultAsync(
                     x => x.ServicePartnerId == ServicePartnerId.Create(query.ServicePartnerId),
@@ -25,12 +25,12 @@ namespace CarCareAlliance.Application.Tickets.Queries.GetAllByFilters
                     [nameof(ServiceHistory.Tickets),
                      nameof(ServiceHistory.Tickets) + "." + nameof(Ticket.OrderDetails)]);
 
-            if (servicePartner is null)
+            if (serviceHistory is null)
             {
-                return Errors.ServicePartner.NotFound;
+                return Errors.ServiceHistory.NotFound;
             }
 
-            IEnumerable<Ticket> tickets = servicePartner.Tickets;
+            IEnumerable<Ticket> tickets = serviceHistory.Tickets;
 
             if (query.RepairStatus is not null)
             {

@@ -1,10 +1,10 @@
-﻿using CarCareAlliance.Application.ServicePartners.Queries.GetAll;
-using CarCareAlliance.Application.Tickets.Commands.Create;
+﻿using CarCareAlliance.Application.Tickets.Commands.Create;
 using CarCareAlliance.Application.Tickets.Queries.GetAllByFilters;
+using CarCareAlliance.Application.Tickets.Queries.GetByUserId;
 using CarCareAlliance.Contracts.Common;
-using CarCareAlliance.Contracts.ServicePartners.GetAll;
 using CarCareAlliance.Contracts.Tickets.Common;
 using CarCareAlliance.Contracts.Tickets.Create;
+using CarCareAlliance.Contracts.Tickets.Get;
 using CarCareAlliance.Domain.TicketAggregate.Enums;
 using CarCareAlliance.Presentation.Common.Helpers;
 using CarCareAlliance.Presentation.Controllers.Common;
@@ -60,6 +60,25 @@ namespace CarCareAlliance.Presentation.Controllers.Ticket
             return result.Match(
                 result => Ok(
                     mapper.Map<PagedResponse<TicketDto>>(result)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("user/{userId}/servicepartner/{servicePartnerId}")]
+        public async Task<IActionResult> Get(
+           Guid userId,
+           Guid servicePartnerId,
+           CancellationToken cancellationToken)
+        {
+            var request = new TicketGetAllByUserIdRequest(userId, servicePartnerId);
+
+            var query = mapper.Map<TicketGetAllByUserIdQuery>(request);
+
+            var result = await mediator
+                .Send(query, cancellationToken);
+            
+            return result.Match(
+                result => Ok(
+                    mapper.Map<TicketGetAllByUserIdResponse>(result)),
                 errors => Problem(errors));
         }
     }
