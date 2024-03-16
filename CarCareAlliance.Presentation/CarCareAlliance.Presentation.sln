@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarCareAlliance.Presentation", "CarCareAlliance.Presentation\CarCareAlliance.Presentation.csproj", "{F26573FD-A710-4E2E-A097-C981738E8E12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarCareAlliance.Presentation", "CarCareAlliance.Presentation\CarCareAlliance.Presentation.csproj", "{F26573FD-A710-4E2E-A097-C981738E8E12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F9B64300-62E6-42C0-89A5-531FED7860B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9D2EAD4B-2A49-427D-B731-3594C2E7B88A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarCareAlliance.Infrastructure", "..\CarCareAlliance.Infrastructure\CarCareAlliance.Infrastructure.csproj", "{0B0F317D-2DE4-4269-91E3-D7C775A595D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarCareAlliance.Infrastructure", "..\CarCareAlliance.Infrastructure\CarCareAlliance.Infrastructure.csproj", "{0B0F317D-2DE4-4269-91E3-D7C775A595D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarCareAlliance.Domain", "..\CarCareAlliance.Domain\CarCareAlliance.Domain.csproj", "{AADDE029-1798-456B-B65B-A00076A6328A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarCareAlliance.Domain", "..\CarCareAlliance.Domain\CarCareAlliance.Domain.csproj", "{AADDE029-1798-456B-B65B-A00076A6328A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarCareAlliance.Contracts", "..\CarCareAlliance.Contracts\CarCareAlliance.Contracts.csproj", "{5ABD6F34-0527-43DD-80B4-7215D3E3A461}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarCareAlliance.Contracts", "..\CarCareAlliance.Contracts\CarCareAlliance.Contracts.csproj", "{5ABD6F34-0527-43DD-80B4-7215D3E3A461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarCareAlliance.Application", "..\CarCareAlliance.Application\CarCareAlliance.Application.csproj", "{C71769A5-9395-4EB3-8A75-2D90027DE0B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarCareAlliance.Application", "..\CarCareAlliance.Application\CarCareAlliance.Application.csproj", "{C71769A5-9395-4EB3-8A75-2D90027DE0B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarCareAlliance.Presentation.Client", "..\CarCareAlliance.Presentation.Client\CarCareAlliance.Presentation.Client.csproj", "{9AE62DE9-DE5D-4E49-8F39-0F874D3038F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{C71769A5-9395-4EB3-8A75-2D90027DE0B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71769A5-9395-4EB3-8A75-2D90027DE0B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71769A5-9395-4EB3-8A75-2D90027DE0B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE62DE9-DE5D-4E49-8F39-0F874D3038F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE62DE9-DE5D-4E49-8F39-0F874D3038F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE62DE9-DE5D-4E49-8F39-0F874D3038F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE62DE9-DE5D-4E49-8F39-0F874D3038F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{AADDE029-1798-456B-B65B-A00076A6328A} = {F9B64300-62E6-42C0-89A5-531FED7860B6}
 		{5ABD6F34-0527-43DD-80B4-7215D3E3A461} = {F9B64300-62E6-42C0-89A5-531FED7860B6}
 		{C71769A5-9395-4EB3-8A75-2D90027DE0B9} = {F9B64300-62E6-42C0-89A5-531FED7860B6}
+		{9AE62DE9-DE5D-4E49-8F39-0F874D3038F7} = {F9B64300-62E6-42C0-89A5-531FED7860B6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B6C40E6-2D48-47D3-86DE-7BFF0A532559}

@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +24,7 @@
     <ProjectReference Include="..\..\CarCareAlliance.Application\CarCareAlliance.Application.csproj" />
     <ProjectReference Include="..\..\CarCareAlliance.Contracts\CarCareAlliance.Contracts.csproj" />
     <ProjectReference Include="..\..\CarCareAlliance.Infrastructure\CarCareAlliance.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\CarCareAlliance.Presentation.Client\CarCareAlliance.Presentation.Client.csproj" />
   </ItemGroup>
 
 </Project>

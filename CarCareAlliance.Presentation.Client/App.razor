@@ -1,0 +1,33 @@
+﻿<PageTitle>CarCareAlliance</PageTitle>
+<CascadingAuthenticationState>
+    <CustomErrorBoundary @ref="_errorBoundary">
+        <Router AppAssembly="@typeof(App).Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                    <NotAuthorized>
+                        <NotAuthorizedPage />
+                    </NotAuthorized>
+                </AuthorizeRouteView>
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <NotFound />
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </CustomErrorBoundary>
+</CascadingAuthenticationState>
+
+@code {
+    private CustomErrorBoundary? _errorBoundary;
+    protected override void OnParametersSet()
+    {
+        ResetBoundary();
+    }
+
+    private void ResetBoundary()
+    {
+        _errorBoundary?.Recover();
+    }
+}

@@ -1,0 +1,52 @@
+﻿
+<MudAppBar Color="Color.Primary">
+    <MudSpacer />
+    <MudButton Href="/home" StartIcon="@Icons.Material.Rounded.LocalLibrary" Class="white-text">
+        <MudText Typo="Typo.subtitle1"><b>CarCareAlliance</b></MudText>
+    </MudButton>
+    <MudButton Href="/" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Service partners</MudText></MudButton>
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <MudButton Href="/dashboard/servicepartners" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Dashboard</MudText></MudButton>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView>
+        <NotAuthorized>
+            <MudButton Href="/auth/login" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Login</MudText></MudButton>
+            <MudSpacer />
+        </NotAuthorized>
+        <Authorized>
+            <MudSpacer />
+            <MudTooltip>
+                <MudMenu AnchorOrigin="Origin.BottomRight"
+                         Icon="@Icons.Material.Rounded.Face"
+                         Class="mx-1 white-text"
+                         Color="@Color.Tertiary"
+                         LockScroll="true"
+                         TransformOrigin="Origin.TopRight">
+                    <ChildContent>
+                        <div style="min-width: 150px;margin-bottom:0px!important">
+                            <MudStack Class="pa-3" Justify="Justify.Center" Spacing="1">
+                                <MudText Typo="Typo.caption">@context.User.Identity?.Name</MudText>
+                                </MudStack>
+                                <MudDivider />
+                                <div class="mt-1 mx-1">
+                                    <MudButton Color="Color.Default"
+                                               FullWidth="true"
+                                               StartIcon="@Icons.Material.Rounded.Logout"
+                                               OnClick="@LogOut"
+                                               Size="Size.Small"
+                                               Variant="Variant.Outlined">
+                                        Logout
+                                    </MudButton>
+                                </div>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                </MudTooltip>
+            </Authorized>
+        </AuthorizeView>
+    </MudAppBar>
+
+
+

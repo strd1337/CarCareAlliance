@@ -2,6 +2,6 @@
 {
     internal static class CustomClaims
     {
-        internal const string Roles = "rol";
+        internal const string Roles = "roles";
     }
 }

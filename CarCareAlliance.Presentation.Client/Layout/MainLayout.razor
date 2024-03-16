@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_currentTheme" />
+<MudDialogProvider FullWidth="true" Position="DialogPosition.Center" />
+<MudSnackbarProvider />
+<LoadingIndicator />
+<MudLayout>
+    <NavBar />
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mb-4 mt-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+    private readonly MudTheme _currentTheme = new()
+    {
+        Palette = new PaletteLight
+        {
+            Primary = Colors.Grey.Darken4,
+            Tertiary = Colors.Red.Lighten5,
+        },
+        Typography = new Typography()
+        {
+            Default = new Default()
+            {
+                FontFamily = new[] { "Inter", "Helvetica" }
+            },
+            H6 = new H6()
+            {
+                FontFamily = new[] { "Besley","serif" }, 
+            },
+            Subtitle1 = new Subtitle1()
+            {
+                FontFamily = new[] { "Besley", "serif" },
+            }
+        }
+    };
+}
