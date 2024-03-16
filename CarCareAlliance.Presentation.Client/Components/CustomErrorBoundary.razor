@@ -1,0 +1,47 @@
+﻿@using CarCareAlliance.Presentation.Client.Common.Exceptions
+@inherits ErrorBoundary
+@inject ISnackbar Snackbar
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else if (ErrorContent is not null)
+{
+    @ErrorContent(CurrentException)
+}
+else
+{
+    @ChildContent
+
+    @foreach (var message in receivedErrorMessages)
+    {
+        Snackbar.Add(@message, Severity.Error);
+    }
+
+    Recover();
+}
+
+@code {
+    List<string> receivedErrorMessages = new();
+
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        if (exception is CustomHttpRequestException)
+        {
+            foreach (var message in (exception as CustomHttpRequestException).ErrorMessages)
+                receivedErrorMessages.Add(message);
+        }
+        else
+        {
+            receivedErrorMessages.Add(exception.Message);
+        }
+        return base.OnErrorAsync(exception);
+    }
+
+    public new void Recover()
+    {
+        receivedErrorMessages.Clear();
+        base.Recover();
+    }
+}

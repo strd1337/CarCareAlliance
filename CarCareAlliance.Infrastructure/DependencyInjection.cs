@@ -16,6 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
 using CarCareAlliance.Infrastructure.Filters.Auth;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace CarCareAlliance.Infrastructure
 {
@@ -23,11 +25,12 @@ namespace CarCareAlliance.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
-            ConfigurationManager configuration)
+            ConfigurationManager configuration,
+            IWebHostEnvironment env)
         {
             services
                 .AddAuth(configuration)
-                .AddDbContext(configuration)
+                .AddDbContext(configuration, env)
                 .AddPersistance();
 
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -37,12 +40,20 @@ namespace CarCareAlliance.Infrastructure
 
         public static IServiceCollection AddDbContext(
            this IServiceCollection services,
-           ConfigurationManager configuration)
+           ConfigurationManager configuration,
+           IWebHostEnvironment env)
         {
+            string connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("DefaultConnection connection string is not configured.");
+
             services.AddDbContext<CarCareAllianceDbContext>((sp, options) =>
             {
-                options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(connectionString);
+
+                if (env.IsDevelopment())
+                {
+                    options.EnableSensitiveDataLogging();
+                }
             });
 
             return services;
