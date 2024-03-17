@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Librarian.Presentation.Client": {
+    "CarCareAlliance.Presentation.Client": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
