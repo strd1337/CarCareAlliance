@@ -31,6 +31,7 @@ namespace CarCareAlliance.Presentation.Client.Models.Auth
         public async Task UpdateAuthenticationState(string? token)
         {
             var authenticatedUser = _anonymous;
+
             if (string.IsNullOrEmpty(token))
             {
                 await _localStorage.RemoveItemAsync(Constants.LocalStorage.JwtTokenKey);
