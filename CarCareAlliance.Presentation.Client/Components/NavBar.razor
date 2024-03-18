@@ -1,7 +1,8 @@
-﻿
+﻿@using System.Security.Claims
+
 <MudAppBar Color="Color.Primary">
     <MudSpacer />
-    <MudButton Href="/home" StartIcon="@Icons.Material.Rounded.LocalLibrary" Class="white-text">
+    <MudButton Href="/home" StartIcon="@Icons.Material.Rounded.CarRepair" IconSize="Size.Large" Class="white-text">
         <MudText Typo="Typo.subtitle1"><b>CarCareAlliance</b></MudText>
     </MudButton>
     <MudButton Href="/" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Service partners</MudText></MudButton>
@@ -27,7 +28,7 @@
                     <ChildContent>
                         <div style="min-width: 150px;margin-bottom:0px!important">
                             <MudStack Class="pa-3" Justify="Justify.Center" Spacing="1">
-                                <MudText Typo="Typo.caption">@context.User.Identity?.Name</MudText>
+                                <MudText Typo="Typo.caption">Hello, @context.User.Identity?.Name</MudText>
                                 </MudStack>
                                 <MudDivider />
                                 <div class="mt-1 mx-1">

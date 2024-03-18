@@ -22,9 +22,10 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Auth
         {
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Sub, authUser.Id.Value.ToString()),
-                new(JwtRegisteredClaimNames.UniqueName, authUser.UserName),
+                new(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
+                new(ClaimTypes.Name, authUser.UserName),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Email, authUser.Email),
                 new(CustomClaims.Roles,
                     Enum.GetName(typeof(RoleType), user.RoleType)!)
             };
