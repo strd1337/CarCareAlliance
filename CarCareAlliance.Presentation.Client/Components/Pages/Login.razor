@@ -3,7 +3,7 @@
 
 <MudPaper Class="pa-5" style="position: fixed; width:400px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
     <MudForm @bind-IsValid="@isValid">
-        <MudTabs Elevation="0" Rounded="true" Centered="true" PanelClass="pa-6">
+        <MudTabs Elevation="0" Rounded="true" Centered="true" PanelClass="pa-6" @bind-ActivePanelIndex="activeIndex">
             <MudTabPanel Text="Login">
                 <PageTitle>Login</PageTitle>
                 <MudCardContent Class="justify-center">
@@ -30,3 +30,4 @@
         </MudTabs>
     </MudForm>
 </MudPaper>
+
