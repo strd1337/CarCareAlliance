@@ -9,7 +9,8 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages
         private string email = string.Empty;
         private string password = string.Empty;
         private bool isValid;
-        
+        private string username = string.Empty;
+
         [Inject]
         public NavigationManager? NavigationManager { get; set; }
         [Inject]
@@ -26,6 +27,9 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages
                 NavigationManager?.NavigateTo("/home");
             }
         }
-    }
 
+        public async Task Register()
+        {
+        }
+    }
 }

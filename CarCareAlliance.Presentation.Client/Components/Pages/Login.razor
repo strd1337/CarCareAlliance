@@ -1,22 +1,32 @@
-﻿@page "/auth/login"
+﻿@page "/auth"
 @using System.ComponentModel.DataAnnotations
 
-<PageTitle>Login</PageTitle>
-<MudPaper Class="pa-5" style="position: fixed; width:400px; top: 50%; left: 50%;  transform: translate(-50%, -50%);" Elevation="5">
+<MudPaper Class="pa-5" style="position: fixed; width:400px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
     <MudForm @bind-IsValid="@isValid">
-        <MudCardHeader>
-            <CardHeaderContent>
-                <MudText Typo="Typo.h5">Login</MudText>
-            </CardHeaderContent>
-        </MudCardHeader>
-        <MudCardContent Class="justify-center">
-            <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
-            <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
-                          Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
-        </MudCardContent>
-        <MudCardActions Class="pa-4 mt-2">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="mx-2" OnClick="LogIn">Login</MudButton>
-            <MudButton Href="/" Variant="Variant.Filled">Explore books</MudButton>
-        </MudCardActions>
+        <MudTabs Elevation="0" Rounded="true" Centered="true" PanelClass="pa-6">
+            <MudTabPanel Text="Login">
+                <PageTitle>Login</PageTitle>
+                <MudCardContent Class="justify-center">
+                    <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
+                    <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
+                                  Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
+                </MudCardContent>
+                <MudCardActions Class="pa-4 mt-2">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="mx-2" OnClick="LogIn">Login</MudButton>
+                </MudCardActions>
+            </MudTabPanel>
+            <MudTabPanel Text="Register">
+                <PageTitle>Register</PageTitle>
+                <MudCardContent Class="justify-center">
+                    <MudTextField T="string" @bind-Value="username" Label="Username" Required="true" RequiredError="Username is required!" />
+                    <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
+                    <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
+                                  Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
+                </MudCardContent>
+                <MudCardActions Class="pa-4 mt-2">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="mx-2" OnClick="Register">Register</MudButton>
+                </MudCardActions>
+            </MudTabPanel>
+        </MudTabs>
     </MudForm>
 </MudPaper>
