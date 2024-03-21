@@ -1,53 +1,76 @@
 ﻿@using System.Security.Claims
 
-<MudAppBar Color="Color.Primary">
-    <MudSpacer />
-    <MudButton Href="/home" StartIcon="@Icons.Material.Rounded.CarRepair" IconSize="Size.Large" Class="white-text">
-        <MudText Typo="Typo.subtitle1"><b>CarCareAlliance</b></MudText>
-    </MudButton>
-    <MudButton Href="/" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Service partners</MudText></MudButton>
-    <AuthorizeView Roles="Admin">
-        <Authorized>
-            <MudButton Href="/dashboard/servicepartners" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Dashboard</MudText></MudButton>
-        </Authorized>
-    </AuthorizeView>
-    <AuthorizeView>
-        <NotAuthorized>
-            <MudButton Href="/auth" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Login</MudText></MudButton>
-            <MudSpacer />
-        </NotAuthorized>
-        <Authorized>
-            <MudSpacer />
-            <MudTooltip>
-                <MudMenu AnchorOrigin="Origin.BottomRight"
-                         Icon="@Icons.Material.Rounded.Face"
-                         Class="mx-1 white-text"
-                         Color="@Color.Tertiary"
-                         LockScroll="true"
-                         TransformOrigin="Origin.TopRight">
-                    <ChildContent>
-                        <div style="min-width: 150px;margin-bottom:0px!important">
-                            <MudStack Class="pa-3" Justify="Justify.Center" Spacing="1">
-                                <MudText Typo="Typo.caption">Hello, @context.User.Identity?.Name</MudText>
-                                </MudStack>
-                                <MudDivider />
-                                <div class="mt-1 mx-1">
-                                    <MudButton Color="Color.Default"
-                                               FullWidth="true"
-                                               StartIcon="@Icons.Material.Rounded.Logout"
-                                               OnClick="@LogOut"
-                                               Size="Size.Small"
-                                               Variant="Variant.Outlined">
-                                        Logout
-                                    </MudButton>
+<MudLayout>
+    <MudAppBar Elevation="1" Color="Color.Primary">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+        <MudSpacer />
+        <AuthorizeView>
+            <NotAuthorized>
+                <MudSpacer />
+                <MudIconButton Href="/auth" Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Edge="Edge.Start" />
+            </NotAuthorized>
+            <Authorized>
+                <MudSpacer />
+                <MudTooltip>
+                    <MudMenu AnchorOrigin="Origin.BottomRight"
+                             Icon="@Icons.Material.Rounded.Face"
+                             Class="mx-1 white-text"
+                             Color="@Color.Tertiary"
+                             LockScroll="true"
+                             TransformOrigin="Origin.TopRight">
+                        <ChildContent>
+                            <div style="min-width: 150px;margin-bottom:0px!important">
+                                <MudStack Class="pa-3" Justify="Justify.Center" Spacing="1">
+                                    <MudText Typo="Typo.caption">Hello, @context.User.Identity?.Name</MudText>
+                                    </MudStack>
+                                    <MudDivider />
+                                    <div class="mt-1 mx-1">
+                                        <MudButton Color="Color.Default"
+                                                   FullWidth="true"
+                                                   StartIcon="@Icons.Material.Rounded.Logout"
+                                                   OnClick="@LogOut"
+                                                   Size="Size.Small"
+                                                   Variant="Variant.Outlined">
+                                            Logout
+                                        </MudButton>
+                                    </div>
                                 </div>
-                            </div>
-                        </ChildContent>
-                    </MudMenu>
-                </MudTooltip>
-            </Authorized>
-        </AuthorizeView>
-    </MudAppBar>
+                            </ChildContent>
+                        </MudMenu>
+                    </MudTooltip>
+                </Authorized>
+            </AuthorizeView>
+        </MudAppBar>
+    <MudDrawer @bind-Open="@open" Breakpoint="@breakpoint" Elevation="1" Variant="@DrawerVariant.Responsive" PreserveOpenState="@preserveOpenState">
+        <MudDrawerHeader>
+            <MudIcon Icon="@Icons.Material.Filled.DashboardCustomize"></MudIcon>
+            <MudText Typo="Typo.subtitle1" Class="ml-4"><b>CarCareAlliance</b></MudText>
+        </MudDrawerHeader>
+        <MudNavMenu>
+            <MudNavLink Href="/home" Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All">HOME</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.CarRepair" Match="NavLinkMatch.All">AUTO SERVICES</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.History" Match="NavLinkMatch.All">SERVICE HISTORY</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.PersonPin" Match="NavLinkMatch.All">MY PROFILE</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.ContactPage" Match="NavLinkMatch.All">CONTACTS</MudNavLink>
+            <AuthorizeView Roles="Admin">
+                <Authorized>
+                     <MudNavLink Href="/dashboard/servicepartners"
+                         Icon="@Icons.Material.Filled.AdminPanelSettings"
+                        Match="NavLinkMatch.All">DASHBOARD</MudNavLink>
+                    </Authorized>
+                </AuthorizeView>
+            </MudNavMenu>
+     </MudDrawer>
+</MudLayout>
 
 
+    @code {
+    bool open = false;
+    bool preserveOpenState = false;
+    Breakpoint breakpoint = Breakpoint.Lg;
 
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+}
