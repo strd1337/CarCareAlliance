@@ -41,36 +41,44 @@
                 </Authorized>
             </AuthorizeView>
         </MudAppBar>
-    <MudDrawer @bind-Open="@open" Breakpoint="@breakpoint" Elevation="1" Variant="@DrawerVariant.Responsive" PreserveOpenState="@preserveOpenState">
-        <MudDrawerHeader>
-            <MudIcon Icon="@Icons.Material.Filled.DashboardCustomize"></MudIcon>
-            <MudText Typo="Typo.subtitle1" Class="ml-4"><b>CarCareAlliance</b></MudText>
-        </MudDrawerHeader>
-        <MudNavMenu>
-            <MudNavLink Href="/home" Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All">HOME</MudNavLink>
-            <MudNavLink Href="/" Icon="@Icons.Material.Filled.CarRepair" Match="NavLinkMatch.All">AUTO SERVICES</MudNavLink>
-            <MudNavLink Href="/" Icon="@Icons.Material.Filled.History" Match="NavLinkMatch.All">SERVICE HISTORY</MudNavLink>
-            <MudNavLink Href="/" Icon="@Icons.Material.Filled.PersonPin" Match="NavLinkMatch.All">MY PROFILE</MudNavLink>
-            <MudNavLink Href="/" Icon="@Icons.Material.Filled.ContactPage" Match="NavLinkMatch.All">CONTACTS</MudNavLink>
-            <AuthorizeView Roles="Admin">
-                <Authorized>
-                     <MudNavLink Href="/dashboard/servicepartners"
-                         Icon="@Icons.Material.Filled.AdminPanelSettings"
-                        Match="NavLinkMatch.All">DASHBOARD</MudNavLink>
+        <MudDrawer @bind-Open="@isNavBarOpen" Breakpoint="Breakpoint.Lg" Elevation="1" Variant="@DrawerVariant.Responsive" PreserveOpenState="false">
+            <MudDrawerHeader>
+                <MudButton Href="/" Color="Color.Inherit">
+                    <MudIcon Icon="@Icons.Material.Filled.DashboardCustomize"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Class="ml-4"><b>CarCareAlliance</b></MudText>
+                </MudButton>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                <MudNavLink Href="/home" Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All">HOME</MudNavLink>
+                <MudNavLink Href="/" Icon="@Icons.Material.Filled.CarRepair" Match="NavLinkMatch.All">CAR SERVICES</MudNavLink>
+                <MudNavLink Href="/" Icon="@Icons.Material.Filled.ContactPage" Match="NavLinkMatch.All">CONTACTS</MudNavLink>
+                <AuthorizeView Roles="Driver, Mechanic, Admin">
+                    <Authorized>
+                        <MudNavGroup Title="MY PROFILE" Expanded="false" Icon="@Icons.Material.Filled.PersonSearch">
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.PersonPin" Match="NavLinkMatch.All">MY DETAILS</MudNavLink>
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.CarCrash" Match="NavLinkMatch.All">MY CARS</MudNavLink>
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.ManageHistory" Match="NavLinkMatch.All">REPAIR HISTORY</MudNavLink>
+                        </MudNavGroup>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Mechanic, Admin">
+                    <Authorized>
+                        <MudNavGroup Title="MECHANIC DASHBOARD" Expanded="false" Icon="@Icons.Material.Rounded.AssuredWorkload">
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.AssignmentInd" Match="NavLinkMatch.All">ASSIGNED TICKETS</MudNavLink>
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Schedule" Match="NavLinkMatch.All">WORK SCHEDULE</MudNavLink>
+                        </MudNavGroup>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Admin">
+                    <Authorized>
+                        <MudNavGroup Title="ADMIN DASHBOARD" Expanded="false" Icon="@Icons.Material.Filled.AdminPanelSettings">
+                            <MudNavLink Href="/dashboard/servicepartners" Icon="@Icons.Material.Rounded.TireRepair" Match="NavLinkMatch.All">MANAGE SERVICE PARTNERS</MudNavLink>
+                            <MudNavLink Href="/dashboard/mechanics" Icon="@Icons.Material.Rounded.Person" Match="NavLinkMatch.All">MANAGE MECHANICS</MudNavLink>
+                            <MudNavLink Href="/dashboard/users" Icon="@Icons.Material.Rounded.People" Match="NavLinkMatch.All">MANAGE USERS</MudNavLink>
+                            <MudNavLink Href="/dashboard/tickets" Icon="@Icons.Material.Rounded.CreditCard" Match="NavLinkMatch.All">MANAGE TICKETS</MudNavLink>
+                        </MudNavGroup>
                     </Authorized>
                 </AuthorizeView>
             </MudNavMenu>
-     </MudDrawer>
-</MudLayout>
-
-
-    @code {
-    bool open = false;
-    bool preserveOpenState = false;
-    Breakpoint breakpoint = Breakpoint.Lg;
-
-    void ToggleDrawer()
-    {
-        open = !open;
-    }
-}
+        </MudDrawer>
+    </MudLayout>

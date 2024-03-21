@@ -1,10 +1,9 @@
-﻿using CarCareAlliance.Presentation.Client.Models.Auth;
+﻿using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
+using CarCareAlliance.Presentation.Client.Models.Auth;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using static MudBlazor.CategoryTypes;
 
-namespace CarCareAlliance.Presentation.Client.Components.Pages
+namespace CarCareAlliance.Presentation.Client.Components.Pages.Auth
 {
     public partial class Login
     {
