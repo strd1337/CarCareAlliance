@@ -1,0 +1,29 @@
+﻿<div class="mud-container d-flex align-center justify-center mud-width-full">
+    <MudCarousel @ref="carousel"
+                 ItemsSource="@source"
+                 @bind-SelectedIndex="selectedIndex"
+                 ShowBullets="false"
+                 ShowArrows="true"
+                 EnableSwipeGesture="true"
+                 AutoCycle="true"
+                 Style="height: 650px; width: 90%; max-width: 1500px; margin: auto">
+        <ItemTemplate>
+            <MudCard Elevation="1">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">Partner name</MudText>
+                        <MudText Typo="Typo.body2">Partner description</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudMenu Icon="@Icons.Material.Outlined.MoreHoriz">
+                            <MudMenuItem>Location</MudMenuItem>
+                            <MudMenuItem>Mechanics</MudMenuItem>
+                            <MudMenuItem>Services</MudMenuItem>
+                        </MudMenu>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardMedia Image="assets/partner-3.jpg" Height="400" />
+            </MudCard>
+        </ItemTemplate>
+    </MudCarousel>
+</div>
