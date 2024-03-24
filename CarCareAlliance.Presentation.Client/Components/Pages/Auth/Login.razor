@@ -1,0 +1,33 @@
+﻿@page "/auth"
+@using System.ComponentModel.DataAnnotations
+
+<MudPaper Class="pa-5" style="position: fixed; width:400px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <MudForm @bind-IsValid="@isValid">
+        <MudTabs Elevation="0" Rounded="true" Centered="true" PanelClass="pa-6" @bind-ActivePanelIndex="activeIndex">
+            <MudTabPanel Text="Login">
+                <PageTitle>Login</PageTitle>
+                <MudCardContent Class="justify-center">
+                    <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
+                    <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
+                                  Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
+                </MudCardContent>
+                <MudCardActions Class="pa-4 mt-2">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="mx-2" OnClick="LogIn">Login</MudButton>
+                </MudCardActions>
+            </MudTabPanel>
+            <MudTabPanel Text="Register">
+                <PageTitle>Register</PageTitle>
+                <MudCardContent Class="justify-center">
+                    <MudTextField T="string" @bind-Value="username" Label="Username" Required="true" RequiredError="Username is required!" />
+                    <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
+                    <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
+                                  Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
+                </MudCardContent>
+                <MudCardActions Class="pa-4 mt-2">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="mx-2" OnClick="Register">Register</MudButton>
+                </MudCardActions>
+            </MudTabPanel>
+        </MudTabs>
+    </MudForm>
+</MudPaper>
+

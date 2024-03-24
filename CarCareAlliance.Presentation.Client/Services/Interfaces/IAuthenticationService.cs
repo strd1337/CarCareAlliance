@@ -6,6 +6,7 @@ namespace CarCareAlliance.Presentation.Client.Services.Interfaces
     {
 
         Task LogInAsync(LoginRequest loginRequest);
+        Task RegisterAsync(RegisterRequest registerRequest);
         Task LogOutAsync();
         Task<bool> IsUserAuthenticated();
         Task<string?> GetJwtTokenAsync();

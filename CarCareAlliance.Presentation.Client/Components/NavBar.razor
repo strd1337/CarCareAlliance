@@ -1,53 +1,83 @@
 ﻿@using System.Security.Claims
 
-<MudAppBar Color="Color.Primary">
-    <MudSpacer />
-    <MudButton Href="/home" StartIcon="@Icons.Material.Rounded.CarRepair" IconSize="Size.Large" Class="white-text">
-        <MudText Typo="Typo.subtitle1"><b>CarCareAlliance</b></MudText>
-    </MudButton>
-    <MudButton Href="/" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Service partners</MudText></MudButton>
-    <AuthorizeView Roles="Admin">
-        <Authorized>
-            <MudButton Href="/dashboard/servicepartners" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Dashboard</MudText></MudButton>
-        </Authorized>
-    </AuthorizeView>
-    <AuthorizeView>
-        <NotAuthorized>
-            <MudButton Href="/auth/login" Class="white-text ml-4"><MudText Typo="Typo.subtitle1">Login</MudText></MudButton>
-            <MudSpacer />
-        </NotAuthorized>
-        <Authorized>
-            <MudSpacer />
-            <MudTooltip>
-                <MudMenu AnchorOrigin="Origin.BottomRight"
-                         Icon="@Icons.Material.Rounded.Face"
-                         Class="mx-1 white-text"
-                         Color="@Color.Tertiary"
-                         LockScroll="true"
-                         TransformOrigin="Origin.TopRight">
-                    <ChildContent>
-                        <div style="min-width: 150px;margin-bottom:0px!important">
-                            <MudStack Class="pa-3" Justify="Justify.Center" Spacing="1">
-                                <MudText Typo="Typo.caption">Hello, @context.User.Identity?.Name</MudText>
-                                </MudStack>
-                                <MudDivider />
-                                <div class="mt-1 mx-1">
-                                    <MudButton Color="Color.Default"
-                                               FullWidth="true"
-                                               StartIcon="@Icons.Material.Rounded.Logout"
-                                               OnClick="@LogOut"
-                                               Size="Size.Small"
-                                               Variant="Variant.Outlined">
-                                        Logout
-                                    </MudButton>
+<MudLayout>
+    <MudAppBar Elevation="1" Color="Color.Primary">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+        <MudSpacer />
+        <AuthorizeView>
+            <NotAuthorized>
+                <MudSpacer />
+                <MudIconButton Href="/auth" Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Edge="Edge.Start" />
+            </NotAuthorized>
+            <Authorized>
+                <MudSpacer />
+                <MudTooltip>
+                    <MudMenu AnchorOrigin="Origin.BottomRight"
+                             Icon="@Icons.Material.Rounded.Face"
+                             Class="mx-1 white-text"
+                             Color="@Color.Tertiary"
+                             LockScroll="true"
+                             TransformOrigin="Origin.TopRight">
+                        <ChildContent>
+                            <div style="min-width: 150px;margin-bottom:0px!important">
+                                <MudStack Class="pa-3" Justify="Justify.Center" Spacing="1">
+                                    <MudText Typo="Typo.caption">Hello, @context.User.Identity?.Name</MudText>
+                                    </MudStack>
+                                    <MudDivider />
+                                    <div class="mt-1 mx-1">
+                                        <MudButton Color="Color.Default"
+                                                   FullWidth="true"
+                                                   StartIcon="@Icons.Material.Rounded.Logout"
+                                                   OnClick="@LogOut"
+                                                   Size="Size.Small"
+                                                   Variant="Variant.Outlined">
+                                            Logout
+                                        </MudButton>
+                                    </div>
                                 </div>
-                            </div>
-                        </ChildContent>
-                    </MudMenu>
-                </MudTooltip>
-            </Authorized>
-        </AuthorizeView>
-    </MudAppBar>
-
-
-
+                            </ChildContent>
+                        </MudMenu>
+                    </MudTooltip>
+                </Authorized>
+            </AuthorizeView>
+        </MudAppBar>
+        <MudDrawer @bind-Open="@isNavBarOpen" Breakpoint="Breakpoint.Lg" Elevation="1" Variant="@DrawerVariant.Responsive" PreserveOpenState="false">
+            <MudDrawerHeader>
+                <MudButton Href="/" Color="Color.Inherit">
+                    <MudIcon Icon="@Icons.Material.Filled.DashboardCustomize"></MudIcon>
+                    <MudText Typo="Typo.subtitle1" Class="ml-4"><b>CarCareAlliance</b></MudText>
+                </MudButton>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                <MudNavLink Href="/home" Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All">HOME</MudNavLink>
+                <MudNavLink Href="/" Icon="@Icons.Material.Filled.ContactPage" Match="NavLinkMatch.All">CONTACTS</MudNavLink>
+                <AuthorizeView Roles="Driver, Mechanic, Admin">
+                    <Authorized>
+                        <MudNavGroup Title="MY PROFILE" Expanded="false" Icon="@Icons.Material.Filled.PersonSearch">
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.PersonPin" Match="NavLinkMatch.All">MY DETAILS</MudNavLink>
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.CarCrash" Match="NavLinkMatch.All">MY CARS</MudNavLink>
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.ManageHistory" Match="NavLinkMatch.All">REPAIR HISTORY</MudNavLink>
+                        </MudNavGroup>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Mechanic, Admin">
+                    <Authorized>
+                        <MudNavGroup Title="MECHANIC DASHBOARD" Expanded="false" Icon="@Icons.Material.Rounded.AssuredWorkload">
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.AssignmentInd" Match="NavLinkMatch.All">ASSIGNED TICKETS</MudNavLink>
+                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Schedule" Match="NavLinkMatch.All">WORK SCHEDULE</MudNavLink>
+                        </MudNavGroup>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Admin">
+                    <Authorized>
+                        <MudNavGroup Title="ADMIN DASHBOARD" Expanded="false" Icon="@Icons.Material.Filled.AdminPanelSettings">
+                            <MudNavLink Href="/dashboard/servicepartners" Icon="@Icons.Material.Rounded.TireRepair" Match="NavLinkMatch.All">MANAGE SERVICE PARTNERS</MudNavLink>
+                            <MudNavLink Href="/dashboard/mechanics" Icon="@Icons.Material.Rounded.Person" Match="NavLinkMatch.All">MANAGE MECHANICS</MudNavLink>
+                            <MudNavLink Href="/dashboard/users" Icon="@Icons.Material.Rounded.People" Match="NavLinkMatch.All">MANAGE USERS</MudNavLink>
+                            <MudNavLink Href="/dashboard/tickets" Icon="@Icons.Material.Rounded.CreditCard" Match="NavLinkMatch.All">MANAGE TICKETS</MudNavLink>
+                        </MudNavGroup>
+                    </Authorized>
+                </AuthorizeView>
+            </MudNavMenu>
+        </MudDrawer>
+    </MudLayout>

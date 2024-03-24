@@ -1,0 +1,25 @@
+﻿@inject IJSRuntime JSRuntime
+
+<MudPaper Elevation="0" Class="background-image" Width="100%" Height="100vh" style="position: relative; background-image: url('/assets/main.jpg'); background-size: cover; background-position: center; background-attachment: fixed; overflow: hidden;">
+    <MudContainer Style="position: absolute;
+                                         top: 50%;
+                                         left: 50%;
+                                         transform: translate(-50%, -50%);
+                                         text-align: center;
+                                         z-index: 1;">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h4" Align="Align.Center" Style="@($"color:{Colors.Shades.White};")">Welcome to CarCareAlliance</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Center" Style="@($"color:{Colors.Shades.White};")">Discover the best car services in town</MudText>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ScrollToServicePartners">Explore Services</MudButton>
+            </CardHeaderContent>
+        </MudCardHeader>
+    </MudContainer>
+</MudPaper>
+
+@code {
+    private async Task ScrollToServicePartners()
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToElement", "service-partners-slider-id");
+    }
+}
