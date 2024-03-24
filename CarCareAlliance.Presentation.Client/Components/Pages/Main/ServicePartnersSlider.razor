@@ -1,18 +1,18 @@
-﻿<div class="mud-container d-flex align-center justify-center mud-width-full">
+﻿<MudPaper Height="850px" MaxWidth="1500px" Elevation="0" Class="mud-container d-flex align-center justify-center">
     <MudCarousel @ref="carousel"
                  ItemsSource="@source"
                  @bind-SelectedIndex="selectedIndex"
                  ShowBullets="false"
-                 ShowArrows="true"
+                 ShowArrows="false"
                  EnableSwipeGesture="true"
                  AutoCycle="true"
-                 Style="height: 650px; width: 90%; max-width: 1500px; margin: auto">
+                 Style="width: 100%; height: 100%;">
         <ItemTemplate>
-            <MudCard Elevation="1">
+            <MudCard Elevation="0">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h5">Partner name</MudText>
-                        <MudText Typo="Typo.body2">Partner description</MudText>
+                        <MudText Typo="Typo.body1">Partner description</MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
                         <MudMenu Icon="@Icons.Material.Outlined.MoreHoriz">
@@ -22,8 +22,8 @@
                         </MudMenu>
                     </CardHeaderActions>
                 </MudCardHeader>
-                <MudCardMedia Image="assets/partner-3.jpg" Height="400" />
+                <MudImage Src="assets/partner.jpg" Style="width: 100%; height: auto; object-fit: cover;" />
             </MudCard>
         </ItemTemplate>
     </MudCarousel>
-</div>
+</MudPaper>

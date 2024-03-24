@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using CarCareAlliance.Presentation.Client.Components.Pages.Main
+@inherits LayoutComponentBase
 
 <MudThemeProvider Theme="_currentTheme" />
 <MudDialogProvider FullWidth="true" Position="DialogPosition.Center" />
@@ -6,36 +7,32 @@
 <LoadingIndicator />
 <MudLayout>
     <NavBar />
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mb-4 mt-4">
-            @Body
-        </MudContainer>
-    </MudMainContent>
+    @Body
 </MudLayout>
 
 @code {
     private bool _drawerOpen = true;
     private readonly MudTheme _currentTheme = new()
-    {
-        Palette = new PaletteLight
         {
-            Primary = Colors.Grey.Darken4,
-            Tertiary = Colors.Red.Lighten5,
-        },
-        Typography = new Typography()
-        {
-            Default = new Default()
+            Palette = new PaletteLight
             {
-                FontFamily = new[] { "Inter", "Helvetica" }
+                Primary = Colors.Grey.Darken4,
+                Tertiary = Colors.Red.Lighten5,
             },
-            H6 = new H6()
+            Typography = new Typography()
             {
-                FontFamily = new[] { "Besley","serif" }, 
-            },
-            Subtitle1 = new Subtitle1()
-            {
-                FontFamily = new[] { "Besley", "serif" },
+                Default = new Default()
+                {
+                    FontFamily = new[] { "Inter", "Helvetica" }
+                },
+                H6 = new H6()
+                {
+                    FontFamily = new[] { "Besley", "serif" },
+                },
+                Subtitle1 = new Subtitle1()
+                {
+                    FontFamily = new[] { "Besley", "serif" },
+                }
             }
-        }
-    };
+        };
 }
