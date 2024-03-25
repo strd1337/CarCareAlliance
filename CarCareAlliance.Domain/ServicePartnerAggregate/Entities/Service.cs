@@ -36,5 +36,11 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
                 price,
                 duration);
         }
+
+#pragma warning disable CS8618
+        public Service()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

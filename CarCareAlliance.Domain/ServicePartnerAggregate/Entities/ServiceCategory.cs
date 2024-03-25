@@ -15,25 +15,35 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
         private ServiceCategory(
             ServiceCategoryId id,
             string name,
-            string description) : base(id)
+            string description,
+            List<Service> services) : base(id)
         {
             Name = name;
             Description = description;
+            this.services = services;
         }
 
         public static ServiceCategory Create(
             string name,
-            string description)
+            string description,
+            List<Service> services)
         {
             return new(
                 ServiceCategoryId.CreateUnique(),
                 name,
-                description);
+                description,
+                services);
         }
 
         public void AddService(Service service)
         {
             services.Add(service);
         }
+
+#pragma warning disable CS8618
+        public ServiceCategory()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

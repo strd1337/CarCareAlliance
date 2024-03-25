@@ -1,7 +1,7 @@
-﻿using CarCareAlliance.Application.ServicePartners.Common;
-using CarCareAlliance.Application.ServicePartners.Queries.GetAll;
+﻿using CarCareAlliance.Application.Common.Pagination;
+using CarCareAlliance.Application.ServicePartners.Common;
+using CarCareAlliance.Contracts.Common;
 using CarCareAlliance.Contracts.ServicePartners.Common;
-using CarCareAlliance.Contracts.ServicePartners.GetAll;
 using CarCareAlliance.Contracts.Staff.Common;
 using CarCareAlliance.Contracts.WorkSchedules.Common;
 using CarCareAlliance.Domain.MechanicAggregate;
@@ -11,16 +11,13 @@ using Mapster;
 
 namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners
 {
-    public class ServicePartnerGetAllMappingConfig
-        : IRegister
+    public class ServicePartnerGetAllByFiltersMappingConfig : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<ServicePartnerGetAllRequest, ServicePartnerGetAllQuery>();
-
-            config.NewConfig<ServicePartnerGetAllResult, ServicePartnerGetAllResponse>()
-                .Map(dest => dest.ServicePartners, src =>
-                    src.ServicePartners.Select(result => new ServicePartnerDto(
+            config.NewConfig<PagedResult<ServicePartnerResult>, PagedResponse<ServicePartnerDto>>()
+                .Map(dest => dest.Data, src => src.Data.Select(result =>
+                    new ServicePartnerDto(
                         result.ServicePartner.Id.Value,
                         result.ServicePartner.Name,
                         result.ServicePartner.Description,
@@ -34,22 +31,21 @@ namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners
                                 service.Description,
                                 service.Price,
                                 service.Duration)).ToList())).ToList(),
-                        new ServicePartnerLocationDto(
-                            result.ServicePartner.ServiceLocation.Id.Value,
-                            result.ServicePartner.ServiceLocation.Latitude,
-                            result.ServicePartner.ServiceLocation.Longitude,
-                            result.ServicePartner.ServiceLocation.Address,
-                            result.ServicePartner.ServiceLocation.City,
-                            result.ServicePartner.ServiceLocation.Country,
-                            result.ServicePartner.ServiceLocation.PostalCode,
-                            result.ServicePartner.ServiceLocation.Description,
-                            result.ServicePartner.ServiceLocation.State ?? ""),
-                        result.Mechanics.Select(mechanic => MechanicDtoFactory.CreateMechanicDto(
-                            mechanic,
-                            result.MechanicProfiles
-                                .FirstOrDefault(
-                                    profile => UserProfileId.Create(profile.Id.Value) == UserProfileId.Create(mechanic.UserProfileId.Value))!))
-                                .ToList(),
+                    new ServicePartnerLocationDto(
+                        result.ServicePartner.ServiceLocation.Id.Value,
+                        result.ServicePartner.ServiceLocation.Latitude,
+                        result.ServicePartner.ServiceLocation.Longitude,
+                        result.ServicePartner.ServiceLocation.Address,
+                        result.ServicePartner.ServiceLocation.City,
+                        result.ServicePartner.ServiceLocation.Country,
+                        result.ServicePartner.ServiceLocation.PostalCode,
+                        result.ServicePartner.ServiceLocation.Description,
+                        result.ServicePartner.ServiceLocation.State ?? ""),
+                    result.Mechanics.Select(mechanic => MechanicDtoFactory.CreateMechanicDto(
+                        mechanic,
+                        result.MechanicProfiles
+                            .FirstOrDefault(profile => UserProfileId.Create(profile.Id.Value) == UserProfileId.Create(mechanic.UserProfileId.Value))!))
+                            .ToList(),
                         result.WorkSchedules.Select(workSchedule => new WorkScheduleDto(
                             workSchedule.Id.Value,
                             workSchedule.DayOfWeek,

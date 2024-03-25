@@ -2,12 +2,16 @@
 using CarCareAlliance.Application.ServicePartners.Commands.Delete;
 using CarCareAlliance.Application.ServicePartners.Queries.Get;
 using CarCareAlliance.Application.ServicePartners.Queries.GetAll;
+using CarCareAlliance.Application.ServicePartners.Queries.GetAllByFilters;
+using CarCareAlliance.Contracts.Common;
 using CarCareAlliance.Contracts.ServicePartners.AddServicePartner;
+using CarCareAlliance.Contracts.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.DeleteServicePartner;
 using CarCareAlliance.Contracts.ServicePartners.Get;
 using CarCareAlliance.Contracts.ServicePartners.GetAll;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
+using CarCareAlliance.Presentation.Common.Helpers;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -94,6 +98,29 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
             return servicePartnerGetResult.Match(
                 servicePartnerGetResult => Ok(
                     mapper.Map<ServicePartnerGetResponse>(servicePartnerGetResult)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetAllByFilters(
+            [FromQuery(Name = "SearchKey")] string? searchKey,
+            [FromQuery] PaginationFilter filter,
+            CancellationToken cancellationToken)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var query = new GetAllServicePartnersByFiltersQuery(searchKey ?? string.Empty)
+            {
+                PageNumber = validFilter.PageNumber,
+                PageSize = validFilter.PageSize
+            };
+
+            var result = await mediator
+                .Send(query, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<PagedResponse<ServicePartnerDto>>(result)),
                 errors => Problem(errors));
         }
     }

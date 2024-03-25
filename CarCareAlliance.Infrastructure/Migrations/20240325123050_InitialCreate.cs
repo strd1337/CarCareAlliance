@@ -36,7 +36,6 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ServicePartnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Experience = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -196,7 +195,6 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     LogoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    WorkScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -312,6 +310,26 @@ namespace CarCareAlliance.Infrastructure.Migrations
                     table.PrimaryKey("PK_MechanicProfileReviewIds", x => x.Id);
                     table.ForeignKey(
                         name: "FK_MechanicProfileReviewIds_MechanicProfiles_MechanicProfileId",
+                        column: x => x.MechanicProfileId,
+                        principalTable: "MechanicProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MechanicProfileWorkScheduleIds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MechanicProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MechanicProfileWorkScheduleIds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MechanicProfileWorkScheduleIds_MechanicProfiles_MechanicProfileId",
                         column: x => x.MechanicProfileId,
                         principalTable: "MechanicProfiles",
                         principalColumn: "Id",
@@ -564,6 +582,26 @@ namespace CarCareAlliance.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ServicePartnerWorkScheduleIds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServicePartnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServicePartnerWorkScheduleIds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ServicePartnerWorkScheduleIds_ServicePartners_ServicePartnerId",
+                        column: x => x.ServicePartnerId,
+                        principalTable: "ServicePartners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserProfileReviewIds",
                 columns: table => new
                 {
@@ -660,6 +698,11 @@ namespace CarCareAlliance.Infrastructure.Migrations
                 column: "MechanicProfileId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MechanicProfileWorkScheduleIds_MechanicProfileId",
+                table: "MechanicProfileWorkScheduleIds",
+                column: "MechanicProfileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetailsServiceIds_OrderDetailsId",
                 table: "OrderDetailsServiceIds",
                 column: "OrderDetailsId");
@@ -726,6 +769,11 @@ namespace CarCareAlliance.Infrastructure.Migrations
                 column: "ServicePartnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ServicePartnerWorkScheduleIds_ServicePartnerId",
+                table: "ServicePartnerWorkScheduleIds",
+                column: "ServicePartnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProfileReviewIds_UserProfileId",
                 table: "UserProfileReviewIds",
                 column: "UserProfileId");
@@ -747,6 +795,9 @@ namespace CarCareAlliance.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "MechanicProfileReviewIds");
+
+            migrationBuilder.DropTable(
+                name: "MechanicProfileWorkScheduleIds");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
@@ -792,6 +843,9 @@ namespace CarCareAlliance.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ServicePartnerReviewIds");
+
+            migrationBuilder.DropTable(
+                name: "ServicePartnerWorkScheduleIds");
 
             migrationBuilder.DropTable(
                 name: "SpareParts");

@@ -1,9 +1,7 @@
-﻿using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
-using CarCareAlliance.Domain.PhotoAggregate.ValueObjects;
+﻿using CarCareAlliance.Domain.PhotoAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServicePartnerAggregate;
 using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
-using CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,6 +17,7 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
             ConfigureServicePartnerReviewIdsTable(builder);
             ConfigureServicePartnerMechanicProfileIdsTable(builder);
             ConfigureServicePartnerServiceCategoriesTable(builder);
+            ConfigureServicePartnerWorkScheduleIdsTable(builder);
         }
 
         private static void ConfigureServicePartnerTable(
@@ -38,11 +37,6 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                 .HasConversion(
                     id => id.Value,
                     value => PhotoId.Create(value));
-
-            builder.Property(sp => sp.WorkScheduleId)
-                .HasConversion(
-                    id => id.Value,
-                    value => WorkScheduleId.Create(value));
 
             builder.Property(sp => sp.Name)
                 .HasMaxLength(30);
@@ -145,6 +139,23 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                     .ValueGeneratedNever();
             });
         }
+         
+        private static void ConfigureServicePartnerWorkScheduleIdsTable(
+            EntityTypeBuilder<ServicePartner> builder)
+        {
+            builder.OwnsMany(mec => mec.WorkScheduleIds, rib =>
+            {
+                rib.ToTable("ServicePartnerWorkScheduleIds");
+
+                rib.WithOwner().HasForeignKey("ServicePartnerId");
+
+                rib.HasKey("Id");
+
+                rib.Property(ri => ri.Value)
+                    .HasColumnName("WorkScheduleId")
+                    .ValueGeneratedNever();
+            });
+        }
 
         private static void ConfigureServicePartnerServiceCategoriesTable(
              EntityTypeBuilder<ServicePartner> builder)
@@ -209,7 +220,6 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                         .HasColumnType("decimal(10, 2)");
                 });
 
-                scb.Navigation(sc => sc.Services).Metadata.SetField("services");
                 scb.Navigation(sc => sc.Services)
                     .UsePropertyAccessMode(PropertyAccessMode.Field);
             });

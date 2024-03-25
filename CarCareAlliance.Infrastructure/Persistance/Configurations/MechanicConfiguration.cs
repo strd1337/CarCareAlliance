@@ -2,7 +2,6 @@
 using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +14,7 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
         {
             ConfigureMechanicProfileTable(builder);
             ConfigureMechanicProfileReviewIdsTable(builder);
+            ConfigureMechanicProfileWorkScheduleIdsTable(builder);
         }
 
         private static void ConfigureMechanicProfileTable(
@@ -42,11 +42,6 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                 .HasConversion(
                     id => id.Value,
                     value => ServicePartnerId.Create(value));
-
-            builder.Property(mec => mec.WorkScheduleId)
-                .HasConversion(
-                    id => id.Value,
-                    value => WorkScheduleId.Create(value));
         }
 
         private static void ConfigureMechanicProfileReviewIdsTable(
@@ -62,6 +57,23 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
 
                 rib.Property(ri => ri.Value)
                     .HasColumnName("ReviewId")
+                    .ValueGeneratedNever();
+            });
+        }
+
+        private static void ConfigureMechanicProfileWorkScheduleIdsTable(
+            EntityTypeBuilder<MechanicProfile> builder)
+        {
+            builder.OwnsMany(mec => mec.WorkScheduleIds, rib =>
+            {
+                rib.ToTable("MechanicProfileWorkScheduleIds");
+
+                rib.WithOwner().HasForeignKey("MechanicProfileId");
+
+                rib.HasKey("Id");
+
+                rib.Property(ri => ri.Value)
+                    .HasColumnName("WorkScheduleId")
                     .ValueGeneratedNever();
             });
         }

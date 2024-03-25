@@ -44,11 +44,11 @@ namespace CarCareAlliance.Application.WorkSchedules.Commands.Add
                 command.StartTime,
                 command.EndTime,
                 command.OwnerId);
-
-            servicePartner?.UpdateWorkSchedule(
+            
+            servicePartner?.AddWorkSchedule(
                     WorkScheduleId.Create(workSchedule.Id.Value));
 
-            mechanic?.UpdateWorkSchedule(
+            mechanic?.AddWorkSchedule(
                     WorkScheduleId.Create(workSchedule.Id.Value));
 
             workSchedule.AddWeekends([..command.Weekends]);

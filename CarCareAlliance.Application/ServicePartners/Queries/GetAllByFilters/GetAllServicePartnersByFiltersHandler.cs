@@ -1,33 +1,50 @@
 ﻿using CarCareAlliance.Application.Common.CQRS;
 using CarCareAlliance.Application.Common.Interfaces.Persistance.CommonRepositories;
+using CarCareAlliance.Application.Common.Pagination;
 using CarCareAlliance.Application.ServicePartners.Common;
-using CarCareAlliance.Domain.MechanicAggregate;
 using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
+using CarCareAlliance.Domain.MechanicAggregate;
 using CarCareAlliance.Domain.ServicePartnerAggregate;
+using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
-using CarCareAlliance.Domain.UserProfileAggregate;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Domain.WorkScheduleAggregate;
 using CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects;
 using ErrorOr;
+using CarCareAlliance.Domain.WorkScheduleAggregate;
+using CarCareAlliance.Domain.UserProfileAggregate;
+using Microsoft.EntityFrameworkCore;
 
-namespace CarCareAlliance.Application.ServicePartners.Queries.GetAll
+namespace CarCareAlliance.Application.ServicePartners.Queries.GetAllByFilters
 {
-    public class ServicePartnerGetAllHandler(IUnitOfWork unitOfWork) 
-        : IQueryHandler<ServicePartnerGetAllQuery, ServicePartnerGetAllResult>
+    public class GetAllServicePartnersByFiltersHandler(
+        IUnitOfWork unitOfWork) : IQueryHandler<GetAllServicePartnersByFiltersQuery, PagedResult<ServicePartnerResult>>
     {
-        private readonly IUnitOfWork unitOfWork = unitOfWork;
-
-        public async Task<ErrorOr<ServicePartnerGetAllResult>> Handle(
-            ServicePartnerGetAllQuery query,
+        public async Task<ErrorOr<PagedResult<ServicePartnerResult>>> Handle(
+            GetAllServicePartnersByFiltersQuery query,
             CancellationToken cancellationToken)
         {
             var servicePartners = unitOfWork
                 .GetRepository<ServicePartner, ServicePartnerId>()
-                .GetAll();
+                .GetAll([nameof(ServicePartner.ServiceCategories),
+                    nameof(ServicePartner.ServiceCategories) + "." + nameof(ServiceCategory.Services)]);
+
+            var searchKeys = query.SearchKey.ToLower().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var key in searchKeys)
+            {
+                servicePartners = servicePartners.Where(sp =>
+                    EF.Functions.Like(sp.Name.ToLower(), $"%{key}%") ||
+                    EF.Functions.Like(sp.Description.ToLower(), $"%{key}%") ||
+                    EF.Functions.Like(sp.ServiceLocation.Address.ToLower(), $"%{key}%"));
+            }
+
+            int resultsCount = servicePartners.Count();
+            
+            var servicePartnersResult = servicePartners.ToList().OrderBy(x => x.ModifiedDate)
+                .Skip((query.PageNumber - 1) * query.PageSize)
+                .Take(query.PageSize).ToList();
 
             var result = new List<ServicePartnerResult>();
-            foreach (var servicePartner in servicePartners)
+            foreach (var servicePartner in servicePartnersResult)
             {
                 var mechanicProfileIds = servicePartner.MechanicProfileIds
                     .Select(id => MechanicProfileId.Create(id.Value))
@@ -58,7 +75,13 @@ namespace CarCareAlliance.Application.ServicePartners.Queries.GetAll
                 });
             }
 
-            return new ServicePartnerGetAllResult(result);
+            var pagedResult = new PagedResult<ServicePartnerResult>(
+                query.PageNumber,
+                query.PageSize,
+                resultsCount,
+                result);
+
+            return pagedResult;
         }
     }
 }
