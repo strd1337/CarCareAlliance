@@ -4,7 +4,7 @@ using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace CarCareAlliance.Presentation.Client.Components.Pages.Dashboard
+namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
 {
     public partial class ManageServicePartners
     {
