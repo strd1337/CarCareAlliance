@@ -1,0 +1,73 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model" @ref="@form">
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="Latitude"
+                                  Value="@Model.Location.Latitude"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="Longitude"
+                                  Value="@Model.Location.Longitude"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="Address"
+                                  Value="@Model.Location.Address"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="City"
+                                  Value="@Model.Location.City"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="Country"
+                                  Value="@Model.Location.Country"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="Postal Code"
+                                  Value="@Model.Location.PostalCode"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="Description"
+                                  Value="@Model.Location.Description"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField ReadOnly="true"
+                                  Variant="Variant.Outlined"
+                                  Label="State"
+                                  Value="@Model.Location.State"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Save"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Save">Save</MudButton>
+     </DialogActions>
+ </MudDialog>

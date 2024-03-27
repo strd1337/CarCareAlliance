@@ -2,6 +2,7 @@
 {
     public class ServiceLocation
     {
+        public Guid LocationId { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public string Address { get; set; } = string.Empty;

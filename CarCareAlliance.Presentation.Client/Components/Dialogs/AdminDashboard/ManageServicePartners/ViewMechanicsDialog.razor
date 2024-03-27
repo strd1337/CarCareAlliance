@@ -1,0 +1,47 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+@using CarCareAlliance.Presentation.Client.Models.Mechanics
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect Placeholder="@(Model.Mechanics.Count == 0 ? "No mechanics" : "Please select mechanic")"
+                               T="@MechanicProfile"
+                               Label="Mechanic"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="selectedMechanic"
+                               Disabled="Model.Mechanics.Count == 0">
+                        @foreach (var mechanic in Model.Mechanics)
+                        {
+                            <MudSelectItem T="MechanicProfile" Value="mechanic">@mechanic.LastName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                @if (selectedMechanic != null)
+                {
+                    <MudItem xs="12" md="6">
+                        <MudTextField ReadOnly="true" Variant="Variant.Outlined" Label="First name" Value="@selectedMechanic?.FirstName"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField ReadOnly="true" Variant="Variant.Outlined" Label="Last name" Value="@selectedMechanic?.LastName"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField ReadOnly="true" Variant="Variant.Outlined" Label="Phone number" Value="@selectedMechanic?.PhoneNumber"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField ReadOnly="true" Variant="Variant.Outlined" Label="Country" Value="@selectedMechanic?.Country"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField ReadOnly="true" Variant="Variant.Outlined" Label="City" Value="@selectedMechanic?.City"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField ReadOnly="true" Variant="Variant.Outlined" Label="Experience, year(s)" Value="@selectedMechanic?.Experience"></MudTextField>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+</MudDialog>

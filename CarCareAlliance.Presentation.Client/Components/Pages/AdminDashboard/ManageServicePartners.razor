@@ -1,4 +1,5 @@
 ﻿@page "/dashboard/servicepartners"
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
 @layout MainLayout
 @attribute [Authorize(Roles = "Admin")]
 
@@ -14,7 +15,8 @@
                      @bind-SelectedItem="currentDto"
                      Hover="true" @ref="table"
                      Elevation="5"
-                     ServerData="@(ServerReload)">
+                     Loading="false"
+                     ServerData="ServerReload">
             <ToolBarContent>
                 <div class="d-flex align-start flex-grow-1">
                     <div class="d-flex gap-4">
@@ -62,7 +64,6 @@
                  </div>
              </ToolBarContent>
              <Columns>
-                 <SelectColumn ShowInFooter="false"></SelectColumn>
                  <TemplateColumn CellStyle="width:60px" Title="Actions" Sortable="false">
                      <CellTemplate>
                          <MudMenu Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" DisableElevation="true" Size="Size.Small"
@@ -70,20 +71,21 @@
                                   EndIcon="@Icons.Material.Filled.KeyboardArrowDown" IconColor="Color.Info" AnchorOrigin="Origin.CenterLeft">
                              <MudMenuItem OnAction="@(() => OnEdit(context.Item))">Edit</MudMenuItem>
                              <MudMenuItem OnAction="@(() => OnDelete(context.Item))">Delete</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnViewLocation(context.Item))">View location</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnViewMechanics(context.Item))">View mechanics</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnViewServiceCategories(context.Item))">View service categories</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnAddService(context.Item))">Add a new service</MudMenuItem>
                          </MudMenu>
                      </CellTemplate>
                  </TemplateColumn>
 
                  <PropertyColumn Property="x => x.Name" Title="Name" Sortable="false" />
                  <PropertyColumn Property="x => x.Description" Title="Description" Sortable="false" />
-                 <PropertyColumn Property="x => x.ServiceLocation.Address" Title="Address" Sortable="false" />
-            </Columns>
+                 <PropertyColumn Property="x => x.Location.Address" Title="Address" Sortable="false" />
+             </Columns>
             <NoRecordsContent>
                 <MudText>There are no records to view.</MudText>
             </NoRecordsContent>
-            <LoadingContent>
-                <MudText>Loading...</MudText>
-            </LoadingContent>
             <PagerContent>
                 <MudDataGridPager PageSizeOptions="@(new[] { 10, 15, 30, 50, 100 })" />
             </PagerContent>
