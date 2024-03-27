@@ -22,8 +22,9 @@ namespace CarCareAlliance.Application.Common.Interfaces.Persistance.CommonReposi
 
         Task AddAsync(TEntity entity,
             CancellationToken cancellationToken = default);
-
+        
         Task UpdateAsync(TEntity entity);
+        Task UpdateAsync(List<TEntity> entities);
 
         Task RemoveAsync(TEntity entity);
 

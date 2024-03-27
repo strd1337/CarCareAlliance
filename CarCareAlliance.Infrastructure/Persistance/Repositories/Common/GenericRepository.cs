@@ -45,6 +45,18 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Common
             dbContext.Set<TEntity>().Update(entity);
             return Task.CompletedTask;
         }
+        
+        public Task UpdateAsync(List<TEntity> entities)
+        {
+            var updateTasks = new List<Task>();
+
+            foreach (var entity in entities)
+            {
+                updateTasks.Add(UpdateAsync(entity));
+            }
+
+            return Task.WhenAll(updateTasks);
+        }
 
         public Task RemoveAsync(TEntity entity)
         {

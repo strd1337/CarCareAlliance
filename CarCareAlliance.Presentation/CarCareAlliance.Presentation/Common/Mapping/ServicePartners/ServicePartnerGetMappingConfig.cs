@@ -1,12 +1,8 @@
 ﻿using CarCareAlliance.Application.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.Get;
-using CarCareAlliance.Contracts.Staff.Common;
 using CarCareAlliance.Contracts.WorkSchedules.Common;
-using CarCareAlliance.Domain.MechanicAggregate;
-using CarCareAlliance.Domain.UserProfileAggregate;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using ErrorOr;
 using Mapster;
 
 namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners

@@ -1,5 +1,6 @@
 ﻿using CarCareAlliance.Application.ServicePartners.Commands.Add;
 using CarCareAlliance.Application.ServicePartners.Commands.Delete;
+using CarCareAlliance.Application.ServicePartners.Commands.Update;
 using CarCareAlliance.Application.ServicePartners.Queries.Get;
 using CarCareAlliance.Application.ServicePartners.Queries.GetAll;
 using CarCareAlliance.Application.ServicePartners.Queries.GetAllByFilters;
@@ -9,6 +10,7 @@ using CarCareAlliance.Contracts.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.DeleteServicePartner;
 using CarCareAlliance.Contracts.ServicePartners.Get;
 using CarCareAlliance.Contracts.ServicePartners.GetAll;
+using CarCareAlliance.Contracts.ServicePartners.UpdateServicePartner;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
 using CarCareAlliance.Presentation.Common.Helpers;
@@ -121,6 +123,24 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
             return result.Match(
                 result => Ok(
                     mapper.Map<PagedResponse<ServicePartnerDto>>(result)),
+                errors => Problem(errors));
+        }
+
+        //[Authorize]
+        //[HasRole(RoleType.Admin)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateServicePartner(
+            ServicePartnerUpdateRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = mapper.Map<ServicePartnerUpdateCommand>(request);
+
+            var result = await mediator
+                .Send(command, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<ServicePartnerUpdateResponse>(result)),
                 errors => Problem(errors));
         }
     }

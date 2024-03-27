@@ -81,6 +81,23 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate
             mechanicProfileIds.Add(MechanicProfileId.Create(mechanic.Id.Value));
         }
 
+        public void UpdateLocation(ServiceLocation location)
+        {
+            ServiceLocation = location;
+        }
+
+        public void UpdateServiceCategories(List<ServiceCategory> serviceCategories)
+        {
+            this.serviceCategories.Clear();
+            this.serviceCategories.AddRange(serviceCategories);
+        }
+
+        public void Update(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+
 #pragma warning disable CS8618
         private ServicePartner()
         {
