@@ -7,5 +7,8 @@ namespace CarCareAlliance.Presentation.Client.Services.Interfaces
     {
         Task<PaginatedList<ServicePartner>> GetAllByFiltersAsync(
             QueryParams queryParams);
+
+        Task<bool> UpdateAsync(ServicePartner servicePartner);
+        Task DeleteAsync(ServicePartner servicePartner);
     }
 }

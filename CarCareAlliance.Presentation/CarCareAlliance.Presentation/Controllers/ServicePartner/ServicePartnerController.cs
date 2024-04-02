@@ -31,7 +31,6 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
         private readonly IMapper mapper = mapper;
 
         [Authorize]
-        [HasRole(RoleType.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddServicePartner(
             ServicePartnerAddRequest request,
@@ -49,7 +48,6 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
         }
 
         [Authorize]
-        [HasRole(RoleType.Admin)]
         [HttpDelete("{servicePartnerId}")]
         public async Task<IActionResult> DeleteServicePartner(
             Guid servicePartnerId,
@@ -126,14 +124,14 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
                 errors => Problem(errors));
         }
 
-        //[Authorize]
-        //[HasRole(RoleType.Admin)]
-        [HttpPut]
+        [Authorize]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateServicePartner(
+            Guid id,
             ServicePartnerUpdateRequest request,
             CancellationToken cancellationToken)
         {
-            var command = mapper.Map<ServicePartnerUpdateCommand>(request);
+            var command = mapper.Map<ServicePartnerUpdateCommand>(request).SetServicePartnerId(id);
 
             var result = await mediator
                 .Send(command, cancellationToken);

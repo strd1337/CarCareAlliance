@@ -33,11 +33,14 @@
                                 <MudButton DisableElevation Variant="Variant.Outlined"
                                             Size="Size.Small"
                                             OnClick="@(() => OnRefresh())"
-                                            StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.Refresh"
+                                            IconColor="Color.Surface" Color="Color.Primary"
                                             Style="margin-right: 4px; margin-bottom:4px">
                                      Refresh
                                  </MudButton>
-                                 <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                                 <MudButton DisableElevation
+                                            Variant="Variant.Outlined"
+                                            Color="Color.Primary"
                                             StartIcon="@Icons.Material.Filled.Add"
                                             Size="Size.Small"
                                             OnClick="OnCreate"
@@ -47,7 +50,9 @@
                                  </MudButton>
                              </MudHidden>
                              <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
-                                 <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                                 <MudButton DisableElevation
+                                            Variant="Variant.Outlined"
+                                            Color="Color.Primary"
                                             StartIcon="@Icons.Material.Filled.Add"
                                             Size="Size.Small"
                                             OnClick="OnCreate"
@@ -57,8 +62,13 @@
                                  </MudButton>
                              </MudHidden>
                          </div>
-                         <MudTextField T="string" ValueChanged="@(s => OnSearch(s))" Value="searchString" Placeholder="Search" Adornment="Adornment.End"
-                                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small">
+                         <MudTextField T="string"
+                                       ValueChanged="@(s => OnSearch(s))"
+                                       Value="searchString"
+                                       Placeholder="Search"
+                                       Adornment="Adornment.End"
+                                       AdornmentIcon="@Icons.Material.Filled.Search"
+                                       IconSize="Size.Small">
                          </MudTextField>
                      </div>
                  </div>
@@ -66,15 +76,21 @@
              <Columns>
                  <TemplateColumn CellStyle="width:60px" Title="Actions" Sortable="false">
                      <CellTemplate>
-                         <MudMenu Icon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" DisableElevation="true" Size="Size.Small"
+                         <MudMenu Icon="@Icons.Material.Filled.Edit"
+                                  Variant="Variant.Filled"
+                                  DisableElevation="true"
+                                  Size="Size.Small"
                                   Dense="true"
-                                  EndIcon="@Icons.Material.Filled.KeyboardArrowDown" IconColor="Color.Info" AnchorOrigin="Origin.CenterLeft">
-                             <MudMenuItem OnAction="@(() => OnEdit(context.Item))">Edit</MudMenuItem>
+                                  EndIcon="@Icons.Material.Filled.KeyboardArrowDown" 
+                                  IconColor="Color.Info" 
+                                  AnchorOrigin="Origin.CenterLeft">
                              <MudMenuItem OnAction="@(() => OnDelete(context.Item))">Delete</MudMenuItem>
-                             <MudMenuItem OnAction="@(() => OnViewLocation(context.Item))">View location</MudMenuItem>
-                             <MudMenuItem OnAction="@(() => OnViewMechanics(context.Item))">View mechanics</MudMenuItem>
-                             <MudMenuItem OnAction="@(() => OnViewServiceCategories(context.Item))">View service categories</MudMenuItem>
                              <MudMenuItem OnAction="@(() => OnAddService(context.Item))">Add a new service</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnAddWorkSchedule(context.Item))">Add a new work schedule</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnEditLocation(context.Item))">Edit location</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnEditServiceCategories(context.Item))">Edit service categories</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnEditWorkSchedules(context.Item))">Edit service work schedules</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnViewMechanics(context.Item))">View mechanics</MudMenuItem>
                          </MudMenu>
                      </CellTemplate>
                  </TemplateColumn>
@@ -83,18 +99,18 @@
                  <PropertyColumn Property="x => x.Description" Title="Description" Sortable="false" />
                  <PropertyColumn Property="x => x.Location.Address" Title="Address" Sortable="false" />
              </Columns>
-            <NoRecordsContent>
-                <MudText>There are no records to view.</MudText>
-            </NoRecordsContent>
-            <PagerContent>
-                <MudDataGridPager PageSizeOptions="@(new[] { 10, 15, 30, 50, 100 })" />
-            </PagerContent>
-        </MudDataGrid>
-    </MudContainer>
-</MudMainContent>
+             <NoRecordsContent>
+                 <MudText>There are no records to view.</MudText>
+             </NoRecordsContent>
+             <PagerContent>
+                 <MudDataGridPager PageSizeOptions="@(new[] { 10, 15, 30, 50, 100 })" />
+             </PagerContent>
+         </MudDataGrid>
+     </MudContainer>
+ </MudMainContent>
 
-<style>
-    .mud-table-toolbar {
-        height: 120px !important;
-    }
-</style>
+ <style>
+     .mud-table-toolbar {
+         height: 120px !important;
+     }
+ </style>

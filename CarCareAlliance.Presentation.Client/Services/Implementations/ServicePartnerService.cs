@@ -7,7 +7,6 @@ using MudBlazor;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Web;
-using static System.Net.WebRequestMethods;
 
 namespace CarCareAlliance.Presentation.Client.Services.Implementations
 {
@@ -45,6 +44,49 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
             var servicePartnersResponse = await response.Content.ReadFromJsonAsync<PaginatedList<ServicePartner>>(jso);
 
             return servicePartnersResponse!;
+        }
+
+        public async Task<bool> UpdateAsync(ServicePartner servicePartner)
+        {
+            var model = new ServicePartnerRequest
+            {
+                Name = servicePartner.Name,
+                Description = servicePartner.Description,
+                ServiceCategories = servicePartner.ServiceCategories,
+                WorkSchedules = servicePartner.WorkSchedules,
+                Location = servicePartner.Location,
+            };
+
+            var jso = new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            jso.Converters.Add(new DateOnlyConverter());
+            jso.Converters.Add(new TimeOnlyConverter());
+
+            var json = JsonSerializer.Serialize(model, jso);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, Constants.MediaType);
+
+            var response = await httpClientFactory
+                .CreateClient(Constants.Client)
+                .PutAsync(Constants.ServicePartner.Api + servicePartner.ServicePartnerId, content);
+
+            var isSuccess = await httpErrorsService.HandleExceptionResponse(response);
+
+            if (isSuccess)
+            {
+                snackbar.Add(Constants.UpdateSuccessfulConfirmation(nameof(ServicePartner)), Severity.Success);
+            }
+
+            return isSuccess;
+        }
+
+        public async Task DeleteAsync(ServicePartner servicePartner)
+        {
+            var response = await httpClientFactory.CreateClient(Constants.Client).DeleteAsync(Constants.ServicePartner.Api + servicePartner.ServicePartnerId);
+            await httpErrorsService.EnsureSuccessStatusCode(response);
+            snackbar.Add(Constants.DeleteSuccessfulConfirmation(nameof(servicePartner)), Severity.Success);
         }
     }
 }

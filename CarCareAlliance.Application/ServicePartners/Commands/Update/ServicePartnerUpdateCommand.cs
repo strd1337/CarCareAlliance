@@ -11,5 +11,9 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Update
         string Description,
         ICollection<ServiceCategoryDto> ServiceCategories,
         ServicePartnerLocationDto Location,
-        ICollection<WorkScheduleDto> WorkSchedules) : ICommand<ServicePartnerUpdateResult>;
+        ICollection<WorkScheduleDto> WorkSchedules) : ICommand<ServicePartnerUpdateResult>
+    {
+        public ServicePartnerUpdateCommand SetServicePartnerId(Guid ServicePartnerId) 
+            => this with { ServicePartnerId = ServicePartnerId };
+    }
 }

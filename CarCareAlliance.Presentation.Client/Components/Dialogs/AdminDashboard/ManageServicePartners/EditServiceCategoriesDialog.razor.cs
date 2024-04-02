@@ -5,7 +5,7 @@ using MudBlazor;
 
 namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.ManageServicePartners
 {
-    public partial class ViewLocationDialog
+    public partial class EditServiceCategoriesDialog
     {
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = default!;
         [EditorRequired][Parameter] public ServicePartner Model { get; set; } = default!;
@@ -15,6 +15,8 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
         public IServicePartnerService? ServicePartnerService { get; set; }
 
         private MudForm? form;
+        private ServiceCategory? selectedCategory;
+        private Service? selectedService;
 
         private void Cancel() => MudDialog.Cancel();
 
@@ -27,9 +29,9 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
                 return;
             }
 
-            //TO DO: 
-            //var isSuccess = await ServicePartnerService!.UpdateAsync(Model);
-            if (true)
+            var isSuccess = await ServicePartnerService!.UpdateAsync(Model);
+
+            if (isSuccess)
             {
                 MudDialog.Close(DialogResult.Ok(true));
             }

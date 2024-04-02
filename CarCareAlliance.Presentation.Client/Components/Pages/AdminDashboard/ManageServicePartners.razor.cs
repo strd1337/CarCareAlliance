@@ -1,11 +1,11 @@
-﻿using CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.ManageServicePartners;
+﻿using CarCareAlliance.Presentation.Client.Common.Constants;
+using CarCareAlliance.Presentation.Client.Components.Dialogs;
+using CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.ManageServicePartners;
 using CarCareAlliance.Presentation.Client.Models;
 using CarCareAlliance.Presentation.Client.Models.ServicePartners;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.Reflection;
-using static MudBlazor.CategoryTypes;
 
 namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
 {
@@ -51,19 +51,63 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
         {
         }
 
-        // TODO: 
         private async Task OnDelete(ServicePartner servicePartner)
         {
+            var parameters = new DialogParameters<DeleteConfirmation>
+            {
+                { x => x.ContentText, Constants.DeleteConfirmantion(servicePartner.Name) }
+            };
+
+            var options = new DialogOptions 
+            { 
+                CloseButton = true, 
+                MaxWidth = MaxWidth.Medium, 
+                FullWidth = true,
+                CloseOnEscapeKey = true
+            };
+
+            var dialog = DialogService.Show<DeleteConfirmation>(
+                string.Format("Delete the service partner", ["Service partner"]), parameters, options);
+
+            var state = await dialog.Result;
+
+            if (!state.Canceled)
+            {
+                await ServicePartnerService!.DeleteAsync(servicePartner);
+                await table.ReloadServerData();
+            }
         }
 
-        // TODO: 
-        private async Task OnEdit(ServicePartner servicePartner)
+        private async Task OnEditWorkSchedules(ServicePartner servicePartner)
         {
+            var parameters = new DialogParameters<EditServicePartnerWorkScheduleDialog>
+            {
+                { x => x.Refresh, () => table.ReloadServerData() },
+                { x => x.Model, servicePartner }
+            };
+
+            var options = new DialogOptions 
+            { 
+                CloseButton = true, 
+                MaxWidth = MaxWidth.Medium, 
+                FullWidth = true,
+                CloseOnEscapeKey = true
+            };
+
+            var dialog = DialogService.Show<EditServicePartnerWorkScheduleDialog>
+                (string.Format("Work schedule detail information", ["Work schedule"]), parameters, options);
+
+            var state = await dialog.Result;
+
+            if (!state.Canceled)
+            {
+                await table.ReloadServerData();
+            }
         }
 
-        private async Task OnViewLocation(ServicePartner servicePartner)
+        private async Task OnEditLocation(ServicePartner servicePartner)
         {
-            var parameters = new DialogParameters<ViewLocationDialog>
+            var parameters = new DialogParameters<EditLocationDialog>
             {
                 { x => x.Refresh, () => table.ReloadServerData() },
                 { x => x.Model, servicePartner }
@@ -77,8 +121,8 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
                 CloseOnEscapeKey = true
             };
 
-            var dialog = DialogService.Show<ViewLocationDialog>
-                (string.Format("Location detail information", ["Location detail information"]), parameters, options);
+            var dialog = DialogService.Show<EditLocationDialog>
+                (string.Format("Location detail information", ["Location"]), parameters, options);
 
             var state = await dialog.Result;
 
@@ -109,9 +153,9 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
             await dialog.Result;
         }
 
-        private async Task OnViewServiceCategories(ServicePartner servicePartner)
+        private async Task OnEditServiceCategories(ServicePartner servicePartner)
         {
-            var parameters = new DialogParameters<ViewServiceCategoriesDialog>
+            var parameters = new DialogParameters<EditServiceCategoriesDialog>
             {
                 { x => x.Model, servicePartner }
             };
@@ -124,14 +168,24 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
                 CloseOnEscapeKey = true 
             };
 
-            var dialog = DialogService.Show<ViewServiceCategoriesDialog>
+            var dialog = DialogService.Show<EditServiceCategoriesDialog>
                 (string.Format("Service categories", ["Service categories"]), parameters, options);
 
-            await dialog.Result;
+            var state = await dialog.Result;
+
+            if (!state.Canceled)
+            {
+                await table.ReloadServerData();
+            }
         }
         
         // TODO:
         private async Task OnAddService(ServicePartner servicePartner)
+        {
+        }
+
+        // TODO:
+        private async Task OnAddWorkSchedule(ServicePartner servicePartner)
         {
         }
     }

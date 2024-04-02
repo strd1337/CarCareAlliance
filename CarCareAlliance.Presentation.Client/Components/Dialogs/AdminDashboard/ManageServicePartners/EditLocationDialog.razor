@@ -6,52 +6,53 @@
         <MudForm Model="@Model" @ref="@form">
             <MudGrid>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="Latitude"
-                                  Value="@Model.Location.Latitude"></MudTextField>
+                                  @bind-Value="Model.Location.Latitude"
+                                  For="@(() => Model.Location.Latitude)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="Longitude"
-                                  Value="@Model.Location.Longitude"></MudTextField>
+                                  @bind-Value="Model.Location.Longitude"
+                                  For="@(() => Model.Location.Longitude)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="Address"
-                                  Value="@Model.Location.Address"></MudTextField>
+                                  @bind-Value="Model.Location.Address"
+                                  For="@(() => Model.Location.Address)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="City"
-                                  Value="@Model.Location.City"></MudTextField>
+                                  @bind-Value="Model.Location.City"
+                                  For="@(() => Model.Location.City)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="Country"
-                                  Value="@Model.Location.Country"></MudTextField>
+                                  @bind-Value="Model.Location.Country"
+                                  For="@(() => Model.Location.Country)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="Postal Code"
-                                  Value="@Model.Location.PostalCode"></MudTextField>
+                                  @bind-Value="Model.Location.PostalCode"
+                                  For="@(() => Model.Location.PostalCode)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="Description"
-                                  Value="@Model.Location.Description"></MudTextField>
+                                  @bind-Value="Model.Location.Description"
+                                  For="@(() => Model.Location.Description)"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField ReadOnly="true"
-                                  Variant="Variant.Outlined"
+                    <MudTextField Variant="Variant.Outlined"
                                   Label="State"
-                                  Value="@Model.Location.State"></MudTextField>
+                                  @bind-Value="Model.Location.State"
+                                  For="@(() => Model.Location.State)"></MudTextField>
+
                 </MudItem>
             </MudGrid>
         </MudForm>
