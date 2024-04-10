@@ -20,7 +20,7 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
         private readonly IMediator mediator = mediator;
         private readonly IMapper mapper = mapper;
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddWorkSchedule(
             WorkScheduleAddRequest request,

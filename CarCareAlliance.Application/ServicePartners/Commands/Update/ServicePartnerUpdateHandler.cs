@@ -54,7 +54,6 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Update
                             workSchedule.StartTime,
                             workSchedule.EndTime,
                             workSchedule.OwnerId,
-                            [.. workSchedule.Weekends],
                             breakTimes);
                     }
                 });

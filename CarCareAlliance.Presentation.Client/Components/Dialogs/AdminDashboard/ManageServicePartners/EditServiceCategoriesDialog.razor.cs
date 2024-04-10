@@ -17,7 +17,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
         private MudForm? form;
         private ServiceCategory? selectedCategory;
         private Service? selectedService;
-
+        private bool isValid;
         private void Cancel() => MudDialog.Cancel();
 
         private async Task Save()

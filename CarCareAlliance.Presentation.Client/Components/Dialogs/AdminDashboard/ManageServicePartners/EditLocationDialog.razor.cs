@@ -15,6 +15,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
         public IServicePartnerService? ServicePartnerService { get; set; }
 
         private MudForm? form;
+        private bool isValid;
 
         private void Cancel() => MudDialog.Cancel();
 

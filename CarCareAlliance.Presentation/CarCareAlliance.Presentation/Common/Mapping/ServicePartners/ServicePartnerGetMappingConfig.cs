@@ -46,7 +46,6 @@ namespace CarCareAlliance.Presentation.Common.Mapping.ServicePartners
                             workSchedule.StartTime,
                             workSchedule.EndTime,
                             workSchedule.OwnerId,
-                            workSchedule.Weekends.ToList(),
                             workSchedule.BreakTimes.Select(breakTime => new BreakTimeDto(
                                 breakTime.StartTime,
                                 breakTime.EndTime)).ToList())).ToList()));

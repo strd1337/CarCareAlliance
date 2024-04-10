@@ -1,16 +1,13 @@
-﻿using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
-using CarCareAlliance.Presentation.Controllers.Common;
+﻿using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Contracts.Staff.Register;
 using CarCareAlliance.Application.Staff.Commands;
 
 namespace CarCareAlliance.Presentation.Controllers.Staff
 {
-    [HasRole(RoleType.Admin)]
     [Authorize]
     [Route("staff")]
     public class StaffController(

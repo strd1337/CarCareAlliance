@@ -28,10 +28,6 @@ namespace CarCareAlliance.Application.WorkSchedules.Commands.Add
                 .NotEmpty()
                 .WithMessage("Owner Id is required.");
 
-            RuleFor(r => r.Weekends)
-                .Must(BeValidWeekends)
-                    .WithMessage("Invalid weekend days.");
-
             RuleForEach(r => r.BreakTimes)
                 .SetValidator(new BreakTimeValidator());
         }

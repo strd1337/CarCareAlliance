@@ -24,5 +24,8 @@
 
         public static string UpdateSuccessfulConfirmation(string name) =>
             $"{name} was updated successfully!";
+
+        public static string CreateSuccessfulConfirmation(string name) =>
+            $"{name} was created successfully!";
     }
 }

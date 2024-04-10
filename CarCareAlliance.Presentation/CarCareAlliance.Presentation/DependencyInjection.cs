@@ -68,8 +68,8 @@ namespace CarCareAlliance.Presentation
                 c.MapType<TimeOnly>(() => new OpenApiSchema
                 {
                     Type = "string",
-                    Format = "HH:mm",
-                    Example = new OpenApiString("00:00")
+                    Format = "HH:mm:ss",
+                    Example = new OpenApiString("00:00:00")
                 });
             });
 

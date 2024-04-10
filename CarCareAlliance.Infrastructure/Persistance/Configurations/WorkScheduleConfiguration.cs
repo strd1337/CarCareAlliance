@@ -49,13 +49,6 @@ namespace CarCareAlliance.Infrastructure.Persistance.Configurations
                     .HasColumnName("EndTime")
                     .HasColumnType("time");
             });
-
-            builder.Property(e => e.Weekends)
-                .HasConversion(
-                    v => string.Join(',', v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(d => Enum.Parse<DayOfWeek>(d)).ToList()
-                );
         }
     }
 }

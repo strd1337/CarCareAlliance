@@ -6,6 +6,5 @@
         TimeOnly StartTime,
         TimeOnly EndTime,
         Guid OwnerId,
-        ICollection<DayOfWeek> Weekends,
         ICollection<BreakTimeDto> BreakTimes);
 }

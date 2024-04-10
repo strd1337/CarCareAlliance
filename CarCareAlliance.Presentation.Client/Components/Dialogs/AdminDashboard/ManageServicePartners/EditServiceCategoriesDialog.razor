@@ -3,7 +3,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudForm Model="@Model" @ref="@form">
+        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
             <MudGrid>
                 <MudItem xs="12" md="6">
                     <MudSelect Placeholder="@(Model.ServiceCategories.Count == 0 ? "No categories" : "Please select category")"
@@ -43,11 +43,15 @@
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
                                       Label="Category name"
+                                      Required="true"
+                                      RequiredError="Category name is required!"
                                       @bind-Value="selectedCategory.Name"></MudTextField>
                     </MudItem>
                     <MudItem xs="12" md="6">
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="Category description is required!"
                                       Label="Category description"
                                       @bind-Value="selectedCategory.Description"></MudTextField>
                     </MudItem>
@@ -58,24 +62,32 @@
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
                                       Label="Service name"
+                                      Required="true"
+                                      RequiredError="Service name is required!"
                                       @bind-Value="selectedService.Name"></MudTextField>
                     </MudItem>
                     <MudItem xs="12" md="6">
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
                                       Label="Service description"
+                                      Required="true"
+                                      RequiredError="Service description is required!"
                                       @bind-Value="selectedService.Description"></MudTextField>
                     </MudItem>
                     <MudItem xs="12" md="6">
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
                                       Label="Service price, $"
+                                      Required="true"
+                                      RequiredError="Service price is required!"
                                       @bind-Value="selectedService.Price"></MudTextField>
                     </MudItem>
                     <MudItem xs="12" md="6">
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
                                       Label="Service duration, min"
+                                      Required="true"
+                                      RequiredError="Service duration is required!"
                                       @bind-Value="selectedService.Duration"></MudTextField>
                     </MudItem>
                 }
@@ -92,6 +104,7 @@
          <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
                     StartIcon="@Icons.Material.Filled.Save"
                     Size="Size.Small"
+                    Disabled="@(!isValid)"
                     Style="margin-right: 4px; margin-bottom:4px"
                     IconColor="Color.Surface"
                     OnClick="Save">Save</MudButton>

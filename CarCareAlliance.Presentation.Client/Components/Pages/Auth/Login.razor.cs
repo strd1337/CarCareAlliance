@@ -1,5 +1,4 @@
-﻿using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Presentation.Client.Models.Auth;
+﻿using CarCareAlliance.Presentation.Client.Models.Auth;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 

@@ -7,6 +7,5 @@ namespace CarCareAlliance.Contracts.WorkSchedules.AddWorkSchedule
         TimeOnly StartTime,
         TimeOnly EndTime,
         Guid OwnerId,
-        ICollection<DayOfWeek> Weekends,
         ICollection<BreakTimeDto> BreakTimes);
 }

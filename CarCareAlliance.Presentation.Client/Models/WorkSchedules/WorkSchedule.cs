@@ -7,7 +7,6 @@
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public Guid OwnerId { get; set; }
-        public ICollection<DayOfWeek> Weekends { get; set; } = null!;
-        public ICollection<BreakTime> BreakTimes { get; set; } = null!;
+        public ICollection<BreakTime> BreakTimes { get; set; } = default!;
     }
 }

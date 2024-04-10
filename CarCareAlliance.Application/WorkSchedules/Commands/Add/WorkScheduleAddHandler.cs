@@ -51,7 +51,6 @@ namespace CarCareAlliance.Application.WorkSchedules.Commands.Add
             mechanic?.AddWorkSchedule(
                     WorkScheduleId.Create(workSchedule.Id.Value));
 
-            workSchedule.AddWeekends([..command.Weekends]);
             workSchedule.AddBreakTimes([..command.BreakTimes]);
 
             await unitOfWork

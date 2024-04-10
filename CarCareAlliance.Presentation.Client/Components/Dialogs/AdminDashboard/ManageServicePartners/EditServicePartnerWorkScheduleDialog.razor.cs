@@ -17,8 +17,11 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
 
         private MudForm? form;
         private WorkSchedule SelectedSchedule { get; set; } = default!;
-        private BreakTime SelectedBreakTime { get; set; } = default!;
+        private BreakTime? SelectedBreakTime { get; set; }
         private IEnumerable<DayOfWeek> Weekends { get; set; } = default!;
+
+        private bool isValid;
+        private int currentIndex;
 
         private void Cancel() => MudDialog.Cancel();
 
