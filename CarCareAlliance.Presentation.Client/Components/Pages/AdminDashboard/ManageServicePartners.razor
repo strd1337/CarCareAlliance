@@ -97,7 +97,7 @@
 
                  <PropertyColumn Property="x => x.Name" Title="Name" Sortable="false" />
                  <PropertyColumn Property="x => x.Description" Title="Description" Sortable="false" />
-                 <PropertyColumn Property="x => x.Location.Address" Title="Address" Sortable="false" />
+                 <PropertyColumn Property='x => x.Location.Address == string.Empty ? "No Address" : x.Location.Address' Title="Address" Sortable="false" />
              </Columns>
              <NoRecordsContent>
                  <MudText>There are no records to view.</MudText>

@@ -21,7 +21,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudSelect Disabled="selectedCategory == null && selectedCategory?.Services.Count == 0"
+                    <MudSelect Disabled="selectedCategory == null || selectedCategory?.Services.Count == 0"
                                Placeholder="@(selectedCategory?.Services.Count == 0 ? "No services" : "Please select service")"
                                T="Service"
                                Label="Service"
@@ -104,7 +104,7 @@
          <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
                     StartIcon="@Icons.Material.Filled.Save"
                     Size="Size.Small"
-                    Disabled="@(!isValid)"
+                    Disabled="@(!isValid || selectedCategory == null || selectedService == null)"
                     Style="margin-right: 4px; margin-bottom:4px"
                     IconColor="Color.Surface"
                     OnClick="Save">Save</MudButton>

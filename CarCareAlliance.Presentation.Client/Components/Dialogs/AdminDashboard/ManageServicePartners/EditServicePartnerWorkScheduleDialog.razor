@@ -101,7 +101,7 @@
          <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
                     StartIcon="@Icons.Material.Filled.Save"
                     Size="Size.Small"
-                    Disabled="@(!isValid)"
+                    Disabled="@(!isValid || SelectedSchedule == null || SelectedBreakTime == null)"
                     Style="margin-right: 4px; margin-bottom:4px"
                     IconColor="Color.Surface"
                     OnClick="Save">Save</MudButton>

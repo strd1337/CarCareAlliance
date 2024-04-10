@@ -86,7 +86,24 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
         {
             var response = await httpClientFactory.CreateClient(Constants.Client).DeleteAsync(Constants.ServicePartner.Api + servicePartner.ServicePartnerId);
             await httpErrorsService.EnsureSuccessStatusCode(response);
-            snackbar.Add(Constants.DeleteSuccessfulConfirmation(nameof(servicePartner)), Severity.Success);
+            snackbar.Add(Constants.DeleteSuccessfulConfirmation(nameof(ServicePartner)), Severity.Success);
+        }
+
+        public async Task<bool> CreateAsync(ServicePartner servicePartner)
+        {
+            var json = JsonSerializer.Serialize(servicePartner);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, Constants.MediaType);
+
+            var response = await httpClientFactory.CreateClient(Constants.Client).PostAsync(Constants.ServicePartner.Api, content);
+
+            var isSuccess = await httpErrorsService.HandleExceptionResponse(response);
+
+            if (isSuccess)
+            {
+                snackbar.Add(Constants.CreateSuccessfulConfirmation(nameof(ServicePartner)), Severity.Success);
+            }
+
+            return isSuccess;
         }
     }
 }

@@ -47,9 +47,33 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
             await table.ReloadServerData();
         }
 
-        // TODO: 
         private async Task OnCreate()
         {
+            var model = new ServicePartner();
+
+            var parameters = new DialogParameters<AddServicePartnerDialog>
+            {
+                { x => x.Refresh, () => table.ReloadServerData() },
+                { x => x.Model, model }
+            };
+
+            var options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
+                CloseOnEscapeKey = true
+            };
+
+            var dialog = DialogService.Show<AddServicePartnerDialog>
+                (string.Format("Add a new service partner", ["Service partner"]), parameters, options);
+
+            var state = await dialog.Result;
+
+            if (!state.Canceled)
+            {
+                await table.ReloadServerData();
+            }
         }
 
         private async Task OnDelete(ServicePartner servicePartner)
