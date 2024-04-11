@@ -4,15 +4,15 @@ using CarCareAlliance.Application.ServicePartners.Commands.Update;
 using CarCareAlliance.Application.ServicePartners.Queries.Get;
 using CarCareAlliance.Application.ServicePartners.Queries.GetAll;
 using CarCareAlliance.Application.ServicePartners.Queries.GetAllByFilters;
+using CarCareAlliance.Application.ServicePartners.Queries.GetAllCategories;
 using CarCareAlliance.Contracts.Common;
 using CarCareAlliance.Contracts.ServicePartners.AddServicePartner;
 using CarCareAlliance.Contracts.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.DeleteServicePartner;
 using CarCareAlliance.Contracts.ServicePartners.Get;
 using CarCareAlliance.Contracts.ServicePartners.GetAll;
+using CarCareAlliance.Contracts.ServicePartners.GetAllServicePartnersCategories;
 using CarCareAlliance.Contracts.ServicePartners.UpdateServicePartner;
-using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
 using CarCareAlliance.Presentation.Common.Helpers;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
@@ -139,6 +139,23 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
             return result.Match(
                 result => Ok(
                     mapper.Map<ServicePartnerUpdateResponse>(result)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetAllCategories(
+            CancellationToken cancellationToken)
+        {
+            var request = new GetAllServicePartnersCategoriesRequest();
+
+            var command = mapper.Map<GetAllServicePartnersCategoriesQuery>(request);
+
+            var result = await mediator
+                .Send(command, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<GetAllServicePartnersCategoriesResponse>(result)),
                 errors => Problem(errors));
         }
     }
