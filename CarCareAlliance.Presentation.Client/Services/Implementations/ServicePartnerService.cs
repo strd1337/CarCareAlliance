@@ -105,5 +105,18 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
 
             return isSuccess;
         }
+
+        public async Task<GetAllServiceCategoriesResponse> GetAllServiecCategoriesAsync()
+        {
+            string url = Constants.ServicePartner.ServiceCategories;
+
+            var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url);
+
+            await httpErrorsService.EnsureSuccessStatusCode(response);
+
+            var model = await response.Content.ReadFromJsonAsync<GetAllServiceCategoriesResponse>();
+
+            return model!;
+        }
     }
 }

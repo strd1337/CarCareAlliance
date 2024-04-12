@@ -7,8 +7,8 @@
             <MudTabPanel Text="Login">
                 <PageTitle>Login</PageTitle>
                 <MudCardContent Class="justify-center">
-                    <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
-                    <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
+                    <MudTextField T="string" @bind-Value="loginEmail" Label="Email" Required="true" RequiredError="Email is required!" />
+                    <MudTextField InputType="InputType.Password" @bind-Value="loginPassword" Label="Password" Required="true" RequiredError="Password is required!"
                                   Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
                 </MudCardContent>
                 <MudCardActions Class="pa-4 mt-2">
@@ -18,9 +18,9 @@
             <MudTabPanel Text="Register">
                 <PageTitle>Register</PageTitle>
                 <MudCardContent Class="justify-center">
-                    <MudTextField T="string" @bind-Value="username" Label="Username" Required="true" RequiredError="Username is required!" />
-                    <MudTextField T="string" @bind-Value="email" Label="Email" Required="true" RequiredError="Email is required!" />
-                    <MudTextField InputType="InputType.Password" @bind-Value="password" Label="Password" Required="true" RequiredError="Password is required!"
+                    <MudTextField T="string" @bind-Value="registerUsername" Label="Username" Required="true" RequiredError="Username is required!" />
+                    <MudTextField T="string" @bind-Value="registerEmail" Label="Email" Required="true" RequiredError="Email is required!" />
+                    <MudTextField InputType="InputType.Password" @bind-Value="registerPassword" Label="Password" Required="true" RequiredError="Password is required!"
                                   Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})" />
                 </MudCardContent>
                 <MudCardActions Class="pa-4 mt-2">

@@ -11,5 +11,7 @@ namespace CarCareAlliance.Presentation.Client.Services.Interfaces
         Task<bool> UpdateAsync(ServicePartner servicePartner);
         Task DeleteAsync(ServicePartner servicePartner);
         Task<bool> CreateAsync(ServicePartner servicePartner);
+
+        Task<GetAllServiceCategoriesResponse> GetAllServiecCategoriesAsync();
     }
 }

@@ -42,13 +42,10 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
 
         public void Update(
             string name,
-            string description,
-            List<Service> services)
+            string description)
         {
             Name = name;
             Description = description;
-            this.services.Clear();
-            this.services.AddRange(services);
         }
 
 #pragma warning disable CS8618

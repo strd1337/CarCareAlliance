@@ -142,7 +142,7 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
                 errors => Problem(errors));
         }
 
-        [HttpGet("categories")]
+        [HttpGet("service-categories")]
         public async Task<IActionResult> GetAllCategories(
             CancellationToken cancellationToken)
         {

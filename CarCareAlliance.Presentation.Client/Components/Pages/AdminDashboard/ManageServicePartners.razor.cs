@@ -182,7 +182,8 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
         {
             var parameters = new DialogParameters<EditServiceCategoriesDialog>
             {
-                { x => x.Model, servicePartner }
+                { x => x.Model, servicePartner },
+                { x => x.Refresh, () => table.ReloadServerData() }
             };
 
             var options = new DialogOptions 
@@ -204,9 +205,31 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
             }
         }
         
-        // TODO:
         private async Task OnAddService(ServicePartner servicePartner)
         {
+            var parameters = new DialogParameters<AddServiceDialog>
+            {
+                { x => x.Model, servicePartner },
+                { x => x.Refresh, () => table.ReloadServerData() }
+            };
+
+            var options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
+                CloseOnEscapeKey = true
+            };
+
+            var dialog = DialogService.Show<AddServiceDialog>
+                (string.Format("Add new services", ["Services"]), parameters, options);
+
+            var state = await dialog.Result;
+
+            if (!state.Canceled)
+            {
+                await table.ReloadServerData();
+            }
         }
 
         private async Task OnAddWorkSchedule(ServicePartner servicePartner)

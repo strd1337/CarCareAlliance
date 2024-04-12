@@ -1,8 +1,10 @@
 ﻿using CarCareAlliance.Application.Common.CQRS;
 using CarCareAlliance.Application.Common.Interfaces.Persistance.CommonRepositories;
 using CarCareAlliance.Application.ServicePartners.Common;
+using CarCareAlliance.Contracts.ServicePartners.Common;
 using CarCareAlliance.Domain.Common.Errors;
 using CarCareAlliance.Domain.ServicePartnerAggregate;
+using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
 using CarCareAlliance.Domain.WorkScheduleAggregate;
 using CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects;
@@ -63,38 +65,71 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Update
                    .UpdateAsync(workSchedulesToUpdate);
             }
 
-            var serviceCategoriesToUpdate = servicePartner.ServiceCategories.ToList();
+            List<ServiceCategory> serviceCategoriesToUpdate = [.. servicePartner.ServiceCategories];
 
-            serviceCategoriesToUpdate.ForEach(serviceCategoryToUpdate =>
+            List<ServiceCategoryDto> commandServiceCategories = [.. command.ServiceCategories];
+
+            foreach (var commandCategory in commandServiceCategories)
             {
-                var serviceCategory = command.ServiceCategories
-                    .FirstOrDefault(sc => sc.ServiceCategoryId == serviceCategoryToUpdate.Id.Value);
+                var categoryToUpdate = serviceCategoriesToUpdate
+                    .FirstOrDefault(sc => sc.Id.Value == commandCategory.ServiceCategoryId);
 
-                if (serviceCategory is not null)
+                if (categoryToUpdate is null)
                 {
-                    var servicesToUpdate = serviceCategoryToUpdate.Services.ToList();
+                    var newCategory = ServiceCategory.Create(
+                        commandCategory.Name,
+                        commandCategory.Description,
+                        commandCategory.Services.Select(serviceDto =>
+                            Service.Create(
+                                serviceDto.Name,
+                                serviceDto.Description,
+                                serviceDto.Price,
+                                serviceDto.Duration)
+                        ).ToList()
+                    );
 
-                    servicesToUpdate.ForEach(serviceToUpdate =>
+                    servicePartner.AddServiceCategory(newCategory);
+                }
+                else
+                {
+                    var servicesToUpdate = categoryToUpdate.Services.ToList();
+
+                    foreach (var serviceDto in commandCategory.Services)
                     {
-                        var service = serviceCategory.Services
-                            .FirstOrDefault(s => s.ServiceId == serviceToUpdate.Id.Value);
+                        var serviceToUpdate = categoryToUpdate.Services
+                            .FirstOrDefault(s => s.Id.Value == serviceDto.ServiceId);
 
-                        if (service is not null)
+                        if (serviceToUpdate is null)
+                        {
+                            categoryToUpdate.AddService(
+                                Service.Create(
+                                    serviceDto.Name,
+                                    serviceDto.Description,
+                                    serviceDto.Price,
+                                    serviceDto.Duration)
+                            );
+                        }
+                        else
                         {
                             serviceToUpdate.Update(
-                                service.Name,
-                                service.Description,
-                                service.Price,
-                                service.Duration);
-                        }
-                    });
+                                serviceDto.Name,
+                                serviceDto.Description,
+                                serviceDto.Price,
+                                serviceDto.Duration);
 
-                    serviceCategoryToUpdate.Update(
-                        serviceCategory.Name,
-                        serviceCategory.Description,
-                        servicesToUpdate);
+                            int index = servicesToUpdate.FindIndex(s => s.Id.Value == serviceDto.ServiceId);
+                            if (index != -1)
+                            {
+                                servicesToUpdate[index] = serviceToUpdate;
+                            }
+                        }
+                    }
+
+                    categoryToUpdate.Update(
+                        commandCategory.Name,
+                        commandCategory.Description);
                 }
-            });
+            }
 
             servicePartner.ServiceLocation.Update(
                 command.Location.Latitude,
@@ -107,8 +142,6 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Update
                 command.Location.State);
 
             servicePartner.Update(command.Name, command.Description);
-
-            servicePartner.UpdateServiceCategories(serviceCategoriesToUpdate);
 
             await unitOfWork
                 .GetRepository<ServicePartner, ServicePartnerId>()

@@ -19,6 +19,20 @@
             return message;
         }
 
+        public static string AddSuccessfulConfirmantion(params string?[] itemNames)
+        {
+            if (itemNames is null)
+            {
+                return "";
+            }
+
+            string message = "Item(s): ";
+            message += string.Join(", ", itemNames);
+            message += "were successfully added!";
+
+            return message;
+        }
+
         public static string DeleteSuccessfulConfirmation(string name) =>
             $"{name} was deleted successfully!";
 
@@ -27,5 +41,8 @@
 
         public static string CreateSuccessfulConfirmation(string name) =>
             $"{name} was created successfully!";
+
+        public static string AddSuccessfulConfirmation(string name) =>
+            $"{name} was added successfully!";
     }
 }

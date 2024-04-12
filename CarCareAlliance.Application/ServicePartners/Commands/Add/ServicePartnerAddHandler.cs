@@ -34,31 +34,10 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Add
                 )
             ).ToList();
 
-            var services = serviceCategories
-                .SelectMany(category => category.Services)
-                .ToList();
-
             var servicePartners = unitOfWork
                .GetRepository<ServicePartner, ServicePartnerId>()
                .GetAll([nameof(ServicePartner.ServiceCategories),
                    nameof(ServicePartner.ServiceCategories) + "." + nameof(ServiceCategory.Services)]).AsNoTracking();
-
-            var foundServices = servicePartners
-                 .SelectMany(sp => sp.ServiceCategories)
-                 .SelectMany(sc => sc.Services)
-                 .ToList()
-                 .Where(service =>
-                    services.Any(sc =>
-                        sc.Name == service.Name &&
-                        sc.Description == service.Description &&
-                        sc.Price == service.Price &&
-                        sc.Duration == service.Duration))
-                .ToList();
-
-            if (foundServices.Any())
-            {
-                return Errors.ServicePartner.DuplicateServices;
-            }
 
             bool partnerExists = servicePartners
                 .ToList()

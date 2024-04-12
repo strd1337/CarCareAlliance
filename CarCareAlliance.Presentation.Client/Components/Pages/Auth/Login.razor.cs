@@ -6,11 +6,15 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.Auth
 {
     public partial class Login
     {
-        private string email = string.Empty;
-        private string password = string.Empty;
-        private bool isValid;
-        private string username = string.Empty;
+        private string loginEmail = string.Empty;
+        private string loginPassword = string.Empty;
+
+        private string registerEmail = string.Empty;
+        private string registerPassword = string.Empty;
+        private string registerUsername = string.Empty;
+
         private int activeIndex = 0;
+        private bool isValid;
 
         [Inject]
         public NavigationManager? NavigationManager { get; set; }
@@ -19,7 +23,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.Auth
 
         public async Task LogIn()
         {
-            var loginRequest = new LoginRequest(email, password);
+            var loginRequest = new LoginRequest(loginEmail, loginPassword);
 
             await AuthenticationService!.LogInAsync(loginRequest);
 
@@ -31,15 +35,15 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.Auth
 
         public async Task Register()
         {
-            var registerRequest = new RegisterRequest(username, email, password);
+            var registerRequest = new RegisterRequest(registerUsername, registerEmail, registerPassword);
 
             await AuthenticationService!.RegisterAsync(registerRequest);
 
             activeIndex = 0;
-            email = string.Empty;
-            password = string.Empty;
+            registerEmail = string.Empty;
+            registerPassword = string.Empty;
             isValid = false;
-            username = string.Empty;
+            registerUsername = string.Empty;
         }
     }
 }
