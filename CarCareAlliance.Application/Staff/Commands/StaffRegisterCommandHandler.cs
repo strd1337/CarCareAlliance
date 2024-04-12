@@ -89,6 +89,8 @@ namespace CarCareAlliance.Application.Staff.Commands
                 .GetRepository<MechanicProfile, MechanicProfileId>()
                 .AddAsync(mechanic, cancellationToken);
 
+            servicePartner.AddMechanicProfile(mechanic);
+
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new StaffRegisterResult(

@@ -1,0 +1,116 @@
+﻿@page "/dashboard/servicepartners"
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+@layout MainLayout
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Manage service partners</PageTitle>
+<MudMainContent>
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mb-4 mt-4">
+        <MudDataGrid FixedHeader="true"
+                     FixedFooter="true"
+                     Virtualize="true"
+                     @bind-RowsPerPage="defaultPageSize"
+                     Height="calc(100vh - 280px)"
+                     MultiSelection="true"
+                     @bind-SelectedItem="currentDto"
+                     Hover="true" @ref="table"
+                     Elevation="5"
+                     Loading="false"
+                     ServerData="ServerReload">
+            <ToolBarContent>
+                <div class="d-flex align-start flex-grow-1">
+                    <div class="d-flex gap-4">
+                        <MudIcon Icon="@Icons.Material.Rounded.TireRepair" Size="Size.Large" />
+                        <div class="d-flex flex-column">
+                            <MudText Typo="Typo.h5" Class="mb-2">Service partners</MudText>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1" />
+
+                    <div class="d-flex flex-column justify-end">
+                        <div class="d-flex">
+                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                                <MudButton DisableElevation Variant="Variant.Outlined"
+                                            Size="Size.Small"
+                                            OnClick="@(() => OnRefresh())"
+                                            StartIcon="@Icons.Material.Filled.Refresh"
+                                            IconColor="Color.Surface" Color="Color.Primary"
+                                            Style="margin-right: 4px; margin-bottom:4px">
+                                     Refresh
+                                 </MudButton>
+                                 <MudButton DisableElevation
+                                            Variant="Variant.Outlined"
+                                            Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.Add"
+                                            Size="Size.Small"
+                                            OnClick="OnCreate"
+                                            Style="margin-right: 4px; margin-bottom:4px"
+                                            IconColor="Color.Surface">
+                                     New
+                                 </MudButton>
+                             </MudHidden>
+                             <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+                                 <MudButton DisableElevation
+                                            Variant="Variant.Outlined"
+                                            Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.Add"
+                                            Size="Size.Small"
+                                            OnClick="OnCreate"
+                                            Style="margin-right: 4px; margin-bottom:4px"
+                                            IconColor="Color.Surface">
+                                     New
+                                 </MudButton>
+                             </MudHidden>
+                         </div>
+                         <MudTextField T="string"
+                                       ValueChanged="@(s => OnSearch(s))"
+                                       Value="searchString"
+                                       Placeholder="Search"
+                                       Adornment="Adornment.End"
+                                       AdornmentIcon="@Icons.Material.Filled.Search"
+                                       IconSize="Size.Small">
+                         </MudTextField>
+                     </div>
+                 </div>
+             </ToolBarContent>
+             <Columns>
+                 <TemplateColumn CellStyle="width:60px" Title="Actions" Sortable="false">
+                     <CellTemplate>
+                         <MudMenu Icon="@Icons.Material.Filled.Edit"
+                                  Variant="Variant.Filled"
+                                  DisableElevation="true"
+                                  Size="Size.Small"
+                                  Dense="true"
+                                  EndIcon="@Icons.Material.Filled.KeyboardArrowDown" 
+                                  IconColor="Color.Info" 
+                                  AnchorOrigin="Origin.CenterLeft">
+                             <MudMenuItem OnAction="@(() => OnDelete(context.Item))">Delete</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnAddService(context.Item))">Add new services</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnAddWorkSchedule(context.Item))">Add a new work schedule</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnEditLocation(context.Item))">Edit location</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnEditServiceCategories(context.Item))">Edit service categories</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnEditWorkSchedules(context.Item))">Edit service work schedules</MudMenuItem>
+                             <MudMenuItem OnAction="@(() => OnViewMechanics(context.Item))">View mechanics</MudMenuItem>
+                         </MudMenu>
+                     </CellTemplate>
+                 </TemplateColumn>
+
+                 <PropertyColumn Property="x => x.Name" Title="Name" Sortable="false" />
+                 <PropertyColumn Property="x => x.Description" Title="Description" Sortable="false" />
+                 <PropertyColumn Property='x => x.Location.Address == string.Empty ? "No Address" : x.Location.Address' Title="Address" Sortable="false" />
+             </Columns>
+             <NoRecordsContent>
+                 <MudText>There are no records to view.</MudText>
+             </NoRecordsContent>
+             <PagerContent>
+                 <MudDataGridPager PageSizeOptions="@(new[] { 10, 15, 30, 50, 100 })" />
+             </PagerContent>
+         </MudDataGrid>
+     </MudContainer>
+ </MudMainContent>
+
+ <style>
+     .mud-table-toolbar {
+         height: 120px !important;
+     }
+ </style>

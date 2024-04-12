@@ -1,0 +1,109 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Common.Attributes
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+@using CarCareAlliance.Presentation.Client.Models.WorkSchedules
+@using CarCareAlliance.Presentation.Client.Common.Convertors
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect Placeholder="@(Model.WorkSchedules.Count == 0 ? "No schedules" : "Please select schedule")"
+                               Label="Work schedule"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="SelectedSchedule"
+                               Disabled="Model.WorkSchedules.Count == 0">
+                        @foreach (var schedule in Model.WorkSchedules.OrderBy(x => x.DayOfWeek).ToList())
+                        {
+                            <MudSelectItem T="WorkSchedule"
+                                           Value="schedule">@schedule.DayOfWeek.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                @if (SelectedSchedule != null)
+                {
+                    <MudItem xs="12" md="6">
+                        <MudTimePicker Label="Start time"
+                                       Time="TimeConverter.TimeOnlyToTimeSpan(SelectedSchedule.StartTime)"
+                                       Required="true"
+                                       RequiredError="Start time is required!"
+                                       TimeChanged="(t) => SelectedSchedule.StartTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)" />
+                    </MudItem>
+
+                    <MudItem xs="12" md="6">
+                        <MudTimePicker Label="End time"
+                                       Time="TimeConverter.TimeOnlyToTimeSpan(SelectedSchedule.EndTime)"
+                                       Required="true"
+                                       RequiredError="End time is required!"
+                                       TimeChanged="(t) => SelectedSchedule.EndTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)"
+                                       Validation="@(new GreaterThanTimeSpanAttribute(TimeConverter.TimeOnlyToTimeSpan(SelectedSchedule.StartTime).TotalSeconds) { ErrorMessage = $"End time should be greater than {TimeConverter.TimeOnlyToTimeSpan(SelectedSchedule.StartTime)}!" })" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudSelect Placeholder="@(SelectedSchedule.BreakTimes.Count == 0 ? "No breaks" : "Please select break time")"
+                                   Label="Break time"
+                                   Variant="Variant.Outlined"
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   @bind-Value="SelectedBreakTime"
+                                   Disabled="SelectedSchedule.BreakTimes.Count == 0">
+                            @foreach (var breakTime in SelectedSchedule.BreakTimes.ToList())
+                            {
+                                int index = SelectedSchedule.BreakTimes.ToList().IndexOf(breakTime);
+                                <MudSelectItem T="BreakTime"
+                                               Value="breakTime">@($"Break {index + 1}")</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    @if (SelectedBreakTime != null)
+                    {
+                        currentIndex = SelectedSchedule.BreakTimes.ToList().IndexOf(SelectedBreakTime);
+
+                        <MudItem xs="12" md="6">
+                            <MudTimePicker Label="@($"Break time {currentIndex + 1} start time")"
+                                           Time="TimeConverter.TimeOnlyToTimeSpan(SelectedBreakTime.StartTime)"
+                                           Required="true"
+                                           RequiredError="Start time is required!"
+                                           TimeChanged="(t) => SelectedBreakTime.StartTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)"/>
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudTimePicker Label="@($"Break time {currentIndex + 1} end time")"
+                                           Time="TimeConverter.TimeOnlyToTimeSpan(SelectedBreakTime.EndTime)"
+                                           Required="true"
+                                           RequiredError="End time is required!"
+                                           TimeChanged="(t) => SelectedBreakTime.EndTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)"/>
+                        </MudItem>
+                    }
+                }
+
+                <MudItem xs="12">
+                    <MudText>Weekends</MudText>
+                    <MudStack Row="true">
+                        @foreach (var dayOfWeek in Weekends)
+                        {
+                            <MudPaper Class="pa-3">@dayOfWeek</MudPaper>
+                        }
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Save"
+                    Size="Size.Small"
+                    Disabled="@(!isValid || SelectedSchedule == null || SelectedBreakTime == null)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Save">Save</MudButton>
+     </DialogActions>
+ </MudDialog>

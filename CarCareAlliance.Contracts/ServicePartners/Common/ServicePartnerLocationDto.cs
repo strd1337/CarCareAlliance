@@ -1,6 +1,7 @@
 ﻿namespace CarCareAlliance.Contracts.ServicePartners.Common
 {
     public record ServicePartnerLocationDto(
+        Guid LocationId,
         float Latitude,
         float Longitude,
         string Address,

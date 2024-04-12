@@ -1,0 +1,187 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText>View services</MudText>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudSelect Placeholder="@(TotalServiceCategories.Count == 0 ? "No categories" : "Please select category")"
+                               T="ServiceCategory"
+                               Label="Category"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="selectedCategory"
+                               Disabled="TotalServiceCategories.Count == 0">
+                        @foreach (var category in TotalServiceCategories)
+                        {
+                            <MudSelectItem T="ServiceCategory"
+                                           Value="category">@category.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudSelect Disabled="selectedCategory == null || selectedCategory?.Services.Count == 0"
+                               Placeholder="@(selectedCategory?.Services.Count == 0 ? "No services" : "Please select service")"
+                               T="Service"
+                               Label="Service"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="selectedService">
+                        @if (selectedCategory != null)
+                        {
+                            @foreach (var service in selectedCategory.Services)
+                            {
+                                <MudSelectItem T="Service" Value="service">@service.Name</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTabs Elevation="0"
+                             Rounded="true"
+                             Centered="true"
+                             PanelClass="pa-6"
+                             ActivePanelIndexChanged="LoadExistingServicesAndResetIfIndexChanged">
+                        <MudTabPanel Text="Add a new service">
+                            <PageTitle>Add a new service</PageTitle>
+                            <MudCardContent Class="justify-center">
+                                <MudGrid>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Category name"
+                                                      Required="true"
+                                                      RequiredError="Category name is required!"
+                                                      @bind-Value="newSelectedCategory.Name"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Required="true"
+                                                      RequiredError="Category description is required!"
+                                                      Label="Category description"
+                                                      @bind-Value="newSelectedCategory.Description"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Service name"
+                                                      Required="true"
+                                                      RequiredError="Service name is required!"
+                                                      @bind-Value="newSelectedService.Name"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Service description"
+                                                      Required="true"
+                                                      RequiredError="Service description is required!"
+                                                      @bind-Value="newSelectedService.Description"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Service price, $"
+                                                      Required="true"
+                                                      RequiredError="Service price is required!"
+                                                      @bind-Value="newSelectedService.Price"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Service duration, min"
+                                                      Required="true"
+                                                      RequiredError="Service duration is required!"
+                                                      @bind-Value="newSelectedService.Duration"></MudTextField>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                            <MudCardActions Class="pa-4 mt-2">
+                                <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.Add"
+                                            Size="Size.Small"
+                                            Disabled="@(newSelectedService == null || newSelectedCategory == null || !isValid)"
+                                            Style="margin-right: 4px; margin-bottom:4px"
+                                            IconColor="Color.Surface"
+                                            OnClick="AddAsync">Add</MudButton>
+                             </MudCardActions>
+                         </MudTabPanel>
+                         <MudTabPanel Text="Select existing service">
+                             <PageTitle>Select existing services</PageTitle>
+                             <MudCardContent Class="justify-center">
+                                 <MudGrid>
+                                     <MudItem xs="12" md="6">
+                                         <MudSelect Placeholder="@(LoadedServiceCategories.Count() == 0 ? "No categories" : "Please select category")"
+                                                    T="ServiceCategory"
+                                                    Label="Category"
+                                                    Variant="Variant.Outlined"
+                                                    AnchorOrigin="Origin.BottomCenter"
+                                                    @bind-Value="existingSelectedCategory"
+                                                    Disabled="LoadedServiceCategories.Count() == 0">
+                                             @foreach (var category in LoadedServiceCategories)
+                                            {
+                                                <MudSelectItem T="ServiceCategory"
+                                                               Value="category">@category.Name</MudSelectItem>
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudSelect Disabled="existingSelectedCategory == null || existingSelectedCategory?.Services.Count == 0"
+                                                   Placeholder="@(existingSelectedCategory?.Services.Count == 0 ? "No services" : "Please select service")"
+                                                   T="Service"
+                                                   MultiSelection="true"
+                                                   MultiSelectionTextFunc="@(GetServiceNames)"
+                                                   Label="Service"
+                                                   Variant="Variant.Outlined"
+                                                   AnchorOrigin="Origin.BottomCenter"
+                                                   @bind-Value="existingSelectedService"
+                                                   @bind-SelectedValues="ExistingSelectedServices">
+                                            @if (existingSelectedCategory != null)
+                                            {
+                                                @foreach (var service in existingSelectedCategory.Services)
+                                                {
+                                                    <MudSelectItem T="Service" Value="service">@service.Name</MudSelectItem>
+                                                }
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                            <MudCardActions Class="pa-4 mt-2">
+                                <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                                            StartIcon="@Icons.Material.Filled.AddCard"
+                                            Size="Size.Small"
+                                            Style="margin-right: 4px; margin-bottom:4px"
+                                            IconColor="Color.Surface"
+                                            Disabled="ExistingSelectedServices.Count() == 0"
+                                            OnClick="AddSelectedServicesAsync">Add</MudButton>
+                             </MudCardActions>
+                         </MudTabPanel>
+                     </MudTabs>
+                 </MudItem>
+
+             </MudGrid>
+         </MudForm>
+     </DialogContent>
+     <DialogActions>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Save"
+                    Size="Size.Small"
+                    Disabled="@(TotalServiceCategories.Count == 0)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Save">Save</MudButton>
+     </DialogActions>
+ </MudDialog>

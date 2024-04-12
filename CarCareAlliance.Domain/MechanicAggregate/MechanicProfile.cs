@@ -10,13 +10,15 @@ namespace CarCareAlliance.Domain.MechanicAggregate
     public sealed class MechanicProfile : AggregateRoot<MechanicProfileId, Guid>
     {
         private readonly List<ReviewId> reviewIds = [];
+        private readonly List<WorkScheduleId> workScheduleIds = [];
 
         public UserProfileId UserProfileId { get; private set; }
         public ServicePartnerId ServicePartnerId { get; private set; }
-        public WorkScheduleId? WorkScheduleId { get; private set; }
         public float Experience { get; private set; }
 
         public IReadOnlyList<ReviewId> ReviewIds => reviewIds.AsReadOnly();
+        public IReadOnlyList<WorkScheduleId> WorkScheduleIds
+           => workScheduleIds.AsReadOnly();
 
         private MechanicProfile(
             MechanicProfileId id,
@@ -46,9 +48,9 @@ namespace CarCareAlliance.Domain.MechanicAggregate
             reviewIds.Add(reviewId);
         }
 
-        public void UpdateWorkSchedule(WorkScheduleId workScheduleId)
+        public void AddWorkSchedule(WorkScheduleId workScheduleId)
         {
-            WorkScheduleId = workScheduleId;
+            workScheduleIds.Add(workScheduleId);
         }
 
 #pragma warning disable CS8618

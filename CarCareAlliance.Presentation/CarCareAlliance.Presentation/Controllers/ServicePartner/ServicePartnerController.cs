@@ -1,13 +1,19 @@
 ﻿using CarCareAlliance.Application.ServicePartners.Commands.Add;
 using CarCareAlliance.Application.ServicePartners.Commands.Delete;
+using CarCareAlliance.Application.ServicePartners.Commands.Update;
 using CarCareAlliance.Application.ServicePartners.Queries.Get;
 using CarCareAlliance.Application.ServicePartners.Queries.GetAll;
+using CarCareAlliance.Application.ServicePartners.Queries.GetAllByFilters;
+using CarCareAlliance.Application.ServicePartners.Queries.GetAllCategories;
+using CarCareAlliance.Contracts.Common;
 using CarCareAlliance.Contracts.ServicePartners.AddServicePartner;
+using CarCareAlliance.Contracts.ServicePartners.Common;
 using CarCareAlliance.Contracts.ServicePartners.DeleteServicePartner;
 using CarCareAlliance.Contracts.ServicePartners.Get;
 using CarCareAlliance.Contracts.ServicePartners.GetAll;
-using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
+using CarCareAlliance.Contracts.ServicePartners.GetAllServicePartnersCategories;
+using CarCareAlliance.Contracts.ServicePartners.UpdateServicePartner;
+using CarCareAlliance.Presentation.Common.Helpers;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -25,7 +31,6 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
         private readonly IMapper mapper = mapper;
 
         [Authorize]
-        [HasRole(RoleType.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddServicePartner(
             ServicePartnerAddRequest request,
@@ -43,7 +48,6 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
         }
 
         [Authorize]
-        [HasRole(RoleType.Admin)]
         [HttpDelete("{servicePartnerId}")]
         public async Task<IActionResult> DeleteServicePartner(
             Guid servicePartnerId,
@@ -94,6 +98,64 @@ namespace CarCareAlliance.Presentation.Controllers.ServicePartner
             return servicePartnerGetResult.Match(
                 servicePartnerGetResult => Ok(
                     mapper.Map<ServicePartnerGetResponse>(servicePartnerGetResult)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetAllByFilters(
+            [FromQuery(Name = "SearchKey")] string? searchKey,
+            [FromQuery] PaginationFilter filter,
+            CancellationToken cancellationToken)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var query = new GetAllServicePartnersByFiltersQuery(searchKey ?? string.Empty)
+            {
+                PageNumber = validFilter.PageNumber,
+                PageSize = validFilter.PageSize
+            };
+
+            var result = await mediator
+                .Send(query, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<PagedResponse<ServicePartnerDto>>(result)),
+                errors => Problem(errors));
+        }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateServicePartner(
+            Guid id,
+            ServicePartnerUpdateRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = mapper.Map<ServicePartnerUpdateCommand>(request).SetServicePartnerId(id);
+
+            var result = await mediator
+                .Send(command, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<ServicePartnerUpdateResponse>(result)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("service-categories")]
+        public async Task<IActionResult> GetAllCategories(
+            CancellationToken cancellationToken)
+        {
+            var request = new GetAllServicePartnersCategoriesRequest();
+
+            var command = mapper.Map<GetAllServicePartnersCategoriesQuery>(request);
+
+            var result = await mediator
+                .Send(command, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<GetAllServicePartnersCategoriesResponse>(result)),
                 errors => Problem(errors));
         }
     }

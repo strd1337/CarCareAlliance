@@ -1,0 +1,109 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Common.Attributes
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+@using CarCareAlliance.Presentation.Client.Models.WorkSchedules
+@using CarCareAlliance.Presentation.Client.Common.Convertors
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@WorkSchedule" @ref="@form" @bind-IsValid="@isValid" FieldChanged="ResetValidation">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect Label="Select day of week"
+                               Variant="Variant.Outlined"
+                               @bind-Value="WorkSchedule.DayOfWeek">
+                        @foreach (var dayOfWeek in Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().OrderBy(x => x))
+                        {
+                            <MudSelectItem T="DayOfWeek" Value="dayOfWeek">@dayOfWeek.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTimePicker Label="Start time"
+                                   Time="TimeConverter.TimeOnlyToTimeSpan(WorkSchedule.StartTime)"
+                                   Required="true"
+                                   RequiredError="Start Time is required!"
+                                   TimeChanged="(t) => WorkSchedule.StartTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTimePicker Label="End time"
+                                   Time="TimeConverter.TimeOnlyToTimeSpan(WorkSchedule.EndTime)"
+                                   Required="true"
+                                   RequiredError="End Time is required!"
+                                   Validation="@(new GreaterThanTimeSpanAttribute(TimeConverter.TimeOnlyToTimeSpan(WorkSchedule.StartTime).TotalSeconds) { ErrorMessage = $"End time should be greater than {TimeConverter.TimeOnlyToTimeSpan(WorkSchedule.StartTime)}!" })"
+                                   TimeChanged="(t) => WorkSchedule.EndTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudNumericField @bind-Value="quantity"
+                                     TextChanged="@(() => HandleQuantityChange())"
+                                     Label="Quantity"
+                                     Variant="Variant.Text"
+                                     Min="1"
+                                     Max="5" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTimePicker Label="@($"Break time {currentStep} start time")"
+                                   @ref="@breakStartTimePicker"
+                                   Time="TimeConverter.TimeOnlyToTimeSpan(GetBreakTime(currentStep - 1).StartTime)"
+                                   Required="true"
+                                   RequiredError="Start time is required!"
+                                   TimeChanged="(t) => SetBreakTimeStartTime(currentStep - 1, t!.Value)"
+                                   Validation="@(GetStartTimeValidationAttribute())" />
+                </MudItem>
+
+                @if (!breakTimeIsShown)
+                {
+                    <MudItem xs="12" md="6">
+                        <MudTimePicker Label="@($"Break time {currentStep} end time")"
+                                       Time="TimeConverter.TimeOnlyToTimeSpan(GetBreakTime(currentStep - 1).EndTime)"
+                                       Required="true"
+                                       RequiredError="End time is required!"
+                                       TimeChanged="(t) => SetBreakTimeEndTime(currentStep - 1, t!.Value)"
+                                       Validation="@(GetEndTimeValidationAttribute())" />
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         @if (currentStep > 1)
+        {
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                        StartIcon="@Icons.Material.Filled.NavigateBefore"
+                        Size="Size.Small"
+                        Disabled="@(!isValid)"
+                        Style="margin-right: 4px; margin-bottom:4px"
+                        IconColor="Color.Surface"
+                        OnClick="PreviousStep">Back</MudButton>
+        }
+        @if (currentStep < quantity)
+        {
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                        StartIcon="@Icons.Material.Filled.NavigateNext"
+                        Size="Size.Small"
+                        Disabled="@(!isValid)"
+                        Style="margin-right: 4px; margin-bottom:4px"
+                        IconColor="Color.Surface"
+                        OnClick="NextStep">Next</MudButton>
+        }
+        else
+        {
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                        StartIcon="@Icons.Material.Filled.Add"
+                        Size="Size.Small"
+                        Disabled="@(!isValid)"
+                        Style="margin-right: 4px; margin-bottom:4px"
+                        IconColor="Color.Surface"
+                        OnClick="Add">Add</MudButton>
+        }
+    </DialogActions>
+</MudDialog>

@@ -36,5 +36,23 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
                 price,
                 duration);
         }
+
+        public void Update(
+            string name,
+            string description,
+            float price,
+            float duration)
+        {
+            Name = name;
+            Description = description;
+            Price = price;
+            Duration = duration;
+        }
+
+#pragma warning disable CS8618
+        public Service()
+        {
+        }
+#pragma warning restore CS8618
     }
 }

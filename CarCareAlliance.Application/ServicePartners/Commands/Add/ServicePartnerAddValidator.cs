@@ -18,34 +18,6 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Add
                     .WithMessage("Service partner description is required")
                 .MaximumLength(1000)
                     .WithMessage("Service partner description cannot exceed 1000 characters");
-
-            RuleFor(r => r.Latitude)
-                .NotEmpty()
-                    .WithMessage("Latitude is required");
-
-            RuleFor(r => r.Longitude)
-                .NotEmpty()
-                    .WithMessage("Longitude is required");
-
-            RuleFor(r => r.Address)
-                .NotEmpty()
-                    .WithMessage("Address is required");
-
-            RuleFor(r => r.City)
-                .NotEmpty()
-                    .WithMessage("City is required");
-
-            RuleFor(r => r.Country)
-                .NotEmpty()
-                    .WithMessage("Country is required");
-
-            RuleFor(r => r.PostalCode)
-                .NotEmpty()
-                    .WithMessage("PostalCode is required");
-
-            RuleFor(r => r.LocationDescription)
-                .NotEmpty()
-                    .WithMessage("Location description is required");
         }
     }
 }

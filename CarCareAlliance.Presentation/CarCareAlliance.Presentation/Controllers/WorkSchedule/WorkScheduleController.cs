@@ -4,8 +4,6 @@ using CarCareAlliance.Application.WorkSchedules.Queries.GetByOwnerId;
 using CarCareAlliance.Contracts.WorkSchedules.AddWorkSchedule;
 using CarCareAlliance.Contracts.WorkSchedules.Delete;
 using CarCareAlliance.Contracts.WorkSchedules.GetByOwnerId;
-using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
-using CarCareAlliance.Infrastructure.Persistance.Repositories.Auth.Roles;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -23,7 +21,6 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
         private readonly IMapper mapper = mapper;
 
         [Authorize]
-        [HasRole(RoleType.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddWorkSchedule(
             WorkScheduleAddRequest request,
@@ -59,7 +56,6 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
         }
 
         [Authorize]
-        [HasRole(RoleType.Admin)]
         [HttpDelete("{workScheduleId}")]
         public async Task<IActionResult> Delete(
             Guid workScheduleId,

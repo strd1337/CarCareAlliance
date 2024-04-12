@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarCareAlliance.Infrastructure.Migrations
 {
     [DbContext(typeof(CarCareAllianceDbContext))]
-    [Migration("20240224204339_InitialCreate")]
+    [Migration("20240325123050_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -140,9 +140,6 @@ namespace CarCareAlliance.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserProfileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("WorkScheduleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -366,9 +363,6 @@ namespace CarCareAlliance.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<Guid?>("WorkScheduleId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -652,7 +646,34 @@ namespace CarCareAlliance.Infrastructure.Migrations
                                 .HasForeignKey("MechanicProfileId");
                         });
 
+                    b.OwnsMany("CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects.WorkScheduleId", "WorkScheduleIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("MechanicProfileId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("WorkScheduleId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("MechanicProfileId");
+
+                            b1.ToTable("MechanicProfileWorkScheduleIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("MechanicProfileId");
+                        });
+
                     b.Navigation("ReviewIds");
+
+                    b.Navigation("WorkScheduleIds");
                 });
 
             modelBuilder.Entity("CarCareAlliance.Domain.RepairAggregate.RepairHistory", b =>
@@ -985,6 +1006,31 @@ namespace CarCareAlliance.Infrastructure.Migrations
                                 .HasForeignKey("ServicePartnerId");
                         });
 
+                    b.OwnsMany("CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects.WorkScheduleId", "WorkScheduleIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("ServicePartnerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("WorkScheduleId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ServicePartnerId");
+
+                            b1.ToTable("ServicePartnerWorkScheduleIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("ServicePartnerId");
+                        });
+
                     b.Navigation("MechanicProfileIds");
 
                     b.Navigation("PhotoIds");
@@ -995,6 +1041,8 @@ namespace CarCareAlliance.Infrastructure.Migrations
 
                     b.Navigation("ServiceLocation")
                         .IsRequired();
+
+                    b.Navigation("WorkScheduleIds");
                 });
 
             modelBuilder.Entity("CarCareAlliance.Domain.TicketAggregate.Entities.OrderDetails", b =>

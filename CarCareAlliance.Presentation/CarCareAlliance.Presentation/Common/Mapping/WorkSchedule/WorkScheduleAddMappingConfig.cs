@@ -25,7 +25,6 @@ namespace CarCareAlliance.Presentation.Common.Mapping.WorkSchedule
                     src.WorkSchedule.StartTime,
                     src.WorkSchedule.EndTime,
                     src.WorkSchedule.OwnerId,
-                    src.WorkSchedule.Weekends.ToList(),
                     src.WorkSchedule.BreakTimes
                         .Select(breakTime => 
                             new BreakTimeDto(

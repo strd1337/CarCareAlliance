@@ -2,9 +2,11 @@
 using CarCareAlliance.Application.Common.Interfaces.Persistance.CommonRepositories;
 using CarCareAlliance.Application.ServicePartners.Common;
 using ErrorOr;
-using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
+using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
+using Microsoft.EntityFrameworkCore;
+using CarCareAlliance.Domain.Common.Errors;
 
 namespace CarCareAlliance.Application.ServicePartners.Commands.Add
 {
@@ -18,20 +20,50 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Add
             ServicePartnerAddCommand command,
             CancellationToken cancellationToken)
         {
+            var serviceCategories = command.ServiceCategories.Select(serviceCategoryDto =>
+                ServiceCategory.Create(
+                    serviceCategoryDto.Name,
+                    serviceCategoryDto.Description,
+                    serviceCategoryDto.Services.Select(serviceDto =>
+                        Service.Create(
+                            serviceDto.Name,
+                            serviceDto.Description,
+                            serviceDto.Price,
+                            serviceDto.Duration)
+                    ).ToList()
+                )
+            ).ToList();
+
+            var servicePartners = unitOfWork
+               .GetRepository<ServicePartner, ServicePartnerId>()
+               .GetAll([nameof(ServicePartner.ServiceCategories),
+                   nameof(ServicePartner.ServiceCategories) + "." + nameof(ServiceCategory.Services)]).AsNoTracking();
+
+            bool partnerExists = servicePartners
+                .ToList()
+                .Any(partner => partner.Name.
+                    Equals(command.Name, StringComparison.CurrentCultureIgnoreCase));
+
+            if (partnerExists)
+            {
+                return Errors.ServicePartner.DuplicateServicePartner;
+            }
+
             var location = ServiceLocation.Create(
-                command.Latitude,
-                command.Longitude,
-                command.Address,
-                command.City,
-                command.Country,
-                command.PostalCode,
-                command.LocationDescription,
-                command.State);
+                command.Location.Latitude,
+                command.Location.Longitude,
+                command.Location.Address,
+                command.Location.City,
+                command.Location.Country,
+                command.Location.PostalCode,
+                command.Location.Description,
+                command.Location.State);
 
             var servicePartner = ServicePartner.Create(
                 command.Name,
                 command.Description,
-                location);
+                location,
+                serviceCategories);
 
             await unitOfWork
                 .GetRepository<ServicePartner, ServicePartnerId>()
@@ -39,7 +71,9 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Add
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new ServicePartnerAddResult(servicePartner);
+            return new ServicePartnerAddResult(
+                servicePartner.Id.Value,
+                servicePartner.Name);
         }
     }
 }

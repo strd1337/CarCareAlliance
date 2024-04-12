@@ -1,0 +1,91 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Latitude"
+                                  Required="true"
+                                  RequiredError="Latitude is required!"
+                                  @bind-Value="Model.Location.Latitude"
+                                  For="@(() => Model.Location.Latitude)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Longitude"
+                                  Required="true"
+                                  RequiredError="Longitude is required!"
+                                  @bind-Value="Model.Location.Longitude"
+                                  For="@(() => Model.Location.Longitude)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Address"
+                                  Required="true"
+                                  RequiredError="Address is required!"
+                                  @bind-Value="Model.Location.Address"
+                                  For="@(() => Model.Location.Address)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="City"
+                                  Required="true"
+                                  RequiredError="City is required!"
+                                  @bind-Value="Model.Location.City"
+                                  For="@(() => Model.Location.City)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Country"
+                                  Required="true"
+                                  RequiredError="Country is required!"
+                                  @bind-Value="Model.Location.Country"
+                                  For="@(() => Model.Location.Country)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Postal code"
+                                  Required="true"
+                                  RequiredError="Postal code is required!"
+                                  @bind-Value="Model.Location.PostalCode"
+                                  For="@(() => Model.Location.PostalCode)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Description"
+                                  Required="true"
+                                  RequiredError="Description is required!"
+                                  @bind-Value="Model.Location.Description"
+                                  For="@(() => Model.Location.Description)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="State"
+                                  Required="true"
+                                  RequiredError="State is required!"
+                                  @bind-Value="Model.Location.State"
+                                  For="@(() => Model.Location.State)"></MudTextField>
+
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Save"
+                    Size="Size.Small"
+                    Disabled="@(!isValid)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Save">Save</MudButton>
+     </DialogActions>
+ </MudDialog>

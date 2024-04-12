@@ -6,7 +6,7 @@ namespace CarCareAlliance.Presentation.Common.Converter
 {
     public class TimeOnlyConverter : JsonConverter<TimeOnly>
     {
-        private const string TimeFormat = "HH:mm";
+        private const string TimeFormat = "HH:mm:ss";
 
         public override TimeOnly Read(
             ref Utf8JsonReader reader, 

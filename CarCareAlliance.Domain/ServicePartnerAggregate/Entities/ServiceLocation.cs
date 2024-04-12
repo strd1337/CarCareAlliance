@@ -56,5 +56,24 @@ namespace CarCareAlliance.Domain.ServicePartnerAggregate.Entities
                 description,
                 state);
         }
+        
+        public void Update(float latitude,
+            float longitude,
+            string address,
+            string city,
+            string country,
+            string postalCode,
+            string description,
+            string? state = null)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+            Address = address;
+            City = city;
+            Country = country;
+            PostalCode = postalCode;
+            Description = description;
+            State = state;
+        }
     }
 }
