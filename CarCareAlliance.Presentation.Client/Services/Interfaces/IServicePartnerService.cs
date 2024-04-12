@@ -13,5 +13,6 @@ namespace CarCareAlliance.Presentation.Client.Services.Interfaces
         Task<bool> CreateAsync(ServicePartner servicePartner);
 
         Task<GetAllServiceCategoriesResponse> GetAllServiecCategoriesAsync();
+        Task<GetAllServicePartnersResponse> GetAllAsync();
     }
 }

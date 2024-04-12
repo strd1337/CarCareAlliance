@@ -7,5 +7,7 @@ namespace CarCareAlliance.Presentation.Client.Services.Interfaces
     {
         Task<PaginatedList<MechanicProfile>> GetAllByFiltersAsync(
            QueryParams queryParams);
+
+        Task<bool> RegisterAsync(RegisterMechanicRequest request);
     }
 }

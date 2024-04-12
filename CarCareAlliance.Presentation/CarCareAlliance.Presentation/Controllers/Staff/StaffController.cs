@@ -12,7 +12,7 @@ using CarCareAlliance.Application.Staff.Queries;
 
 namespace CarCareAlliance.Presentation.Controllers.Staff
 {
-    //[Authorize]
+    [Authorize]
     [Route("staffs")]
     public class StaffController(
         IMediator mediator,

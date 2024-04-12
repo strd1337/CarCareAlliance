@@ -4,6 +4,7 @@ using CarCareAlliance.Presentation.Client.Models.Mechanics;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using MudBlazor;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Web;
 
 namespace CarCareAlliance.Presentation.Client.Services.Implementations
@@ -29,11 +30,28 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
 
             var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url + queryString);
 
-            await httpErrorsService.EnsureSuccessStatusCode(response);
+            await httpErrorsService.HandleExceptionResponse(response);
 
             var servicePartnersResponse = await response.Content.ReadFromJsonAsync<PaginatedList<MechanicProfile>>();
 
             return servicePartnersResponse!;
+        }
+
+        public async Task<bool> RegisterAsync(RegisterMechanicRequest request)
+        {
+            var json = JsonSerializer.Serialize(request);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, Constants.MediaType);
+
+            var response = await httpClientFactory.CreateClient(Constants.Client).PostAsync(Constants.Mechanic.RegisterApi, content);
+
+            var isSuccess = await httpErrorsService.HandleExceptionResponse(response);
+
+            if (isSuccess)
+            {
+                snackbar.Add(Constants.RegisterSuccessfulConfirmation(nameof(MechanicProfile)), Severity.Success);
+            }
+
+            return isSuccess;
         }
     }
 }

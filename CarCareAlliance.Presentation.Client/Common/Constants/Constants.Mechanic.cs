@@ -6,6 +6,7 @@
         {
             public const string Api = "staffs/";
             public const string SearchApi = Api + "search?";
+            public const string RegisterApi = Api + "register";
         }
     }
 }

@@ -73,21 +73,6 @@
                  </div>
              </ToolBarContent>
              <Columns>
-                 <TemplateColumn CellStyle="width:60px" Title="Actions" Sortable="false">
-                     <CellTemplate>
-                         <MudMenu Icon="@Icons.Material.Filled.Edit"
-                                  Variant="Variant.Filled"
-                                  DisableElevation="true"
-                                  Size="Size.Small"
-                                  Dense="true"
-                                  EndIcon="@Icons.Material.Filled.KeyboardArrowDown"
-                                  IconColor="Color.Info"
-                                  AnchorOrigin="Origin.CenterLeft">
-                             <MudMenuItem OnAction="@(() => OnEditProfile(context.Item))">Edit profile</MudMenuItem>
-                         </MudMenu>
-                     </CellTemplate>
-                 </TemplateColumn>
-
                  <PropertyColumn Property="x => x.FirstName" Title="Name" Sortable="false" />
                  <PropertyColumn Property="x => x.LastName" Title="LastName" Sortable="false" />
                  <PropertyColumn Property="x => x.PhoneNumber" Title="PhoneNumber" Sortable="false" />
