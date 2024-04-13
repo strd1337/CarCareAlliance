@@ -1,8 +1,6 @@
 ﻿using CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.ManageMechanics;
-using CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.ManageServicePartners;
 using CarCareAlliance.Presentation.Client.Models;
 using CarCareAlliance.Presentation.Client.Models.Mechanics;
-using CarCareAlliance.Presentation.Client.Services.Implementations;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -79,11 +77,6 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
             {
                 await table.ReloadServerData();
             }
-        }
-        
-        private async Task OnEditProfile(MechanicProfile mechanicProfile)
-        {
-
         }
     }
 }
