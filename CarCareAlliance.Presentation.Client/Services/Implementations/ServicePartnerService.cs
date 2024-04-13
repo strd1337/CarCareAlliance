@@ -31,7 +31,7 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
 
             var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url + queryString);
            
-            await httpErrorsService.EnsureSuccessStatusCode(response);
+            await httpErrorsService.HandleExceptionResponse(response);
 
             var jso = new JsonSerializerOptions()
             {
@@ -112,9 +112,22 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
 
             var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url);
 
-            await httpErrorsService.EnsureSuccessStatusCode(response);
+            await httpErrorsService.HandleExceptionResponse(response);
 
             var model = await response.Content.ReadFromJsonAsync<GetAllServiceCategoriesResponse>();
+
+            return model!;
+        }
+
+        public async Task<GetAllServicePartnersResponse> GetAllAsync()
+        {
+            string url = Constants.ServicePartner.Api;
+
+            var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url);
+
+            await httpErrorsService.HandleExceptionResponse(response);
+
+            var model = await response.Content.ReadFromJsonAsync<GetAllServicePartnersResponse>();
 
             return model!;
         }

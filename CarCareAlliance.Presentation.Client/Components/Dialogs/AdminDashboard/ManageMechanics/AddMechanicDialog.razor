@@ -1,0 +1,154 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="UserName"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="UserName is required!"
+                                  @bind-Value="Model.UserName"
+                                  For="@(() => Model.UserName)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Email"
+                                  Required="true"
+                                  InputType="InputType.Email"
+                                  RequiredError="Email is required!"
+                                  @bind-Value="Model.Email"
+                                  For="@(() => Model.Email)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Password"
+                                  Required="true"
+                                  InputType="InputType.Password"
+                                  Validation="@(new MinLengthAttribute(8) {ErrorMessage = "The password min length is 8!"})"
+                                  RequiredError="Password is required!"
+                                  @bind-Value="Model.Password"
+                                  For="@(() => Model.Password)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="First name"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="First name is required!"
+                                  @bind-Value="Model.FirstName"
+                                  For="@(() => Model.FirstName)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Last name"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="Last name is required!"
+                                  @bind-Value="Model.LastName"
+                                  For="@(() => Model.LastName)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Phone number"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="Phone number is required!"
+                                  @bind-Value="Model.PhoneNumber"
+                                  For="@(() => Model.PhoneNumber)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Address"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="Address is required!"
+                                  @bind-Value="Model.Address"
+                                  For="@(() => Model.Address)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Country"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="Country is required!"
+                                  @bind-Value="Model.Country"
+                                  For="@(() => Model.Country)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="City"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="City is required!"
+                                  @bind-Value="Model.City"
+                                  For="@(() => Model.City)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Post code"
+                                  Required="true"
+                                  InputType="InputType.Text"
+                                  RequiredError="Post code is required!"
+                                  @bind-Value="Model.PostCode"
+                                  For="@(() => Model.PostCode)"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudNumericField Variant="Variant.Outlined"
+                                  Label="Experience"
+                                  Required="true"
+                                  RequiredError="Experience is required!"
+                                  @bind-Value="Model.Experience"
+                                  For="@(() => Model.Experience)"
+                                  Min="0"
+                                  Max="100"></MudNumericField>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudSelect Placeholder="@(ServicePartners.Count == 0 ? "No service partners" : "Please select service partner")"
+                               T="ServicePartner"
+                               Label="Service partner"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="selectedServicePartner"
+                               Disabled="ServicePartners.Count == 0">
+                        @foreach (var servicePartner in ServicePartners)
+                        {
+                            <MudSelectItem T="ServicePartner"
+                                           Value="servicePartner">@servicePartner.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Save"
+                    Size="Size.Small"
+                    Disabled="@(!isValid)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Save">Save</MudButton>
+     </DialogActions>
+ </MudDialog>

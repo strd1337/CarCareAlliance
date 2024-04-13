@@ -5,11 +5,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CarCareAlliance.Contracts.Staff.Register;
 using CarCareAlliance.Application.Staff.Commands;
+using CarCareAlliance.Presentation.Common.Helpers;
+using CarCareAlliance.Contracts.Staff.Common;
+using CarCareAlliance.Contracts.Common;
+using CarCareAlliance.Application.Staff.Queries;
 
 namespace CarCareAlliance.Presentation.Controllers.Staff
 {
     [Authorize]
-    [Route("staff")]
+    [Route("staffs")]
     public class StaffController(
         IMediator mediator,
         IMapper mapper) : ApiController
@@ -28,6 +32,29 @@ namespace CarCareAlliance.Presentation.Controllers.Staff
 
             return result.Match(
                 result => Ok(mapper.Map<StaffRegisterResponse>(result)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetAllByFilters(
+            [FromQuery(Name = "SearchKey")] string? searchKey,
+            [FromQuery] PaginationFilter filter,
+            CancellationToken cancellationToken)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var query = new GetAllStaffsByFiltersQuery(searchKey ?? string.Empty)
+            {
+                PageNumber = validFilter.PageNumber,
+                PageSize = validFilter.PageSize
+            };
+
+            var result = await mediator
+                .Send(query, cancellationToken);
+
+            return result.Match(
+                result => Ok(
+                    mapper.Map<PagedResponse<MechanicDto>>(result)),
                 errors => Problem(errors));
         }
     }

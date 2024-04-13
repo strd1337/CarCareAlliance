@@ -22,7 +22,9 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
         public async Task LogInAsync(LoginRequest loginRequest)
         {
             var response = await _httpClientFactory.CreateClient(Constants.Client).PostAsync("auth/login", JsonContent.Create(loginRequest));
+            
             await _httpErrorsService.EnsureSuccessStatusCode(response);
+            
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
 
             await ((CustomAuthenticationState)_state).UpdateAuthenticationState(result.Token);

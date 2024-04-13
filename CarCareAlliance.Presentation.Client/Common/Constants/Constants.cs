@@ -44,5 +44,8 @@
 
         public static string AddSuccessfulConfirmation(string name) =>
             $"{name} was added successfully!";
+
+        public static string RegisterSuccessfulConfirmation(string name) =>
+           $"{name} was registered successfully!";
     }
 }

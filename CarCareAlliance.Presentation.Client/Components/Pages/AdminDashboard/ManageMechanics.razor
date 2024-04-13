@@ -3,3 +3,95 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Manage mechanics</PageTitle>
+<MudMainContent>
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mb-4 mt-4">
+        <MudDataGrid FixedHeader="true"
+                     FixedFooter="true"
+                     Virtualize="true"
+                     @bind-RowsPerPage="defaultPageSize"
+                     Height="calc(100vh - 280px)"
+                     MultiSelection="true"
+                     @bind-SelectedItem="currentDto"
+                     Hover="true" @ref="table"
+                     Elevation="5"
+                     Loading="false"
+                     ServerData="ServerReload">
+            <ToolBarContent>
+                <div class="d-flex align-start flex-grow-1">
+                    <div class="d-flex gap-4">
+                        <MudIcon Icon="@Icons.Material.Rounded.People" Size="Size.Large" />
+                        <div class="d-flex flex-column">
+                            <MudText Typo="Typo.h5" Class="mb-2">Mechanics</MudText>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1" />
+
+                    <div class="d-flex flex-column justify-end">
+                        <div class="d-flex">
+                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                                <MudButton DisableElevation Variant="Variant.Outlined"
+                                            Size="Size.Small"
+                                            OnClick="@(() => OnRefresh())"
+                                            StartIcon="@Icons.Material.Filled.Refresh"
+                                            IconColor="Color.Surface" Color="Color.Primary"
+                                            Style="margin-right: 4px; margin-bottom:4px">
+                                     Refresh
+                                 </MudButton>
+                                 <MudButton DisableElevation
+                                            Variant="Variant.Outlined"
+                                            Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.Add"
+                                            Size="Size.Small"
+                                            OnClick="OnCreate"
+                                            Style="margin-right: 4px; margin-bottom:4px"
+                                            IconColor="Color.Surface">
+                                     New
+                                 </MudButton>
+                             </MudHidden>
+                             <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+                                 <MudButton DisableElevation
+                                            Variant="Variant.Outlined"
+                                            Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.Add"
+                                            Size="Size.Small"
+                                            OnClick="OnCreate"
+                                            Style="margin-right: 4px; margin-bottom:4px"
+                                            IconColor="Color.Surface">
+                                     New
+                                 </MudButton>
+                             </MudHidden>
+                         </div>
+                         <MudTextField T="string"
+                                       ValueChanged="@(s => OnSearch(s))"
+                                       Value="searchString"
+                                       Placeholder="Search"
+                                       Adornment="Adornment.End"
+                                       AdornmentIcon="@Icons.Material.Filled.Search"
+                                       IconSize="Size.Small">
+                         </MudTextField>
+                     </div>
+                 </div>
+             </ToolBarContent>
+             <Columns>
+                 <PropertyColumn Property="x => x.FirstName" Title="Name" Sortable="false" />
+                 <PropertyColumn Property="x => x.LastName" Title="LastName" Sortable="false" />
+                 <PropertyColumn Property="x => x.PhoneNumber" Title="PhoneNumber" Sortable="false" />
+                 <PropertyColumn Property="x => x.Country" Title="Country" Sortable="false" />
+                 <PropertyColumn Property="x => x.City" Title="City" Sortable="false" />
+                 <PropertyColumn Property="x => x.Experience" Title="Experience" Sortable="false" />
+             </Columns>
+             <NoRecordsContent>
+                 <MudText>There are no records to view.</MudText>
+             </NoRecordsContent>
+             <PagerContent>
+                 <MudDataGridPager PageSizeOptions="@(new[] { 10, 15, 30, 50, 100 })" />
+             </PagerContent>
+         </MudDataGrid>
+     </MudContainer>
+ </MudMainContent>
+
+ <style>
+     .mud-table-toolbar {
+         height: 120px !important;
+     }
+ </style>
