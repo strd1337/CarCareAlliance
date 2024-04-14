@@ -2,6 +2,6 @@
 
 namespace CarCareAlliance.Application.WorkSchedules.Common
 {
-    public record WorkScheduleGetByOwnerIdResult(
-        WorkSchedule WorkSchedule);
+    public record GetAllWorkSchedulesByOwnerIdResult(
+        ICollection<WorkSchedule> WorkSchedules);
 }

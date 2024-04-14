@@ -1,9 +1,9 @@
 ﻿using CarCareAlliance.Application.WorkSchedules.Commands.Add;
 using CarCareAlliance.Application.WorkSchedules.Commands.Delete;
-using CarCareAlliance.Application.WorkSchedules.Queries.GetByOwnerId;
+using CarCareAlliance.Application.WorkSchedules.Queries.GetAllByOwnerId;
 using CarCareAlliance.Contracts.WorkSchedules.AddWorkSchedule;
 using CarCareAlliance.Contracts.WorkSchedules.Delete;
-using CarCareAlliance.Contracts.WorkSchedules.GetByOwnerId;
+using CarCareAlliance.Contracts.WorkSchedules.GetAllByOwnerId;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -37,21 +37,21 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
                 errors => Problem(errors));
         }
 
-        [HttpGet("owner/{ownerId}")]
-        public async Task<IActionResult> Get(
+        [HttpGet("owners/{ownerId}")]
+        public async Task<IActionResult> GetAllByOwner(
             Guid ownerId,
             CancellationToken cancellationToken)
         {
-            var request = new WorkScheduleGetByOwnerIdRequest(ownerId);
+            var request = new GetAllWorkSchedulesByOwnerIdRequest(ownerId);
 
-            var query = mapper.Map<WorkScheduleGetByOwnerIdQuery>(request);
+            var query = mapper.Map<GetAllWorkSchedulesByOwnerIdQuery>(request);
 
-            var workScheduleGetByOwnerIdResult = await mediator
+            var result = await mediator
                 .Send(query, cancellationToken);
 
-            return workScheduleGetByOwnerIdResult.Match(
-                workScheduleGetByOwnerIdResult => Ok(
-                    mapper.Map<WorkScheduleGetByOwnerIdResponse>(workScheduleGetByOwnerIdResult)),
+            return result.Match(
+                result => Ok(
+                    mapper.Map<GetAllWorkSchedulesByOwnerIdResponse>(result)),
                 errors => Problem(errors));
         }
 

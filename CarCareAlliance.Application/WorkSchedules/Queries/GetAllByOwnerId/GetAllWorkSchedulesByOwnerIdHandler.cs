@@ -4,32 +4,26 @@ using CarCareAlliance.Application.WorkSchedules.Common;
 using CarCareAlliance.Domain.WorkScheduleAggregate;
 using CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects;
 using ErrorOr;
-using CarCareAlliance.Domain.Common.Errors;
 
-namespace CarCareAlliance.Application.WorkSchedules.Queries.GetByOwnerId
+namespace CarCareAlliance.Application.WorkSchedules.Queries.GetAllByOwnerId
 {
-    public class WorkScheduleGetByOwnerIdHandler(
+    public class GetAllWorkSchedulesByOwnerIdHandler(
         IUnitOfWork unitOfWork) :
-        IQueryHandler<WorkScheduleGetByOwnerIdQuery, WorkScheduleGetByOwnerIdResult>
+        IQueryHandler<GetAllWorkSchedulesByOwnerIdQuery, GetAllWorkSchedulesByOwnerIdResult>
     {
         private readonly IUnitOfWork unitOfWork = unitOfWork;
 
-        public async Task<ErrorOr<WorkScheduleGetByOwnerIdResult>> Handle(
-            WorkScheduleGetByOwnerIdQuery query,
+        public async Task<ErrorOr<GetAllWorkSchedulesByOwnerIdResult>> Handle(
+            GetAllWorkSchedulesByOwnerIdQuery query,
             CancellationToken cancellationToken)
         {
-            var workSchedule = await unitOfWork
+            var workSchedules = await unitOfWork
                 .GetRepository<WorkSchedule, WorkScheduleId>()
-                .FirstOrDefaultAsync(
+                .GetWhereAsync(
                     x => x.OwnerId == query.OwnerId,
                     cancellationToken);
 
-            if (workSchedule is null)
-            {
-                return Errors.WorkSchedule.NotFound;
-            }
-
-            return new WorkScheduleGetByOwnerIdResult(workSchedule);
+            return new GetAllWorkSchedulesByOwnerIdResult(workSchedules.ToList());
         }
     }
 }
