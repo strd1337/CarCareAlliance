@@ -178,7 +178,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
 
             await dialog.Result;
         }
-
+        
         private async Task OnEditServiceCategories(ServicePartner servicePartner)
         {
             var parameters = new DialogParameters<EditServiceCategoriesDialog>

@@ -10,6 +10,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = default!;
         [EditorRequired][Parameter] public ServicePartner Model { get; set; } = default!;
         [Parameter] public Func<Task>? Refresh { get; set; }
+        [Parameter] public bool IsReadOnly { get; set; } = false;
 
         [Inject]
         public IServicePartnerService? ServicePartnerService { get; set; }
