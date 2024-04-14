@@ -50,13 +50,11 @@ namespace CarCareAlliance.Domain.WorkScheduleAggregate
         public void Update(DayOfWeek dayOfWeek,
             TimeOnly startTime,
             TimeOnly endTime,
-            Guid ownerId,
             List<BreakTime> breakTimes)
         {
             DayOfWeek = dayOfWeek;
             StartTime = startTime;
             EndTime = endTime;
-            OwnerId = ownerId;
             this.breakTimes.Clear();
             this.breakTimes.AddRange(breakTimes);
         }

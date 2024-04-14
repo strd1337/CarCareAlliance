@@ -6,8 +6,6 @@ using CarCareAlliance.Domain.Common.Errors;
 using CarCareAlliance.Domain.ServicePartnerAggregate;
 using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
-using CarCareAlliance.Domain.WorkScheduleAggregate;
-using CarCareAlliance.Domain.WorkScheduleAggregate.ValueObjects;
 using ErrorOr;
 
 namespace CarCareAlliance.Application.ServicePartners.Commands.Update
@@ -28,41 +26,6 @@ namespace CarCareAlliance.Application.ServicePartners.Commands.Update
             if (servicePartner is null)
             {
                 return Errors.ServicePartner.NotFound;
-            }
-
-            if (command.WorkSchedules.Count != 0)
-            {
-                var workScheduleIds = command.WorkSchedules
-                    .Select(ws => WorkScheduleId.Create(ws.WorkScheduleId)).ToList();
-
-                var workSchedulesToUpdate = unitOfWork
-                    .GetRepository<WorkSchedule, WorkScheduleId>()
-                    .GetWhere(ws => workScheduleIds.Contains(ws.Id))
-                    .ToList();
-
-                workSchedulesToUpdate.ForEach(workScheduleToUpdate =>
-                {
-                    var workSchedule = command.WorkSchedules
-                        .FirstOrDefault(ws => ws.WorkScheduleId == workScheduleToUpdate.Id.Value);
-
-                    if (workSchedule is not null)
-                    {
-                        var breakTimes = workSchedule.BreakTimes
-                            .Select(x => BreakTime.CreateNew(x.StartTime, x.EndTime))
-                            .ToList();
-
-                        workScheduleToUpdate.Update(
-                            workSchedule.DayOfWeek,
-                            workSchedule.StartTime,
-                            workSchedule.EndTime,
-                            workSchedule.OwnerId,
-                            breakTimes);
-                    }
-                });
-
-                await unitOfWork
-                   .GetRepository<WorkSchedule, WorkScheduleId>()
-                   .UpdateAsync(workSchedulesToUpdate);
             }
 
             List<ServiceCategory> serviceCategoriesToUpdate = [.. servicePartner.ServiceCategories];
