@@ -75,7 +75,7 @@ namespace CarCareAlliance.Presentation.Controllers.WorkSchedule
                 errors => Problem(errors));
         }
 
-        [HttpPut("{ownerId}")]
+        [HttpPut("owners/{ownerId}")]
         public async Task<IActionResult> UpdateByOwnerId(
             Guid ownerId,
             UpdateWorkSchedulesByOwnerIdRequest request,

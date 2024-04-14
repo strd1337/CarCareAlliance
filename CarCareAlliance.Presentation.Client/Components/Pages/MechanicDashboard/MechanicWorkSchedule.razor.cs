@@ -13,6 +13,9 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.MechanicDashboard
         [Inject]
         public IAuthenticationService? AuthenticationService { get; set; }
 
+        [Inject]
+        public IWorkScheduleService? WorkScheduleService { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             owner = await AuthenticationService!.GetMechanicIdAsync();
@@ -43,6 +46,36 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.MechanicDashboard
 
             var dialog = DialogService.Show<AddWorkScheduleDialog>
                 (string.Format("Add a new work schedule", ["Work schedule"]), parameters, options);
+        }
+        
+        private async Task OnEditWorkScheduleAsync()
+        {
+            if (owner == string.Empty)
+            {
+                Snackbar.Add(Constants.DenyingNotification(), Severity.Error);
+                return;
+            }
+
+            var response = await WorkScheduleService!.GetAllByOwnerIdAsync(Guid.Parse(owner));
+
+            var parameters = new DialogParameters<EditWorkScheduleDialog>
+            {
+                { x => x.WorkSchedules, response.WorkSchedules },
+                { x => x.OwnerId, Guid.Parse(owner) }
+            };
+
+            var options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
+                CloseOnEscapeKey = true
+            };
+
+            var dialog = DialogService.Show<EditWorkScheduleDialog>
+                (string.Format("Work schedule detail information", ["Work schedule"]), parameters, options);
+
+            var state = await dialog.Result;
         }
     }
 }
