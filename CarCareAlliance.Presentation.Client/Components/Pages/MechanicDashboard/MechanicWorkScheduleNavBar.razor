@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavigationManager
+
+<MudNavGroup Title="WORK SCHEDULE" Icon="@Icons.Material.Filled.Schedule">
+    <MudNavLink Icon="@Icons.Material.Filled.Add" OnClick="OnAddWorkSchedule" Match="NavLinkMatch.All">Add</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Edit" OnClick="OnEditWorkScheduleAsync" Match="NavLinkMatch.All">Edit</MudNavLink>
+</MudNavGroup>

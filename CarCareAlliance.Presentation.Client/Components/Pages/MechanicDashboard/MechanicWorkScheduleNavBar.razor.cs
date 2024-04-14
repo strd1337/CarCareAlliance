@@ -6,7 +6,7 @@ using MudBlazor;
 
 namespace CarCareAlliance.Presentation.Client.Components.Pages.MechanicDashboard
 {
-    public partial class MechanicWorkSchedule
+    public partial class MechanicWorkScheduleNavBar
     {
         private string owner = string.Empty;
 
@@ -47,7 +47,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.MechanicDashboard
             var dialog = DialogService.Show<AddWorkScheduleDialog>
                 (string.Format("Add a new work schedule", ["Work schedule"]), parameters, options);
         }
-        
+
         private async Task OnEditWorkScheduleAsync()
         {
             if (owner == string.Empty)
