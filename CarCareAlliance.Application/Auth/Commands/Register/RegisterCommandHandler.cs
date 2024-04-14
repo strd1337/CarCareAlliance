@@ -12,12 +12,10 @@ using CarCareAlliance.Domain.AuthenticationAggregate.ValueObjects;
 namespace CarCareAlliance.Application.Auth.Commands.Register
 {
     public class RegisterCommandHandler(
-        IJwtTokenGenerator jwtTokenGenerator,
         IUnitOfWork unitOfWork,
         IAuthRepository authRepository) :
         ICommandHandler<RegisterCommand, AuthenticationResult>
     {
-        private readonly IJwtTokenGenerator jwtTokenGenerator = jwtTokenGenerator;
         private readonly IUnitOfWork unitOfWork = unitOfWork;
         private readonly IAuthRepository authRepository = authRepository;
 
@@ -62,12 +60,10 @@ namespace CarCareAlliance.Application.Auth.Commands.Register
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var token = jwtTokenGenerator.GenerateToken(registeringUser, user);
-
             return new AuthenticationResult(
                 registeringUser.Id.Value,
                 registeringUser,
-                token);
+                string.Empty);
         }
     }
 }

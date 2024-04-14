@@ -1,5 +1,4 @@
 ﻿using CarCareAlliance.Contracts.ServicePartners.Common;
-using CarCareAlliance.Contracts.WorkSchedules.Common;
 
 namespace CarCareAlliance.Contracts.ServicePartners.UpdateServicePartner
 {
@@ -7,6 +6,5 @@ namespace CarCareAlliance.Contracts.ServicePartners.UpdateServicePartner
         string Name,
         string Description,
         ICollection<ServiceCategoryDto> ServiceCategories,
-        ServicePartnerLocationDto Location,
-        ICollection<WorkScheduleDto> WorkSchedules);
+        ServicePartnerLocationDto Location);
 }

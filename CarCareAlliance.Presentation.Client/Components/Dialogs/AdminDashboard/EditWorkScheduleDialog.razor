@@ -4,18 +4,19 @@
 @using CarCareAlliance.Presentation.Client.Models.WorkSchedules
 @using CarCareAlliance.Presentation.Client.Common.Convertors
 
+
 <MudDialog>
     <DialogContent>
-        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
+        <MudForm Model="WorkSchedules" @ref="@form" @bind-IsValid="@isValid">
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect Placeholder="@(Model.WorkSchedules.Count == 0 ? "No schedules" : "Please select schedule")"
+                    <MudSelect Placeholder="@(WorkSchedules.Count == 0 ? "No schedules" : "Please select schedule")"
                                Label="Work schedule"
                                Variant="Variant.Outlined"
                                AnchorOrigin="Origin.BottomCenter"
                                @bind-Value="SelectedSchedule"
-                               Disabled="Model.WorkSchedules.Count == 0">
-                        @foreach (var schedule in Model.WorkSchedules.OrderBy(x => x.DayOfWeek).ToList())
+                               Disabled="WorkSchedules.Count == 0">
+                        @foreach (var schedule in WorkSchedules.OrderBy(x => x.DayOfWeek).ToList())
                         {
                             <MudSelectItem T="WorkSchedule"
                                            Value="schedule">@schedule.DayOfWeek.ToString()</MudSelectItem>
@@ -66,7 +67,7 @@
                                            Time="TimeConverter.TimeOnlyToTimeSpan(SelectedBreakTime.StartTime)"
                                            Required="true"
                                            RequiredError="Start time is required!"
-                                           TimeChanged="(t) => SelectedBreakTime.StartTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)"/>
+                                           TimeChanged="(t) => SelectedBreakTime.StartTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)" />
                         </MudItem>
 
                         <MudItem xs="12" md="6">
@@ -74,7 +75,7 @@
                                            Time="TimeConverter.TimeOnlyToTimeSpan(SelectedBreakTime.EndTime)"
                                            Required="true"
                                            RequiredError="End time is required!"
-                                           TimeChanged="(t) => SelectedBreakTime.EndTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)"/>
+                                           TimeChanged="(t) => SelectedBreakTime.EndTime = TimeConverter.TimeSpanToTimeOnly(t!.Value)" />
                         </MudItem>
                     }
                 }

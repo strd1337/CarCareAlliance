@@ -11,5 +11,6 @@ namespace CarCareAlliance.Presentation.Client.Services.Interfaces
         Task<bool> IsUserAuthenticated();
         Task<string?> GetJwtTokenAsync();
         Task<string?> GetUserIdAsync();
+        Task<string> GetMechanicIdAsync();
     }
 }

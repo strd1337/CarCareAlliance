@@ -10,7 +10,6 @@ namespace CarCareAlliance.Presentation.Client.Components
         [Inject]
         private IAuthenticationService? AuthenticationService { get; set; }
 
-
         public async Task LogOut()
         {
             await AuthenticationService!.LogOutAsync();

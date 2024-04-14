@@ -60,5 +60,12 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
                 .User.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
             return userId;
         }
+
+        public async Task<string> GetMechanicIdAsync()
+        {
+            var userId = (await _state.GetAuthenticationStateAsync())
+                .User.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sid).Value;
+            return userId;
+        }
     }
 }

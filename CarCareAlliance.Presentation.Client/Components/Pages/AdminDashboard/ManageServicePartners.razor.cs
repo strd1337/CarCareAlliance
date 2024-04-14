@@ -105,10 +105,11 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
 
         private async Task OnEditWorkSchedules(ServicePartner servicePartner)
         {
-            var parameters = new DialogParameters<EditServicePartnerWorkScheduleDialog>
+            var parameters = new DialogParameters<EditWorkScheduleDialog>
             {
                 { x => x.Refresh, () => table.ReloadServerData() },
-                { x => x.Model, servicePartner }
+                { x => x.WorkSchedules, servicePartner.WorkSchedules },
+                { x => x.OwnerId, servicePartner.ServicePartnerId }
             };
 
             var options = new DialogOptions 
@@ -119,7 +120,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
                 CloseOnEscapeKey = true
             };
 
-            var dialog = DialogService.Show<EditServicePartnerWorkScheduleDialog>
+            var dialog = DialogService.Show<EditWorkScheduleDialog>
                 (string.Format("Work schedule detail information", ["Work schedule"]), parameters, options);
 
             var state = await dialog.Result;
@@ -237,7 +238,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
             var parameters = new DialogParameters<AddWorkScheduleDialog>
             {
                 { x => x.Refresh, () => table.ReloadServerData() },
-                { x => x.Owner, servicePartner }
+                { x => x.Owner, servicePartner.ServicePartnerId }
             };
 
             var options = new DialogOptions

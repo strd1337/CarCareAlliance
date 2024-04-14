@@ -1,19 +1,19 @@
-﻿using CarCareAlliance.Presentation.Client.Models.ServicePartners;
-using CarCareAlliance.Presentation.Client.Models.WorkSchedules;
+﻿using CarCareAlliance.Presentation.Client.Models.WorkSchedules;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.ManageServicePartners
+namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
 {
-    public partial class EditServicePartnerWorkScheduleDialog
+    public partial class EditWorkScheduleDialog
     {
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = default!;
-        [EditorRequired][Parameter] public ServicePartner Model { get; set; } = default!;
+        [EditorRequired][Parameter] public ICollection<WorkSchedule> WorkSchedules { get; set; } = default!;
+        [Parameter] public Guid OwnerId { get; set; }
         [Parameter] public Func<Task>? Refresh { get; set; }
 
         [Inject]
-        public IServicePartnerService? ServicePartnerService { get; set; }
+        public IWorkScheduleService? WorkScheduleService { get; set; }
 
         private MudForm? form;
         private WorkSchedule SelectedSchedule { get; set; } = default!;
@@ -27,7 +27,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
 
         protected override void OnInitialized()
         {
-            Weekends = FindMissingDays(Model.WorkSchedules);
+            Weekends = FindMissingDays(WorkSchedules.ToList());
 
             base.OnInitialized();
         }
@@ -41,7 +41,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard.
                 return;
             }
 
-            var isSuccess = await ServicePartnerService!.UpdateAsync(Model);
+            var isSuccess = await WorkScheduleService!.UpdateByOwnerIdAsync(OwnerId, WorkSchedules);
 
             if (isSuccess)
             {
