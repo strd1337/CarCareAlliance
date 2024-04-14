@@ -8,6 +8,8 @@ using ErrorOr;
 using CarCareAlliance.Domain.Common.Errors;
 using CarCareAlliance.Domain.UserProfileAggregate;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
+using CarCareAlliance.Domain.MechanicAggregate;
+using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
 
 namespace CarCareAlliance.Application.Auth.Queries
 {
@@ -41,7 +43,13 @@ namespace CarCareAlliance.Application.Auth.Queries
                     authUser.UserProfileId,
                     cancellationToken);
 
-            var token = jwtTokenGenerator.GenerateToken(authUser, user!);
+            var mechanic = await unitOfWork
+                .GetRepository<MechanicProfile, MechanicProfileId>()
+                .FirstOrDefaultAsync(
+                    x => x.UserProfileId == UserProfileId.Create(user!.Id.Value),
+                    cancellationToken);
+
+            var token = jwtTokenGenerator.GenerateToken(authUser, user!, mechanic ?? null);
 
             return new AuthenticationResult(
                 authUser.Id.Value,

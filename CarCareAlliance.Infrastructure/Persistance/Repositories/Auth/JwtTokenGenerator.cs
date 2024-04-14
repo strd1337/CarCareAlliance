@@ -1,6 +1,7 @@
 ﻿using CarCareAlliance.Application.Common.Interfaces.Persistance.AuthRepositories;
 using CarCareAlliance.Application.Common.Services;
 using CarCareAlliance.Domain.AuthenticationAggregate;
+using CarCareAlliance.Domain.MechanicAggregate;
 using CarCareAlliance.Domain.UserProfileAggregate;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using Microsoft.Extensions.Options;
@@ -18,10 +19,11 @@ namespace CarCareAlliance.Infrastructure.Persistance.Repositories.Auth
         private readonly IDateTimeProvider dateTimeProvider = dateTimeProvider;
         private readonly JwtSettings jwtSettings = jwtOptions.Value;
 
-        public string GenerateToken(Authentication authUser, UserProfile user)
+        public string GenerateToken(Authentication authUser, UserProfile user, MechanicProfile? mechanic)
         {
             var claims = new List<Claim>
             {
+                new(JwtRegisteredClaimNames.Sid, mechanic is not null ? mechanic.Id.Value.ToString() : string.Empty),
                 new(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
                 new(ClaimTypes.Name, authUser.UserName),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),

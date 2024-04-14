@@ -1,6 +1,5 @@
 ﻿using CarCareAlliance.Presentation.Client.Common.Attributes;
 using CarCareAlliance.Presentation.Client.Common.Convertors;
-using CarCareAlliance.Presentation.Client.Models.ServicePartners;
 using CarCareAlliance.Presentation.Client.Models.WorkSchedules;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +11,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
     public partial class AddWorkScheduleDialog
     {
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = default!;
-        [EditorRequired][Parameter] public ServicePartner Owner { get; set; } = default!;
+        [EditorRequired][Parameter] public Guid Owner { get; set; } = default!;
         [Parameter] public Func<Task>? Refresh { get; set; }
 
         [Inject]
@@ -58,7 +57,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
                 return;
             }
 
-            WorkSchedule.OwnerId = Owner.ServicePartnerId;
+            WorkSchedule.OwnerId = Owner;
             WorkSchedule.BreakTimes = BreakTimes;
 
             var isSuccess = await WorkScheduleService!.CreateAsync(WorkSchedule);

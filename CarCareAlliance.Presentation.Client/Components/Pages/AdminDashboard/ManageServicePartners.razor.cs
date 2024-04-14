@@ -237,7 +237,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.AdminDashboard
             var parameters = new DialogParameters<AddWorkScheduleDialog>
             {
                 { x => x.Refresh, () => table.ReloadServerData() },
-                { x => x.Owner, servicePartner }
+                { x => x.Owner, servicePartner.ServicePartnerId }
             };
 
             var options = new DialogOptions

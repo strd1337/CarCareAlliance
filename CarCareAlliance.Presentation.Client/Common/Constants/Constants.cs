@@ -47,5 +47,8 @@
 
         public static string RegisterSuccessfulConfirmation(string name) =>
            $"{name} was registered successfully!";
+        
+        public static string DenyingNotification() =>
+            $"You are not a mechanic!";
     }
 }

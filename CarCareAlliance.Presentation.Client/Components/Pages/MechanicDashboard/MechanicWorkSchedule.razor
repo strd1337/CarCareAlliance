@@ -1,0 +1,27 @@
+﻿@page "/dashboard/work-schedules"
+@using CarCareAlliance.Presentation.Client.Models.WorkSchedules
+@layout MainLayout
+@attribute [Authorize(Roles = "Admin, Mechanic")]
+
+<PageTitle>Manage work schedules</PageTitle>
+<MudPaper Height="500px" Width="100%" Elevation="0" style="position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+    <MudContainer MaxWidth="MaxWidth.Large" Class="mb-4 mt-4">
+        <MudTabs Elevation="0" Centered="true" Rounded="true" PanelClass="pa-6">
+            <MudTabPanel OnClick="OnAddWorkSchedule">
+                <TabContent>
+                    Add a new work schedule
+                </TabContent>
+            </MudTabPanel>
+            <MudTabPanel>
+                <TabContent>
+                    View work schedules
+                </TabContent>
+                <ChildContent>
+                    <MudPaper Elevation="1">
+                        <MudText Class="ml-4 mt-4 mb-4">Custom tab content only</MudText>
+                    </MudPaper>
+                </ChildContent>
+            </MudTabPanel>
+        </MudTabs>
+    </MudContainer>
+</MudPaper>
