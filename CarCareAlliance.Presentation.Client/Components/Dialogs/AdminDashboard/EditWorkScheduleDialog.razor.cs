@@ -11,6 +11,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
         [EditorRequired][Parameter] public ICollection<WorkSchedule> WorkSchedules { get; set; } = default!;
         [Parameter] public Guid OwnerId { get; set; }
         [Parameter] public Func<Task>? Refresh { get; set; }
+        [Parameter] public bool IsReadOnly { get; set; } = false;
 
         [Inject]
         public IWorkScheduleService? WorkScheduleService { get; set; }

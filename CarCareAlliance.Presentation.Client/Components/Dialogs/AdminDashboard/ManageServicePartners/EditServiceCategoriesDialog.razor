@@ -22,7 +22,7 @@
                 </MudItem>
                 <MudItem xs="12" md="6">
                     <MudSelect Disabled="selectedCategory == null || selectedCategory?.Services.Count == 0"
-                               Placeholder="@(selectedCategory?.Services.Count == 0 ? "No services" : "Please select service")"
+                               Placeholder="@(selectedCategory == null || selectedCategory?.Services.Count == 0 ? "No services" : "Please select service")"
                                T="Service"
                                Label="Service"
                                Variant="Variant.Outlined"
@@ -44,6 +44,7 @@
                                       Variant="Variant.Outlined"
                                       Label="Category name"
                                       Required="true"
+                                      ReadOnly="IsReadOnly"
                                       RequiredError="Category name is required!"
                                       @bind-Value="selectedCategory.Name"></MudTextField>
                     </MudItem>
@@ -51,6 +52,7 @@
                         <MudTextField Style="margin: 0 4px;"
                                       Variant="Variant.Outlined"
                                       Required="true"
+                                      ReadOnly="IsReadOnly"
                                       RequiredError="Category description is required!"
                                       Label="Category description"
                                       @bind-Value="selectedCategory.Description"></MudTextField>
@@ -63,6 +65,7 @@
                                       Variant="Variant.Outlined"
                                       Label="Service name"
                                       Required="true"
+                                      ReadOnly="IsReadOnly"
                                       RequiredError="Service name is required!"
                                       @bind-Value="selectedService.Name"></MudTextField>
                     </MudItem>
@@ -71,6 +74,7 @@
                                       Variant="Variant.Outlined"
                                       Label="Service description"
                                       Required="true"
+                                      ReadOnly="IsReadOnly"
                                       RequiredError="Service description is required!"
                                       @bind-Value="selectedService.Description"></MudTextField>
                     </MudItem>
@@ -79,6 +83,7 @@
                                       Variant="Variant.Outlined"
                                       Label="Service price, $"
                                       Required="true"
+                                      ReadOnly="IsReadOnly"
                                       RequiredError="Service price is required!"
                                       @bind-Value="selectedService.Price"></MudTextField>
                     </MudItem>
@@ -87,6 +92,7 @@
                                       Variant="Variant.Outlined"
                                       Label="Service duration, min"
                                       Required="true"
+                                      ReadOnly="IsReadOnly"
                                       RequiredError="Service duration is required!"
                                       @bind-Value="selectedService.Duration"></MudTextField>
                     </MudItem>
@@ -101,12 +107,15 @@
                     Style="margin-right: 4px; margin-bottom:4px"
                     IconColor="Color.Surface"
                     OnClick="Cancel">Cancel</MudButton>
-         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
-                    StartIcon="@Icons.Material.Filled.Save"
-                    Size="Size.Small"
-                    Disabled="@(!isValid || selectedCategory == null || selectedService == null)"
-                    Style="margin-right: 4px; margin-bottom:4px"
-                    IconColor="Color.Surface"
-                    OnClick="Save">Save</MudButton>
-     </DialogActions>
- </MudDialog>
+         @if (!IsReadOnly)
+        {
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                        StartIcon="@Icons.Material.Filled.Save"
+                        Size="Size.Small"
+                        Disabled="@(!isValid || selectedCategory == null || selectedService == null)"
+                        Style="margin-right: 4px; margin-bottom:4px"
+                        IconColor="Color.Surface"
+                        OnClick="Save">Save</MudButton>
+        }
+    </DialogActions>
+</MudDialog>
