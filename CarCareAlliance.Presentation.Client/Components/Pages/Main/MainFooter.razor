@@ -1,0 +1,24 @@
+﻿<MudPaper Elevation="0"
+          Style="background-color: black; width: 100%; height: 200px;"
+          Class="mud-container d-flex align-center justify-center">
+    <MudCard Elevation="0" Style="background-color: black;">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.body1"
+                         Align="Align.Center"
+                         Style="@($"color:{Colors.Shades.White};")">Follow Us</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIconButton Icon="@Icons.Custom.Brands.Facebook" Color="Color.Warning" />
+                <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Color="Color.Warning" />
+                <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Color="Color.Warning" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudDivider></MudDivider>
+        <MudCardContent>
+            <MudText Typo="Typo.body1"
+                     Align="Align.Center"
+                     Style="@($"color:{Colors.Shades.White};")">© @DateTime.UtcNow.Year CarCareAlliance. All Rights Reserved.</MudText>
+        </MudCardContent>
+    </MudCard>
+</MudPaper>
