@@ -1,0 +1,17 @@
+﻿
+<MudPaper Elevation="0" Class="mud-container d-flex align-center justify-center" Style="margin-top: 70px;">
+    <MudCard Elevation="0">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h4" Align="Align.Center">Explore map</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Center">Discover the best car services in town</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <RealTimeMap Parameters="Parameters"
+                         @ref="RealTimeMap"
+                         height="700px"
+                         width="1400px" />
+        </MudCardContent>
+    </MudCard>
+</MudPaper>

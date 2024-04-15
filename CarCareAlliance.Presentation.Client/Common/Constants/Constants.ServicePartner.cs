@@ -7,6 +7,8 @@
             public const string Api = "service-partners/";
             public const string SearchApi = Api + "search?";
             public const string ServiceCategories = Api + "service-categories";
+
+            public const string Type = "car service";
         }
     }
 }

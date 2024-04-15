@@ -5,13 +5,12 @@ using CarCareAlliance.Presentation.Client.Models.ServicePartners;
 using CarCareAlliance.Presentation.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using static MudBlazor.CategoryTypes;
 
 namespace CarCareAlliance.Presentation.Client.Components.Pages.Main
 {
 	public partial class ServicePartnersSlider
 	{
-		private MudCarousel<ServicePartner> carousel = new();
+        private MudCarousel<ServicePartner> carousel = new();
         private PaginatedList<ServicePartner> list = new();
         private List<ServicePartner> source = [];
 
