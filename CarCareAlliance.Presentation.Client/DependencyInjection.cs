@@ -43,6 +43,7 @@ namespace CarCareAlliance.Presentation.Client
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IServicePartnerService, ServicePartnerService>();
             services.AddScoped<IMechanicService, MechanicService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IWorkScheduleService, WorkScheduleService>();
             services.AddSingleton<LoadingService>();
             services.AddScoped<HttpErrorsService>();

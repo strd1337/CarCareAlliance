@@ -1,0 +1,47 @@
+﻿@page "/contacts"
+@using System.ComponentModel.DataAnnotations
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <MudPaper Class="pa-5" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <MudForm @bind-IsValid="@isValid"
+                 Model="@EmailMessage">
+            <MudText Typo="Typo.h4" Align="Align.Left" Class="mb-4">Contact us</MudText>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Name"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                                  @bind-Value="EmailMessage.Name"
+                                  For="@(() => EmailMessage.Name)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Email"
+                                  Required="true"
+                                  InputType="InputType.Email"
+                                  RequiredError="Email is required!"
+                                  @bind-Value="EmailMessage.From"
+                                  For="@(() => EmailMessage.From)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Variant="Variant.Outlined"
+                                  Label="Message"
+                                  Required="true"
+                                  RequiredError="Message is required!"
+                                  @bind-Value="EmailMessage.Message"
+                                  For="@(() => EmailMessage.Message)"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" Style="text-align: right;">
+                    <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                                StartIcon="@Icons.Material.Filled.Send"
+                                Size="Size.Small"
+                                Disabled="@(!isValid)"
+                                Style="margin-right: 4px; margin-bottom:4px"
+                                IconColor="Color.Surface"
+                                OnClick="SubmitAsync">Submit</MudButton>
+                 </MudItem>
+             </MudGrid>
+         </MudForm>
+     </MudPaper>
+ </MudContainer>
