@@ -29,7 +29,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.Auth
 
             if (await AuthenticationService.IsUserAuthenticated())
             {
-                NavigationManager?.NavigateTo("/home");
+                NavigationManager?.NavigateTo("/");
             }
         }
 
