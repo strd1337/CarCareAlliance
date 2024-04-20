@@ -44,6 +44,7 @@ namespace CarCareAlliance.Presentation.Client
             services.AddScoped<IServicePartnerService, ServicePartnerService>();
             services.AddScoped<IMechanicService, MechanicService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWorkScheduleService, WorkScheduleService>();
             services.AddSingleton<LoadingService>();
             services.AddScoped<HttpErrorsService>();

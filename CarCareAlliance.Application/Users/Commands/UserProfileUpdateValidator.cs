@@ -39,12 +39,6 @@ namespace CarCareAlliance.Application.Users.Commands
                 .MaximumLength(50)
                     .WithMessage("City cannot exceed 50 characters");
 
-            RuleFor(r => r.PostCode)
-                .NotEmpty()
-                    .WithMessage("Post code is required")
-                .MaximumLength(10)
-                    .WithMessage("Post code cannot exceed 10 characters");
-
             RuleFor(r => r.Country)
                 .NotEmpty()
                     .WithMessage("Country is required")

@@ -1,0 +1,104 @@
+﻿@page "/my-profile/details"
+@using CarCareAlliance.Presentation.Client.Models.Users
+@layout MainLayout
+@attribute [Authorize]
+
+<PageTitle>My details</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mb-4 mt-4">
+    <MudPaper Class="pa-5" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <MudForm Model="@User"
+                 @ref="@form"
+                 @bind-IsValid="@isValid">
+            <MudCard Elevation="0">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h4">
+                        My details
+                    </MudText>
+                </MudCardHeader>
+                <MudCardContent Class="justify-center">
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="Email"
+                                          T="string"
+                                          ReadOnly="true"
+                                          Value="@User?.Email"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="UserName"
+                                          T="string"
+                                          ReadOnly="true"
+                                          Value="@User?.UserName"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="First name"
+                                          T="string"
+                                          Required="true"
+                                          RequiredError="First name is required!"
+                                          @bind-Value="@User.FirstName"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="Last name"
+                                          T="string"
+                                          Required="true"
+                                          RequiredError="Last name is required!"
+                                          @bind-Value="User.LastName"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="Country"
+                                          T="string"
+                                          Required="true"
+                                          RequiredError="Country is required!"
+                                          @bind-Value="User.Country"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="City"
+                                          T="string"
+                                          Required="true"
+                                          RequiredError="City is required!"
+                                          @bind-Value="User.City"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="Phone number"
+                                          T="string"
+                                          Required="true"
+                                          RequiredError="Phone number is required!"
+                                          @bind-Value="User.PhoneNumber"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="margin: 0 4px;"
+                                          Variant="Variant.Outlined"
+                                          Label="Address"
+                                          T="string"
+                                          Required="true"
+                                          RequiredError="Address is required!"
+                                          @bind-Value="User.Address"></MudTextField>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                                StartIcon="@Icons.Material.Filled.Save"
+                                Size="Size.Small"
+                                Style="margin-left: 13px; margin-top:4px;"
+                                IconColor="Color.Surface"
+                                OnClick="SaveAsync">Save</MudButton>
+                 </MudCardActions>
+             </MudCard>
+         </MudForm>
+     </MudPaper>
+ </MudContainer>
