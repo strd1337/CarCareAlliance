@@ -12,7 +12,7 @@
                     <MudSelect Label="Select day of week"
                                Variant="Variant.Outlined"
                                @bind-Value="WorkSchedule.DayOfWeek">
-                        @foreach (var dayOfWeek in Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().OrderBy(x => x))
+                        @foreach (var dayOfWeek in WorkDays)
                         {
                             <MudSelectItem T="DayOfWeek" Value="dayOfWeek">@dayOfWeek.ToString()</MudSelectItem>
                         }

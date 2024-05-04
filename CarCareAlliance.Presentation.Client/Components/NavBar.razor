@@ -56,15 +56,15 @@
                     <Authorized>
                         <MudNavGroup Title="MY PROFILE" Expanded="false" Icon="@Icons.Material.Filled.PersonSearch">
                             <MudNavLink Href="/my-profile/details" Icon="@Icons.Material.Filled.PersonPin" Match="NavLinkMatch.All">MY DETAILS</MudNavLink>
-                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.CarCrash" Match="NavLinkMatch.All">MY CARS</MudNavLink>
-                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.ManageHistory" Match="NavLinkMatch.All">REPAIR HISTORY</MudNavLink>
+                            <MudNavLink Href="/my-profile/my-vehicles" Icon="@Icons.Material.Filled.CarCrash" Match="NavLinkMatch.All">MY CARS</MudNavLink>
+                            <MudNavLink Href="/my-profile/my-repair-history" Icon="@Icons.Material.Filled.ManageHistory" Match="NavLinkMatch.All">REPAIR HISTORY</MudNavLink>
                         </MudNavGroup>
                     </Authorized>
                 </AuthorizeView>
-                <AuthorizeView Roles="Mechanic, Admin">
+                <AuthorizeView Roles="Mechanic">
                     <Authorized>
                         <MudNavGroup Title="MECHANIC DASHBOARD" Expanded="false" Icon="@Icons.Material.Rounded.AssuredWorkload">
-                            <MudNavLink Href="/" Icon="@Icons.Material.Filled.AssignmentInd" Match="NavLinkMatch.All">ASSIGNED TICKETS</MudNavLink>
+                            <MudNavLink Href="/dashboard/assigned-tickets" Icon="@Icons.Material.Filled.AssignmentInd" Match="NavLinkMatch.All">ASSIGNED TICKETS</MudNavLink>
                             <MechanicWorkScheduleNavBar></MechanicWorkScheduleNavBar>
                         </MudNavGroup>
                     </Authorized>

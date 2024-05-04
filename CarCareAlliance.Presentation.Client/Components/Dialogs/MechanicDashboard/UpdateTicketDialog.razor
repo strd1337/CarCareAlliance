@@ -1,0 +1,48 @@
+﻿@using CarCareAlliance.Presentation.Client.Models.Vehicles
+@using System.ComponentModel.DataAnnotations
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Ticket" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                @if (!UpdateStatus)
+                {
+                    <MudItem xs="12">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="Comment is required!"
+                                      Label="Description"
+                                      @bind-Value="Ticket.OrderDetails.Comments"></MudTextField>
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="12">
+                        <MudEnumSelect TEnum="RepairStatus"
+                                       @bind-Value="selectedRepairStatus"
+                                       Required="true"
+                                       RequiredError="Status is required!"
+                                       Dense="true"
+                                       Label="Repair status" />
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Save"
+                    Size="Size.Small"
+                    Disabled="@(!isValid)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Save">Save</MudButton>
+     </DialogActions>
+ </MudDialog>

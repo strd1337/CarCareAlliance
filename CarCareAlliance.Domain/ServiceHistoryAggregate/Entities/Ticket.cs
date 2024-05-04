@@ -56,6 +56,12 @@ namespace CarCareAlliance.Domain.ServiceHistoryAggregate.Entities
                 vehicleId,
                 orderDetails);
         }
+
+        public void UpdateRepairStatus(RepairStatus repairStatus)
+        {
+            RepairStatus = repairStatus;
+        }
+
 #pragma warning disable CS8618
         private Ticket()
         {

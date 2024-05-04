@@ -23,19 +23,26 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
         {
             var response = await _httpClientFactory.CreateClient(Constants.Client).PostAsync("auth/login", JsonContent.Create(loginRequest));
             
-            await _httpErrorsService.EnsureSuccessStatusCode(response);
-            
-            var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
+            var isSuccess = await _httpErrorsService.HandleExceptionResponse(response);
 
-            await ((CustomAuthenticationState)_state).UpdateAuthenticationState(result.Token);
+            if (isSuccess)
+            {
+                var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
+
+                await ((CustomAuthenticationState)_state).UpdateAuthenticationState(result.Token);
+            }
         }
 
         public async Task RegisterAsync(RegisterRequest registerRequest)
         {
             var response = await _httpClientFactory.CreateClient(Constants.Client).PostAsync("auth/register", JsonContent.Create(registerRequest));
-            await _httpErrorsService.EnsureSuccessStatusCode(response);
 
-            _snackbar.Add("Successfully registered!", Severity.Success);
+            var isSuccess = await _httpErrorsService.HandleExceptionResponse(response);
+
+            if (isSuccess)
+            {
+                _snackbar.Add("Successfully registered!", Severity.Success);
+            }
         }
         public async Task LogOutAsync()
         {

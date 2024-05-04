@@ -7,17 +7,15 @@ using CarCareAlliance.Domain.UserProfileAggregate;
 using CarCareAlliance.Domain.UserProfileAggregate.ValueObjects;
 using CarCareAlliance.Domain.VehicleAggregate.ValueObjects;
 using CarCareAlliance.Domain.VehicleAggregate;
-using CarCareAlliance.Domain.ServicePartnerAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate.ValueObjects;
 using CarCareAlliance.Domain.ServiceHistoryAggregate.Entities;
-using CarCareAlliance.Domain.TicketAggregate.ValueObjects;
 using CarCareAlliance.Domain.TicketAggregate.Enums;
 using CarCareAlliance.Domain.ServiceHistoryAggregate.Enums;
 using CarCareAlliance.Domain.TicketAggregate.Entities;
 using CarCareAlliance.Domain.ServicePartnerAggregate;
-using System.Linq;
 using CarCareAlliance.Domain.ServiceHistoryAggregate;
 using CarCareAlliance.Domain.ServiceHistoryAggregate.ValueObjects;
+using CarCareAlliance.Domain.MechanicAggregate.ValueObjects;
 
 namespace CarCareAlliance.Application.Tickets.Commands.Create
 {
@@ -75,9 +73,6 @@ namespace CarCareAlliance.Application.Tickets.Commands.Create
                 return Errors.Service.ServicesNotFound;
             }
 
-            var serviceHistory = ServiceHistory.Create(
-                ServicePartnerId.Create(servicePartner.Id.Value));
-
             float prepaymentAmount = services.Sum(s => s.Price);
             float finalPrice = prepaymentAmount;
 
@@ -86,6 +81,8 @@ namespace CarCareAlliance.Application.Tickets.Commands.Create
                 command.OrderDetailsComments,
                 finalPrice,
                 prepaymentAmount);
+
+            orderDetails.UpdateAssignedMechanic(MechanicProfileId.Create(command.AssignedMechanicId));
 
             foreach (var service in services)
             {
@@ -101,11 +98,29 @@ namespace CarCareAlliance.Application.Tickets.Commands.Create
                 VehicleId.Create(vehicle.Id.Value),
                 orderDetails);
 
-            serviceHistory.AddTicket(ticket);
-
-            await unitOfWork
+            var serviceHistory = await unitOfWork
                 .GetRepository<ServiceHistory, ServiceHistoryId>()
-                .AddAsync(serviceHistory, cancellationToken);
+                .FirstOrDefaultAsync(sh => sh.ServicePartnerId == ServicePartnerId.Create(command.ServicePartnerId), cancellationToken);
+
+            if (serviceHistory is null)
+            {
+                serviceHistory = ServiceHistory.Create(
+                    ServicePartnerId.Create(servicePartner.Id.Value));
+
+                serviceHistory.AddTicket(ticket);
+
+                await unitOfWork
+                    .GetRepository<ServiceHistory, ServiceHistoryId>()
+                    .AddAsync(serviceHistory, cancellationToken);
+            }
+            else
+            {
+                serviceHistory.AddTicket(ticket);
+
+                await unitOfWork
+                    .GetRepository<ServiceHistory, ServiceHistoryId>()
+                    .UpdateAsync(serviceHistory);
+            }
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

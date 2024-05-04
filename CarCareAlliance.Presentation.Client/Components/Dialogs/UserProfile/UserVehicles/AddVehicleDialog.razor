@@ -1,0 +1,216 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Vehicle" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                @if (!infoIsGot)
+                {
+                    <MudItem xs="12">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Placeholder="Please write your vehicle VIN"
+                                      Label="VIN"
+                                      Required="true"
+                                      RequiredError="VIN is required!"
+                                      @bind-Value="Vehicle.Vin"></MudTextField>
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="12" md="6">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Label="Brand"
+                                      ReadOnly="true"
+                                      @bind-Value="Vehicle.Brand"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Label="Model"
+                                      ReadOnly="true"
+                                      @bind-Value="Vehicle.Model"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Label="Year"
+                                      ReadOnly="true"
+                                      @bind-Value="Vehicle.Year"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Label="Driven wheels"
+                                      ReadOnly="true"
+                                      @bind-Value="Vehicle.Details.DrivenWheels"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Label="VIN"
+                                      ReadOnly="true"
+                                      @bind-Value="Vehicle.Vin"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Style="margin: 0 4px;"
+                                      Variant="Variant.Outlined"
+                                      Label="License plate"
+                                      Placeholder="Please write your vehicle license plate"
+                                      Required="true"
+                                      RequiredError="License plate is required!"
+                                      @bind-Value="Vehicle.LicensePlate"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTabs Elevation="0" Rounded="true" Centered="true" PanelClass="pa-6">
+                            <MudTabPanel Text="Engine">
+                                <MudGrid>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine name"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Name"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine configuration"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Configuration"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine horsepower"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Horsepower"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine torque"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Torque"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine cylinder"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Cylinder"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine displacement"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Displacement"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine compressor type"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.CompressorType"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine gear"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.Gear"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine compression ratio"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.CompressionRatio"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Engine fuel type"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Engine.FuelType"></MudTextField>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudTabPanel>
+
+                            <MudTabPanel Text="Transmission">
+                                <MudGrid>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Transmission name"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Transmission.Name"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Transmission type"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Transmission.Type"></MudTextField>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Label="Number of speeds"
+                                                      ReadOnly="true"
+                                                      @bind-Value="Vehicle.Details.Transmission.NumberOfSpeeds"></MudTextField>
+                                    </MudItem>
+                                    @if (Vehicle.Details.Transmission.AutomaticType != string.Empty)
+                                    {
+                                        <MudItem xs="12" md="6">
+                                            <MudTextField Style="margin: 0 4px;"
+                                                          Variant="Variant.Outlined"
+                                                          Label="Automatic type"
+                                                          ReadOnly="true"
+                                                          @bind-Value="Vehicle.Details.Transmission.AutomaticType"></MudTextField>
+                                        </MudItem>
+                                    }
+                                </MudGrid>
+                            </MudTabPanel>
+                        </MudTabs>
+                    </MudItem>
+                }
+            </MudGrid>
+
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         @if (!infoIsGot)
+        {
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                        StartIcon="@Icons.Material.Filled.Info"
+                        Size="Size.Small"
+                        Style="margin-right: 4px; margin-bottom:4px"
+                        IconColor="Color.Surface"
+                        OnClick="OnGetInfoAsync">Get info</MudButton>
+        }
+        else
+        {
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                        StartIcon="@Icons.Material.Filled.Refresh"
+                        Size="Size.Small"
+                        Style="margin-right: 4px; margin-bottom:4px"
+                        IconColor="Color.Surface"
+                        OnClick="RefreshInfo">Refresh</MudButton>
+        }
+
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Add"
+                    Size="Size.Small"
+                    Disabled="@(!infoIsGot || !isValid)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="AddAsync">Add</MudButton>
+     </DialogActions>
+ </MudDialog>

@@ -1,19 +1,23 @@
-﻿using CarCareAlliance.Application.Tickets.Commands.Create;
+﻿using CarCareAlliance.Application.ServicePartners.Commands.Update;
+using CarCareAlliance.Application.Tickets.Commands.Create;
+using CarCareAlliance.Application.Tickets.Commands.Update;
 using CarCareAlliance.Application.Tickets.Queries.GetAllByFilters;
-using CarCareAlliance.Application.Tickets.Queries.GetByUserId;
 using CarCareAlliance.Contracts.Common;
+using CarCareAlliance.Contracts.ServicePartners.UpdateServicePartner;
 using CarCareAlliance.Contracts.Tickets.Common;
 using CarCareAlliance.Contracts.Tickets.Create;
-using CarCareAlliance.Contracts.Tickets.Get;
+using CarCareAlliance.Contracts.Tickets.Update;
 using CarCareAlliance.Domain.TicketAggregate.Enums;
 using CarCareAlliance.Presentation.Common.Helpers;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarCareAlliance.Presentation.Controllers.Ticket
 {
+    [Authorize]
     [Route("tickets")]
     public class TicketController(
         IMediator mediator,
@@ -38,17 +42,16 @@ namespace CarCareAlliance.Presentation.Controllers.Ticket
                 errors => Problem(errors));
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> GetAllByFilters(
-            [FromQuery(Name = "ServicePartnerId")] Guid servicePartnerId,
-            [FromQuery(Name = "Date")] DateTime? dateTime,
+        [HttpGet("{userId}/search")]
+        public async Task<IActionResult> GetAllByFiltersAndUserId(
+            Guid userId,
             [FromQuery(Name = "RepairStatus")] RepairStatus? repairStatus,
             [FromQuery] PaginationFilter filter,
             CancellationToken cancellationToken)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            var query = new TicketGetAllByFiltersQuery(servicePartnerId, dateTime, repairStatus)
+            var query = new TicketGetAllByFiltersQuery(userId, repairStatus)
             {
                 PageNumber = validFilter.PageNumber,
                 PageSize = validFilter.PageSize
@@ -62,23 +65,21 @@ namespace CarCareAlliance.Presentation.Controllers.Ticket
                     mapper.Map<PagedResponse<TicketDto>>(result)),
                 errors => Problem(errors));
         }
-
-        [HttpGet("user/{userId}/servicepartner/{servicePartnerId}")]
-        public async Task<IActionResult> Get(
-           Guid userId,
-           Guid servicePartnerId,
-           CancellationToken cancellationToken)
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(
+            Guid id,
+            UpdateTicketRequest request,
+            CancellationToken cancellationToken)
         {
-            var request = new TicketGetAllByUserIdRequest(userId, servicePartnerId);
-
-            var query = mapper.Map<TicketGetAllByUserIdQuery>(request);
+            var command = mapper.Map<UpdateTicketCommand>(request).SetTicketId(id);
 
             var result = await mediator
-                .Send(query, cancellationToken);
-            
+                .Send(command, cancellationToken);
+
             return result.Match(
                 result => Ok(
-                    mapper.Map<TicketGetAllByUserIdResponse>(result)),
+                    mapper.Map<UpdateTicketResponse>(result)),
                 errors => Problem(errors));
         }
     }
