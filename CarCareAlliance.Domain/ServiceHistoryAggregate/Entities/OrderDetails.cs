@@ -68,6 +68,11 @@ namespace CarCareAlliance.Domain.TicketAggregate.Entities
             serviceIds.Add(serviceId);
         }
 
+        public void UpdateComments(string comments)
+        {
+            Comments = comments;
+        }
+
 #pragma warning disable CS8618
         private OrderDetails()
         {

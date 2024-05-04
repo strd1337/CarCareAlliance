@@ -1,0 +1,138 @@
+﻿@using CarCareAlliance.Presentation.Client.Models.ServicePartners
+@using System.ComponentModel.DataAnnotations
+@using CarCareAlliance.Presentation.Client.Models.Vehicles
+@using CarCareAlliance.Presentation.Client.Models.Mechanics
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="@Model" @ref="@form" @bind-IsValid="@isValid">
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudSelect Placeholder="@(ServicePartners.Count == 0 ? "No car services" : "Please select a car service")"
+                               Label="Car services"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="selectedServicePartner"
+                               Disabled="ServicePartners.Count == 0">
+                        @foreach (var servicePartner in ServicePartners.OrderBy(x => x.Name).ToList())
+                        {
+                            <MudSelectItem T="ServicePartner"
+                                           Value="servicePartner">@servicePartner.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                @if (selectedServicePartner != null)
+                {
+                    <MudItem xs="12" md="6">
+                        <MudSelect Placeholder="@(Vehicles.Count == 0 ? "No vehicles" : "Please select a car")"
+                                   Label="Cars"
+                                   Variant="Variant.Outlined"
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   @bind-Value="selectedVehicle"
+                                   Disabled="Vehicles.Count == 0">
+                            @foreach (var vehicle in Vehicles.OrderBy(x => x.Year).ToList())
+                            {
+                                <MudSelectItem T="Vehicle"
+                                               Value="vehicle">@vehicle.Brand @vehicle.Model</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    @if (selectedVehicle != null)
+                    {
+                        <MudItem xs="12" md="6">
+                            <MudSelect Placeholder="@(selectedServicePartner.ServiceCategories.Count == 0 ? "No service categories" : "Please select a service category")"
+                                       Label="Service categories"
+                                       Variant="Variant.Outlined"
+                                       AnchorOrigin="Origin.BottomCenter"
+                                       @bind-Value="selectedServiceCategory"
+                                       Disabled="selectedServicePartner.ServiceCategories.Count == 0">
+                                @foreach (var category in selectedServicePartner.ServiceCategories.OrderBy(x => x.Name).ToList())
+                                {
+                                    <MudSelectItem T="ServiceCategory"
+                                                   Value="category">@category.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+
+                        @if (selectedServiceCategory != null)
+                        {
+                            <MudItem xs="12" md="6">
+                                <MudSelect Placeholder="@(selectedServiceCategory.Services.Count == 0 ? "No services" : "Please select a service")"
+                                           Label="Services"
+                                           T="Service"
+                                           MultiSelection="true"
+                                           MultiSelectionTextFunc="@(GetServiceNames)"
+                                           Variant="Variant.Outlined"
+                                           AnchorOrigin="Origin.BottomCenter"
+                                           @bind-Value="selectedService"
+                                           @bind-SelectedValues="selectedServices"
+                                           Disabled="selectedServiceCategory.Services.Count == 0">
+                                    @foreach (var service in selectedServiceCategory.Services.OrderBy(x => x.Name).ToList())
+                                    {
+                                        <MudSelectItem T="Service"
+                                                       Value="service">@service.Name</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+
+                            @if (selectedServices.Any())
+                            {
+                                <MudItem xs="12" md="6">
+                                    <MudSelect Placeholder="@(Mechanics.Count == 0 ? "No mechanic" : "Please select a mechanic")"
+                                               Label="Mechanics"
+                                               Variant="Variant.Outlined"
+                                               AnchorOrigin="Origin.BottomCenter"
+                                               @bind-Value="selectedMechanic"
+                                               Disabled="Mechanics.Count == 0">
+                                        @foreach (var mechanic in Mechanics.OrderBy(x => x.LastName).ToList())
+                                        {
+                                            <MudSelectItem T="MechanicProfile"
+                                                           Value="mechanic">@mechanic.LastName</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+
+                                @if (selectedMechanic != null)
+                                {
+                                    <MudItem xs="12" md="6">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Required="true"
+                                                      RequiredError="Mileage is required!"
+                                                      Label="Mileage"
+                                                      @bind-Value="Model.OrderDetails.Mileage"></MudTextField>
+                                    </MudItem>
+
+                                    <MudItem xs="12">
+                                        <MudTextField Style="margin: 0 4px;"
+                                                      Variant="Variant.Outlined"
+                                                      Required="true"
+                                                      RequiredError="Description is required!"
+                                                      Label="Description"
+                                                      @bind-Value="Model.Description"></MudTextField>
+                                    </MudItem>
+                                }
+                            }
+                        }
+                    }
+                }
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Dark"
+                    StartIcon="@Icons.Material.Filled.Cancel"
+                    Size="Size.Small"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Cancel">Cancel</MudButton>
+         <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Create"
+                    Size="Size.Small"
+                    Disabled="@(!isValid)"
+                    Style="margin-right: 4px; margin-bottom:4px"
+                    IconColor="Color.Surface"
+                    OnClick="Create">Create</MudButton>
+     </DialogActions>
+ </MudDialog>

@@ -9,6 +9,7 @@ namespace CarCareAlliance.Application.Tickets.Commands.Create
         float Mileage,
         Guid ServicePartnerId,
         ICollection<Guid> ServiceIds,
-        string OrderDetailsComments = "",
-        string TicketDescription = "") : ICommand<TicketCreateResult>;
+        string OrderDetailsComments,
+        string TicketDescription,
+        Guid AssignedMechanicId) : ICommand<TicketCreateResult>;
 }

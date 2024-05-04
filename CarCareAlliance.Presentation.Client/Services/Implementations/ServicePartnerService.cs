@@ -30,8 +30,6 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
             queryString.Add(nameof(queryParams.PageSize), queryParams.PageSize.ToString());
 
             var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url + queryString);
-           
-            await httpErrorsService.HandleExceptionResponse(response);
 
             var jso = new JsonSerializerOptions()
             {
@@ -41,9 +39,16 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
             jso.Converters.Add(new DateOnlyConverter());
             jso.Converters.Add(new TimeOnlyConverter());
 
-            var servicePartnersResponse = await response.Content.ReadFromJsonAsync<PaginatedList<ServicePartner>>(jso);
+            var isSuccess = await httpErrorsService.HandleExceptionResponse(response);
 
-            return servicePartnersResponse!;
+            var list = new PaginatedList<ServicePartner>();
+
+            if (isSuccess)
+            {
+                list = await response.Content.ReadFromJsonAsync<PaginatedList<ServicePartner>>(jso);
+            }
+
+            return list!;
         }
 
         public async Task<bool> UpdateAsync(ServicePartner servicePartner)

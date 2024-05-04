@@ -20,8 +20,7 @@ namespace CarCareAlliance.Domain.Common.Errors
 
             public static Error DataConflict => Error.Conflict(
                 code: "UserProfile.DataConflict",
-                description: "Data conflict: " +
-                    "The provided data is the same as the existing data.");
+                description: "The provided data is the same as the existing data.");
         }
     }
 }

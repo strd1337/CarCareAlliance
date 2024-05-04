@@ -6,6 +6,7 @@
         float Mileage,
         Guid ServicePartnerId,
         ICollection<Guid> ServiceIds,
-        string OrderDetailsComments = "",
-        string TicketDescription = "");
+        string OrderDetailsComments,
+        string TicketDescription,
+        Guid AssignedMechanicId);
 }

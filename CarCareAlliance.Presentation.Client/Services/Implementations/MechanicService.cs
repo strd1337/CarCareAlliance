@@ -30,11 +30,16 @@ namespace CarCareAlliance.Presentation.Client.Services.Implementations
 
             var response = await httpClientFactory.CreateClient(Constants.Client).GetAsync(url + queryString);
 
-            await httpErrorsService.HandleExceptionResponse(response);
+            var isSuccess = await httpErrorsService.HandleExceptionResponse(response);
 
-            var servicePartnersResponse = await response.Content.ReadFromJsonAsync<PaginatedList<MechanicProfile>>();
+            var list = new PaginatedList<MechanicProfile>();    
 
-            return servicePartnersResponse!;
+            if (isSuccess)
+            {
+                list = await response.Content.ReadFromJsonAsync<PaginatedList<MechanicProfile>>();
+            }
+
+            return list!;
         }
 
         public async Task<bool> RegisterAsync(RegisterMechanicRequest request)

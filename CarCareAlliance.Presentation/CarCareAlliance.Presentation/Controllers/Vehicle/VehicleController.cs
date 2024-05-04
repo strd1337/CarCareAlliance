@@ -1,9 +1,11 @@
 ﻿using CarCareAlliance.Application.Vehicles.Commands.Add;
 using CarCareAlliance.Application.Vehicles.Queries.Get;
-using CarCareAlliance.Application.Vehicles.Queries.GetByUserId;
+using CarCareAlliance.Application.Vehicles.Queries.GetAllByUserIdAndFilters;
+using CarCareAlliance.Contracts.Common;
 using CarCareAlliance.Contracts.Vehicles.Add;
+using CarCareAlliance.Contracts.Vehicles.Common;
 using CarCareAlliance.Contracts.Vehicles.Get;
-using CarCareAlliance.Contracts.Vehicles.GetByUserId;
+using CarCareAlliance.Presentation.Common.Helpers;
 using CarCareAlliance.Presentation.Controllers.Common;
 using MapsterMapper;
 using MediatR;
@@ -55,21 +57,26 @@ namespace CarCareAlliance.Presentation.Controllers.Vehicle
                 errors => Problem(errors));
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUserId(
+        [HttpGet("users/{userId}")]
+        public async Task<IActionResult> GetAllByUserIdAndFilters(
             Guid userId,
+            [FromQuery] PaginationFilter filter,
             CancellationToken cancellationToken)
         {
-            var request = new VehicleGetByUserIdRequest(userId);
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            var query = mapper.Map<VehicleGetByUserIdQuery>(request);
+            var query = new GetAllByUserIdAndFiltersQuery(userId)
+            {
+                PageNumber = validFilter.PageNumber,
+                PageSize = validFilter.PageSize
+            };
 
             var result = await mediator
-                .Send(query, cancellationToken);
+               .Send(query, cancellationToken);
 
             return result.Match(
                 result => Ok(
-                    mapper.Map<VehicleGetByUserIdResponse>(result)),
+                    mapper.Map<PagedResponse<VehicleDto>>(result)),
                 errors => Problem(errors));
         }
     }

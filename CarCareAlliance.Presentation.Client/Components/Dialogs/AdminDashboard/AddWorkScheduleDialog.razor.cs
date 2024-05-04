@@ -13,11 +13,13 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = default!;
         [EditorRequired][Parameter] public Guid Owner { get; set; } = default!;
         [Parameter] public Func<Task>? Refresh { get; set; }
+        [EditorRequired][Parameter] public ICollection<WorkSchedule> WorkSchedules { get; set; } = default!;
 
         [Inject]
         public IWorkScheduleService? WorkScheduleService { get; set; }
 
         private MudForm? form;
+        private IEnumerable<DayOfWeek> WorkDays { get; set; } = default!;
 
         private WorkSchedule WorkSchedule { get; set; } = new()
         {
@@ -44,6 +46,8 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
                 StartTime = TimeConverter.TimeSpanToTimeOnly(BreakStartTime),
                 EndTime = TimeConverter.TimeSpanToTimeOnly(BreakEndTime)
             });
+
+            WorkDays = FindMissingDays(WorkSchedules.ToList());
 
             base.OnInitialized();
         }
@@ -169,6 +173,22 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
             {
                 ErrorMessage = $"Break end time should be between {minTime} and {maxTime}!"
             };
+        }
+
+        private static IEnumerable<DayOfWeek> FindMissingDays(
+            IEnumerable<WorkSchedule> workSchedules)
+        {
+            var allDays = workSchedules
+                .OrderBy(x => x.DayOfWeek)
+                .Select(ws => ws.DayOfWeek)
+                .Distinct()
+                .ToList();
+
+            var allDaysOfWeek = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>();
+
+            var missingDays = allDaysOfWeek.Except(allDays);
+
+            return missingDays;
         }
     }
 }

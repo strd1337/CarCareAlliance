@@ -44,13 +44,19 @@ namespace CarCareAlliance.Presentation.Client.Services
                 var statusCode = response.StatusCode;
                 var errorResponse = await response.Content.ReadFromJsonAsync<HttpErrorResponse>();
                 var errorsList = errorResponse!.Errors is not null ? errorResponse.Errors.Select(key => string.Join('\n', key.Value)).ToList() : [];
+                
+                if (errorsList.Count == 0)
+                {
+                    _snackbar.Add(errorResponse.Title, Severity.Error);
+                }
+                
                 _loadingService.Hide();
                 foreach (string? error in errorsList)
                 {
                     _snackbar.Add(error, Severity.Error);
                 }
                 return false;
-            }
+            } 
             return true;
         }
     }
