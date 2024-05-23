@@ -9,9 +9,12 @@
         <MudForm Model="@WorkSchedule" @ref="@form" @bind-IsValid="@isValid" FieldChanged="ResetValidation">
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect Label="Select day of week"
+                    <MudSelect Placeholder="@(WorkDays.Count() == 0 ? "No schedules" : "Please select day of week")"
+                               Label="Day of week"
                                Variant="Variant.Outlined"
-                               @bind-Value="WorkSchedule.DayOfWeek">
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="SelectedDayOfWeek"
+                               Disabled="WorkDays.Count() == 0">
                         @foreach (var dayOfWeek in WorkDays)
                         {
                             <MudSelectItem T="DayOfWeek" Value="dayOfWeek">@dayOfWeek.ToString()</MudSelectItem>

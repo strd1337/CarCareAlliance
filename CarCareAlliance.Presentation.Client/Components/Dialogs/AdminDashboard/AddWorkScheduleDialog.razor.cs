@@ -30,13 +30,15 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
         private List<BreakTime> BreakTimes { get; set; } = [];
         private TimeSpan BreakStartTime { get; set; } = TimeSpan.Zero;
         private TimeSpan BreakEndTime { get; set; } = TimeSpan.Zero;
+        private DayOfWeek SelectedDayOfWeek { get; set; } = default!;
 
         private int quantity = 1;
         private int currentStep = 1;
         private bool isValid;
         private MudTimePicker? breakStartTimePicker;
         private bool breakTimeIsShown = true;
-
+        private DayOfWeek selectedDayOfWeek;
+        
         private void Cancel() => MudDialog.Cancel();
 
         protected override void OnInitialized()
@@ -63,6 +65,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
 
             WorkSchedule.OwnerId = Owner;
             WorkSchedule.BreakTimes = BreakTimes;
+            WorkSchedule.DayOfWeek = SelectedDayOfWeek;
 
             var isSuccess = await WorkScheduleService!.CreateAsync(WorkSchedule);
 
