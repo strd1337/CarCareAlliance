@@ -13,13 +13,13 @@ namespace CarCareAlliance.Presentation.Client.Components.Dialogs.AdminDashboard
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = default!;
         [EditorRequired][Parameter] public Guid Owner { get; set; } = default!;
         [Parameter] public Func<Task>? Refresh { get; set; }
-        [EditorRequired][Parameter] public ICollection<WorkSchedule> WorkSchedules { get; set; } = default!;
+        [EditorRequired][Parameter] public ICollection<WorkSchedule> WorkSchedules { get; set; } = new List<WorkSchedule>();
 
         [Inject]
         public IWorkScheduleService? WorkScheduleService { get; set; }
 
         private MudForm? form;
-        private IEnumerable<DayOfWeek> WorkDays { get; set; } = default!;
+        private IEnumerable<DayOfWeek> WorkDays { get; set; } = new List<DayOfWeek>();
 
         private WorkSchedule WorkSchedule { get; set; } = new()
         {
