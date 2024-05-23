@@ -23,7 +23,7 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.MechanicDashboard
             await base.OnInitializedAsync();
         }
 
-        private void OnAddWorkSchedule()
+        private async Task OnAddWorkScheduleAsync()
         {
             if (owner == string.Empty)
             {
@@ -31,8 +31,11 @@ namespace CarCareAlliance.Presentation.Client.Components.Pages.MechanicDashboard
                 return;
             }
 
+            var response = await WorkScheduleService!.GetAllByOwnerIdAsync(Guid.Parse(owner));
+
             var parameters = new DialogParameters<AddWorkScheduleDialog>
             {
+                { x => x.WorkSchedules, response.WorkSchedules },
                 { x => x.Owner, Guid.Parse(owner)  }
             };
 

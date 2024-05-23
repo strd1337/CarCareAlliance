@@ -10,8 +10,8 @@
         <MudForm Model="WorkSchedules" @ref="@form" @bind-IsValid="@isValid">
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect Placeholder="@(WorkSchedules.Count == 0 ? "No schedules" : "Please select schedule")"
-                               Label="Work schedule"
+                    <MudSelect Placeholder="@(WorkSchedules.Count == 0 ? "No schedules" : "Please select day of week")"
+                               Label="Day of week"
                                Variant="Variant.Outlined"
                                AnchorOrigin="Origin.BottomCenter"
                                @bind-Value="SelectedSchedule"
